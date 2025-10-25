@@ -106,16 +106,24 @@ TWITTER_API_SECRET = os.getenv("TWITTER_API_SECRET")
 #     }
 # }
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'newshub_db',
-        'USER': 'newshub_admin',
-        'PASSWORD': 'HyperionDev!',  # the same one you set earlier
-        'HOST': 'db',
-        'PORT': '3306',
+if os.environ.get('DOCKER_ENV') == 'true':
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
     }
-}
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.mysql',
+            'NAME': 'newshub_db',
+            'USER': 'newshub_admin',
+            'PASSWORD': 'HyperionDev!',  # the same one you set earlier
+            'HOST': 'db',
+            'PORT': '3306',
+        }
+    }
 
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
