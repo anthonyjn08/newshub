@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block title %}Pending Join Requests{% endblock %}
+
+{% block content %}
+    <div class="container my-5">
+        <h2 class="mb-4">Pending Join Requests</h2>
+
+        {% if requests %}
+            <table class="table table-striped align-middle">
+                <thead>
+                    <tr>
+                        <th>Journalist</th>
+                        <th>Publication</th>
+                        <th>Message</th>
+                        <th>Requested On</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for req in requests %}
+                        <tr>
+                            <td>{{ req.journalist.full_name }}</td>
+                            <td>{{ req.publication.name }}</td>
+                            <td>{{ req.message|default:"(No message)" }}</td>
+                            <td>{{ req.created_at|date:"M d, Y" }}</td>
+                            <td>
+                                <a href="{% url 'approve_join_request' req.pk %}" class="btn btn-success btn-sm">Approve</a>
+                                <a href="{% url 'reject_join_request' req.pk %}" class="btn btn-danger btn-sm">Reject</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p class="text-muted">No pending requests at the moment.</p>
+        {% endif %}
+    </div>
+{% endblock %}

@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}{{ publication.name }} | Articles{% endblock %}
+
+{% block content %}
+<div class="container my-4 col col-lg-10 offset-lg-1">
+    <h2 class="mb-3">Articles in "{{ publication.name }}"</h2>
+    <p class="text-muted mb-4">{{ publication.description }}</p>
+
+    <!-- List of articles -->
+    {% if articles %}
+        <div class="table-responsive">
+            <table class="table table-striped align-middle small-screen-table">
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Author</th>
+                        <th>Status</th>
+                        <th>Created</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for article in articles %}
+                    <tr>
+                        <td data-label="Title">
+                            <a href="{% url 'editor_review_article' article.pk %}" class="text-decoration-none text-dark fw-semibold">
+                                {{ article.title }}
+                            </a>
+                        </td>
+                        <td data-label="Author">{{ article.author.full_name }}</td>
+                        <td data-label="Status">
+                            <span class="badge 
+                                {% if article.status == 'published' %}bg-success
+                                {% elif article.status == 'pending_approval' %}bg-warning text-dark
+                                {% elif article.status == 'rejected' %}bg-danger
+                                {% else %}bg-secondary{% endif %}">
+                                {{ article.get_status_display }}
+                            </span>
+                        </td>
+                        <td data-label="Created">{{ article.created_at|date:"d M Y" }}</td>
+                        <td data-label="Actions">
+                            <a href="{% url 'article_edit' article.pk %}" class="btn btn-sm btn-outline-primary">Edit</a>
+                            <a href="{% url 'article_delete' article.pk %}" class="btn btn-sm btn-outline-danger">Delete</a>
+                            <a href="{% url 'editor_review_article' article.pk %}" class="btn btn-sm btn-outline-secondary">View</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+</div>
+
+        <!-- Pagination -->
+        {% if is_paginated %}
+        <nav aria-label="Page navigation" class="mt-3">
+            <ul class="pagination justify-content-center">
+                {% if page_obj.has_previous %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+                    </li>
+                {% endif %}
+                <li class="page-item disabled">
+                    <span class="page-link">Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
+                </li>
+                {% if page_obj.has_next %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a>
+                    </li>
+                {% endif %}
+            </ul>
+        </nav>
+        {% endif %}
+    {% else %}
+        <p class="text-muted">No articles have been submitted to this publication yet.</p>
+    {% endif %}
+
+    <div class="mt-4">
+        <a href="{% url 'editor_dashboard' %}" class="btn btn-outline-secondary">
+            ← Back to Dashboard
+        </a>
+    </div>
+</div>
+{% endblock %}

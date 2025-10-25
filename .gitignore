@@ -1,0 +1,21 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Virtual environment
+.venv/
+venv/
+
+# VSCode
+.vscode/
+
+# Database
+*.db
+
+# API keys
+.env
+
+# Admin details
+credentials.txt

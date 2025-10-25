@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block title %}New Article{% endblock %}
+{% block content %}
+<div class="container my-5 col-md-8">
+    <h2 class="page-heading mb-4">Create New Article</h2>
+    <p class="text-muted">
+        Use the editor below to write your article. You can style text, add images, or embed media.
+    </p>
+
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {% crispy form %}
+    </form>
+</div>
+{% endblock %}

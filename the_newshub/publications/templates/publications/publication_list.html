@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% block title %}Publications | The Newshub{% endblock %}
+
+{% block content %}
+    <div class="publication-list">
+        <h1 class="mb-4 text-center content-header">Publications</h1>
+
+        {% if publications %}
+            <div class="row row-cols-1 row-cols-md-2 g-4">
+                {% for publication in publications %}
+                    <div class="col">
+                        <div class="card h-100 hover-shadow border-0">
+                            <div class="card-body">
+                                <h2 class="h5 card-title">
+                                    <a href="{% url 'publication_detail' publication.pk %}" class="text-decoration-none text-dark">
+                                        {{ publication.name }}
+                                    </a>
+                                </h2>
+                                <p class="card-text text-muted mb-2">
+                                    {{ publication.description|truncatewords:30 }}
+                                </p>
+                                <p class="small text-muted mb-3">
+                                    Editor{% if publication.editors.count > 1 %}s{% endif %}:
+                                    {% for editor in publication.editors.all %}
+                                        {{ editor.full_name }}{% if not forloop.last %}, {% endif %}
+                                    {% empty %}
+                                        <em>None assigned</em>
+                                    {% endfor %}
+                                </p>
+
+                                {% if user.is_authenticated and user.role == "journalist" %}
+                                    {% if publication in user.joined_publications.all %}
+                                        <button class="btn btn-secondary btn-sm" disabled>
+                                            ✓ Already a Member
+                                        </button>
+                                    {% else %}
+                                        {% with user_pending_reqs=publication.join_requests.all|dictsort:"status" %}
+                                            {% if publication.has_pending_request %}
+                                                <button class="btn btn-warning btn-sm" disabled>
+                                                    ⏳ Request Pending
+                                                </button>
+                                            {% else %}
+                                                <a href="{% url 'join_publication' publication.pk %}" class="btn btn-primary btn-sm">
+                                                    + Request to Join
+                                                </a>
+                                            {% endif %}
+                                        {% endwith %}
+                                    {% endif %}
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p class="text-muted">No publications have been created yet.</p>
+        {% endif %}
+    </div>
+{% endblock %}

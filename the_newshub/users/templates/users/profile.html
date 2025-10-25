@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block title %}Profile | The Newshub{% endblock %}
+
+{% block content %}
+    <div class="profile mx-auto" style="max-width: 640px;">
+        <h1 class="mb-4">My Profile</h1>
+
+        <div class="card p-4 mb-4">
+            <h2 class="h5 mb-2">{{ user.full_name }}</h2>
+            <p class="mb-1"><strong>Email:</strong> {{ user.email }}</p>
+            <p class="mb-1"><strong>Role:</strong> {{ user.get_role_display }}</p>
+        </div>
+
+        {% if user.role == "journalist" %}
+            <h3 class="h5 mb-3">My Articles</h3>
+            {% if user.articles.exists %}
+                <ul class="list-group mb-4">
+                    {% for article in user.articles.all %}
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <a href="{% url 'article_detail' article.slug %}">{{ article.title }}</a>
+                            <span class="badge bg-secondary">{{ article.status }}</span>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p class="text-muted">You haven't written any articles yet.</p>
+            {% endif %}
+        {% endif %}
+
+        {% if user.role == "editor" %}
+            <h3>Your Publications</h3>
+            {% if publications %}
+                <ul>
+                    {% for pub in publications %}
+                        <li class="mb-1 fw-bold">
+                            <a href="{% url 'publication_detail' pub.pk %}" class="text-decoration-none">
+                                {{ pub.name }}
+                            </a>
+                        </li>
+                    {% empty %}
+                        <li>You have no publications yet.</li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p>No publications found.</p>
+            {% endif %}
+            <a href="{% url 'publication_create_view' %}" class="btn btn-primary">Create a Publication</a>
+        {% endif %}
+    </div>
+{% endblock %}

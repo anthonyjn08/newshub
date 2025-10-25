@@ -1,0 +1,24 @@
+.journalist-profile h1,
+.reader-profile h1 {
+  font-family: "Montserrat", sans-serif;
+}
+
+.journalist-profile .card a {
+  font-family: "Raleway", sans-serif;
+}
+
+.journalist-profile strong {
+  font-family: "Montserrat", sans-serif;
+}
+
+.journalist-profile p,
+.journalist-profile a,
+.reader-profile a {
+  font-family: "Raleway", sans-serif;
+}
+
+.reader-profile .list-group-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}

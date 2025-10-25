@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}Pending Articles{% endblock %}
+{% block content %}
+<div class="container my-4">
+    <h2>Articles Awaiting Approval</h2>
+    {% for article in articles %}
+        <div class="card my-3 p-3">
+            <h4>{{ article.title }}</h4>
+            <p><strong>Author:</strong> {{ article.author.full_name }}</p>
+            <form method="post" action="{% url 'article_approve' article.pk %}" class="d-inline">
+                {% csrf_token %}
+                <button class="btn btn-success btn-sm">Approve</button>
+            </form>
+            <button class="btn btn-danger btn-sm" data-bs-toggle="collapse" data-bs-target="#feedback{{ article.pk }}">Reject</button>
+            <div class="collapse mt-2" id="feedback{{ article.pk }}">
+                <form method="post" action="{% url 'article_reject' article.pk %}">
+                    {% csrf_token %}
+                    <textarea name="feedback" class="form-control" placeholder="Enter feedback..."></textarea>
+                    <button class="btn btn-warning btn-sm mt-2">Submit Rejection</button>
+                </form>
+            </div>
+        </div>
+    {% empty %}
+        <p>No articles pending approval.</p>
+    {% endfor %}
+</div>
+{% endblock %}

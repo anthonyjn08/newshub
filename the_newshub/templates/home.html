@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+{% block title %}Home | The Newshub{% endblock %}
+
+{% block content %}
+    <div class="home-page">
+        <h1 class="mb-4">Welcome to <span class="brand">The Newshub</span></h1>
+        <p class="lead mb-5">
+            Explore the latest independent journalism, newsletters, and publications.
+        </p>
+
+        <!-- Latest Articles -->
+        <section class="mb-5">
+            <h2 class="h4 mb-3">Latest Articles</h2>
+            {% if latest_articles %}
+                <div class="row row-cols-1 row-cols-md-2 g-4">
+                    {% for article in latest_articles %}
+                        <div class="col">
+                            <div class="card h-100 border-0 hover-shadow">
+                                <div class="card-body">
+                                    <h3 class="h5 card-title">
+                                        <a href="{% url 'article_detail' slug=article.slug %}" class="text-decoration-none text-dark">
+                                            {{ article.title }}
+                                        </a>
+                                    </h3>
+                                    <p class="card-text text-muted mb-1">
+                                        By {{ article.author.full_name }}
+                                        {% if article.publication %}
+                                            · {{ article.publication.name }}
+                                        {% endif %}
+                                    </p>
+                                    <p class="small text-muted mb-0">Published {{ article.published_at|date:"j M Y" }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <p class="text-muted">No articles available yet.</p>
+            {% endif %}
+        </section>
+
+        <!-- Latest Newsletters -->
+        <section>
+            <h2 class="h4 mb-3">Latest Newsletters</h2>
+            {% if latest_newsletters %}
+                <div class="row row-cols-1 row-cols-md-2 g-4">
+                    {% for newsletter in latest_newsletters %}
+                        <div class="col">
+                            <div class="card h-100 border-0 hover-shadow">
+                                <div class="card-body">
+                                    <h3 class="h5 card-title">
+                                        <a href="{% url 'article_detail' newsletter.slug %}" class="text-decoration-none text-dark">
+                                            {{ newsletter.title }}
+                                        </a>
+                                    </h3>
+                                    <p class="card-text text-muted mb-1">
+                                        By {{ newsletter.author.full_name }}
+                                        {% if newsletter.publication %}
+                                            · {{ newsletter.publication.name }}
+                                        {% else %}
+                                            · <em>Independent</em>
+                                        {% endif %}
+                                    </p>
+                                    <p class="small text-muted mb-0">Published {{ newsletter.published_at|date:"j M Y" }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <p class="text-muted">No newsletters available yet.</p>
+            {% endif %}
+        </section>
+    </div>
+{% endblock %}

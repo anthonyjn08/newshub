@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %}Reject Join Request{% endblock %}
+
+{% block content %}
+    <div class="container my-5 col-md-6 offset-md-3">
+        <h3 class="mb-4">Reject Join Request</h3>
+        <p>
+            Are you sure you want to reject the request from
+            <strong>{{ object.journalist.full_name }}</strong>
+            for
+            <strong>{{ object.publication.name }}</strong>?
+        </p>
+        <form method="post">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger me-2">Reject</button>
+            <a href="{% url 'join_requests_list' %}" class="btn btn-secondary">Cancel</a>
+        </form>
+    </div>
+{% endblock %}

@@ -1,0 +1,42 @@
+/* Articles and Newsletters specific styles */
+
+.article-container {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.article-container img {
+  max-width: 100%;
+  border-radius: 0.5rem;
+}
+
+/* Article cards */
+.article-card {
+  background: #fff;
+  border-radius: 0.5rem;
+  padding: 1rem 1.25rem;
+  margin-bottom: 1.5rem;
+}
+
+.article-content {
+  font-family: "Newsreader", serif;
+  line-height: 1.7;
+  color: #222;
+}
+.article-content h1,
+.article-content h2,
+.article-content h3 {
+  font-family: "Playfair Display", serif;
+  margin-top: 1.5rem;
+}
+.article-content img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 1rem auto;
+}
+
+/* Star ratings */
+.star-rating i {
+  color: #f5c518; /* gold */
+}

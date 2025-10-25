@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block title %}Articles | The Newshub{% endblock %}
+
+{% block content %}
+    <div class="article-list col col-md-8 offset-md-2">
+        <h1 class="mb-4 content-header ps-3">Latest Articles</h1>
+
+        {% if articles %}
+            {% for article in articles %}
+                <div class="article-card mb-4 p-3 hover-shadow bg-white rounded">
+                    <h2 class="h4 mb-1">
+                        <a href="{% url 'article_detail' slug=article.slug %}" class="text-decoration-none text-dark">
+                            {{ article.title }}
+                        </a>
+                    </h2>
+                    <p class="text-muted mb-1"> 
+                        By {{ article.author.full_name }}
+                        {% if article.publication %}
+                            {% if article.publication.slug %}
+                                · Published in
+                                <a href="{% url 'publication_detail' article.publication.slug %}" class="text-decoration-none fw-bold">
+                                    {{ article.publication.name }}
+                                </a>
+                            {% else %}
+                                · Published in <em class="fw-bold">{{ article.publication.name }}</em>
+                            {% endif %}
+                        {% else %}
+                            · <em class="fw-bold">Independent publication</em>
+                        {% endif %}
+                    </p>
+                    <a href="{% url 'journalist_profile' journalist_id=article.author.id %}">
+                        {{ article.author.full_name }}
+                    </a>
+                    <p class="small text-muted mb-0">Published on {{ article.published_at|date:"j M Y, H:i" }}</p>
+                    <p class="small text-muted mb-0">{{ article.type }}</p>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p class="text-muted">No articles have been published yet.</p>
+        {% endif %}
+    </div>
+{% endblock %}

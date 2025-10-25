@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% block title %}{{ journalist.full_name }} | The Newshub{% endblock %}
+
+{% block content %}
+    <div class="journalist-profile mx-auto">
+        <div class="card shadow-sm p-4 mb-4">
+            <h1 class="mb-3">{{ journalist.full_name }}</h1>
+            {% if journalist.display_name %}
+                <p class="text-muted mb-2">
+                    Also known as: {{ journalist.display_name }}
+                </p>
+            {% endif %}
+
+            {% if publications %}
+                <p class="mb-0">
+                    <strong>Writer for:</strong>
+                    {% for pub in publications %}
+                        {% if pub.pk %}
+                            <a href="{% url 'publication_detail' pub.pk %}"
+                            class="text-decoration-none">{{ pub.name }}</a>{% if not forloop.last %}, {% endif %}
+                        {% endif %}
+                    {% endfor %}
+                </p>
+            {% else %}
+                <p class="text-muted mb-0"><em>Independent journalist</em></p>
+            {% endif %}
+
+            {% if user.is_authenticated and user.role == "reader" %}
+                {% if is_subscribed %}
+                    <form method="post" action="{% url 'unsubscribe_journalist' journalist.id %}" class="mt-3">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-outline-danger">
+                            Unsubscribe
+                        </button>
+                    </form>
+                {% else %}
+                    <form method="post" action="{% url 'subscribe_journalist' journalist.id %}" class="mt-3">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-outline-primary">
+                            Subscribe
+                        </button>
+                    </form>
+                {% endif %}
+            {% endif %}
+        </div>
+
+        <h2 class="h4 mb-3">Articles by {{ journalist.full_name }}</h2>
+        {% if articles %}
+            {% for article in articles %}
+                <div class="article-card mb-4 p-3 shadow-sm bg-white rounded">
+                    <h3 class="h5 mb-1">
+                        <a href="{% url 'article_detail' slug=article.slug %}" class="text-decoration-none text-dark">
+                            {{ article.title }}
+                        </a>
+                    </h3>
+                    <p class="small text-muted mb-0">
+                        Published on {{ article.published_at|date:"j M Y, H:i" }}
+                        {% if article.publication %}
+                            · in <a href="{% url 'publication_detail' article.publication.pk %}"
+                                class="text-decoration-none text-muted">
+                                {{ article.publication.name }}
+                            </a>
+                        {% else %}
+                            · <span class="text-muted">Independent</span>
+                        {% endif %}
+                    </p>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p class="text-muted">No published articles yet.</p>
+        {% endif %}
+    </div>
+{% endblock %}

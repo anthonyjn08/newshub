@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% block title %}My Articles{% endblock %}
+{% block content %}
+<div class="container my-4 col col-lg-10 offset-lg-1">
+    <h2 class="mb-4 content-header">My Articles</h2>
+
+    <a href="{% url 'article_create' %}" class="btn btn-primary mb-3">+ Create New Article</a>
+
+    {% if articles %}
+        <div class="table-responsive">
+            <table class="table table-striped align-middle small-screen-table">
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Status</th>
+                        <th>Publication</th>
+                        <th>Updated</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for article in articles %}
+                    <tr>
+                        <td data-label="Title">{{ article.title }}</td>
+                        <td data-label="Status">
+                            {% if article.status == "draft" %}
+                                <span class="badge bg-secondary">Draft</span>
+                            {% elif article.status == "pending_approval" %}
+                                <span class="badge bg-warning text-dark">Pending</span>
+                            {% elif article.status == "published" %}
+                                <span class="badge bg-success">Published</span>
+                            {% elif article.status == "rejected" %}
+                                <span class="badge bg-danger">Rejected</span>
+                            {% endif %}
+                        </td>
+                        <td data-label="Publication">{{ article.publication.name|default:"Independent" }}</td>
+                        <td data-label="Updated">{{ article.updated_at|date:"d M Y, H:i" }}</td>
+                        <td data-label="Actions">
+                            <a href="{% url 'article_edit' article.pk %}" class="btn btn-sm btn-outline-primary">Edit</a>
+                            <a href="{% url 'article_delete' article.pk %}" class="btn btn-sm btn-outline-danger">Delete</a>
+
+                            {% if article.status == "draft" and article.publication %}
+                            <form method="post" action="{% url 'journalist_submit_from_dashboard' article.pk %}" class="d-inline">
+                                {% csrf_token %}
+                                <button class="btn btn-sm btn-outline-success">Submit for Approval</button>
+                            </form>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% if article.feedback %}
+                    <tr>
+                        <td colspan="5" class="bg-light">
+                            <strong>Feedback:</strong> {{ article.feedback }}
+                        </td>
+                    </tr>
+                    {% endif %}
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <p>You haven't created any articles yet.</p>
+    {% endif %}
+</div>
+{% endblock %}
