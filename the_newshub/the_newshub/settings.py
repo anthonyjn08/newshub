@@ -110,11 +110,11 @@ TWITTER_API_SECRET = os.getenv("TWITTER_API_SECRET")
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': os.getenv('DB_NAME', 'django_db'),
-        'USER': os.getenv('DB_USER', 'django_user'),
-        'PASSWORD': os.getenv('DB_PASSWORD', 'django_pass'),
+        'NAME': os.getenv('DB_NAME', 'newshub_db'),
+        'USER': os.getenv('DB_USER', 'newshub_user'),
+        'PASSWORD': os.getenv('DB_PASSWORD', 'newshub_pass'),
         'HOST': os.getenv('DB_HOST', 'db'),
-        'PORT': os.getenv('3306'),
+        'PORT': os.getenv('DB_PORT', '3306'),
         'OPTIONS': {
             'init_command': "SET sql_mode='STRICT_TRANS_TABLES'"
         }

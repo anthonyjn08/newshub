@@ -30,11 +30,11 @@ services:
       db:
         condition: service_healthy
     environment:
-      DJANGO_DB_HOST: db
-      DJANGO_DB_NAME: newshub_db
-      DJANGO_DB_USER: newshub_admin
-      DJANGO_DB_PASSWORD: newshub_pass
-      DJANGO_DB_PORT: "3306"
+      DB_HOST: db
+      DB_NAME: newshub_db
+      DB_USER: newshub_admin
+      DB_PASSWORD: newshub_pass
+      DB_PORT: "3306"
     volumes:
       - .:/app
 
