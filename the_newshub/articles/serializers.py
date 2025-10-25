@@ -7,7 +7,8 @@ User = get_user_model()
 
 class ArticleSerializer(serializers.ModelSerializer):
     """
-    Article serializer."""
+    Article serializer.
+    """
     author_name = serializers.CharField(
         source="author.full_name", read_only=True
         )

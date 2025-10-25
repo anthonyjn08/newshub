@@ -20,23 +20,22 @@ from core.mixins import PaginationMixin
 
 
 class PublicationListView(ListView, PaginationMixin):
-    """
-    Displays a paginated list of all publications.
+    """Display a paginated list of all publications.
 
-    - param: ListView, provides list rendering functionality.
-    - param: PaginationMixin, handles pagination for large lists.
-    - return: renders publication list template with pagination.
+    Combines standard list rendering with pagination to efficiently
+    display publication entries.
     """
     model = Publication
     template_name = "publications/publication_list.html"
     context_object_name = "publications"
 
     def get_queryset(self):
-        """
-        Retrieve all publications, marking whether the logged-in journalist
+        """Retrieve all publications and mark whether the logged-in journalist
         has a pending join request for each.
 
-        - return: list of publications.
+            :return: QuerySet of publications with a custom attribute
+             has_pending_request added for the current user.
+            :rtype: QuerySet
         """
         set = Publication.objects.prefetch_related("editors", "join_requests")
         user = self.request.user
@@ -50,24 +49,21 @@ class PublicationListView(ListView, PaginationMixin):
 
 
 class PublicationDetailView(DetailView):
-    """
-    Displays detailed information about a specific publication, including
-    its published articles and subscription status.
-
-    - param: DetailView, provides detail page rendering.
-    - return: renders publication detail template with context data.
+    """Display detailed information about a publication, including its
+    published articles and subscription status.
     """
     model = Publication
     template_name = "publications/publication_detail.html"
     context_object_name = "publication"
 
     def get_context_data(self, **kwargs):
-        """
-        Adds subscription status and the publication's published articles
-        to the context.
+        """Add subscription status and published articles to the context.
 
-        - param: **kwargs, additional context arguments.
-        - return: context dictionary including `is_subscribed` and `articles`.
+            :param kwargs: Additional keyword arguments passed to the view.
+            :type kwargs: dict
+            :return: Context dictionary including is_subscribed and
+             articles.
+            :rtype: dict
         """
         context = super().get_context_data(**kwargs)
         user = self.request.user
@@ -86,37 +82,31 @@ class PublicationDetailView(DetailView):
 
 
 class PublicationViewSet(viewsets.ModelViewSet):
-    """
-    Editors can create and manage their own publications.
-    Readers can only view.
+    """Provide CRUD operations for publications.
 
-    - param: ModelViewSet, provides editors functionality for publications.
-    - return: serialized publication data or HTTP responses.
+    Editors can create and manage publications, while readers
+    can only view them.
     """
     queryset = Publication.objects.all()
     serializer_class = PublicationSerializer
 
     def get_permissions(self):
-        """
-        Assigns permissions based on user action.
+        """Assign view or edit permissions depending on the action.
 
-        - 'list' and 'retrieve' actions are read-only.
-        - All other actions require authentication.
-
-        - return: list of permission instances.
+            :return: List of permission instances.
+            :rtype: list
         """
         if self.action in ["list", "retrieve"]:
             return [ReadOnly()]
         return [IsAuthenticated()]
 
     def perform_create(self, serializer):
-        """
-        Automatically assigns the current user as an editor when creating
-        a publication. If the user's role is not already 'editor',
-        it updates it.
+        """Automatically assign the current user as an editor
+        when creating a publication..
 
-        - param: serializer, the validated publication serializer instance.
-        - return: None.
+            :param serializer: Validated publication serializer instance.
+            :type serializer: PublicationSerializer
+            :return: None
         """
         # Auto-assign current user as editor
         publication = serializer.save()
@@ -129,27 +119,23 @@ class PublicationViewSet(viewsets.ModelViewSet):
 
 
 class JoinRequestViewSet(viewsets.ModelViewSet):
-    """
-    Handles join requests between journalists and publications.
+    """Manage join requests between journalists and publications.
 
-    - Journalists can request to join publications.
-    - Editors can view, approve, or reject these requests.
-
-    - param: ModelViewSet, provides CRUD operations for join requests.
-    - return: serialized join request data or HTTP responses.
+    Journalists can request to join publications, while editors can
+    view, approve, or reject these requests.
     """
     queryset = JoinRequest.objects.all()
     serializer_class = JoinRequestSerializer
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
-        """
-        Filters join requests based on user role.
+        """Filter join requests based on the logged-in user's role.
 
-        Editors see requests for their own publications while journalists
-        can only see their own requests.
+        Editors see requests for their publications.
+        Journalists see only their own requests.
 
-        - return: filtered queryset of join requests.
+            :return: Filtered queryset of join requests.
+            :rtype: QuerySet
         """
         user = self.request.user
         if user.role == "editor":
@@ -161,11 +147,12 @@ class JoinRequestViewSet(viewsets.ModelViewSet):
         return JoinRequest.objects.none()
 
     def perform_create(self, serializer):
-        """
-        Allows journalists to request to join a publication.
+        """Allow journalists to request to join a publication.
 
-        - param: serializer, validated join request serializer instance.
-        - return: HTTP response indicating success or forbidden action.
+            :param serializer: Validated join request serializer instance.
+            :type serializer: JoinRequestSerializer
+            :return: Response indicating success or forbidden action.
+            :rtype: Response
         """
         if self.request.user.role != "journalist":
             return Response(
@@ -177,12 +164,14 @@ class JoinRequestViewSet(viewsets.ModelViewSet):
 
     @action(detail=True, methods=["post"], permission_classes=[IsEditor])
     def approve(self, request, pk=None):
-        """
-        Allows editors to approve a journalist's join request.
+        """Approve a journalist's join request.
 
-        - param: request, the current HTTP request.
-        - param: pk, primary key of the join request.
-        - return: HTTP 200 response indicating success.
+            :param request: Current HTTP request.
+            :type request: HttpRequest
+            :param pk: Primary key of the join request.
+            :type pk: int
+            :return: Response confirming approval.
+            :rtype: Response
         """
         join_request = self.get_object()
         join_request.status = "approved"
@@ -198,12 +187,14 @@ class JoinRequestViewSet(viewsets.ModelViewSet):
 
     @action(detail=True, methods=["post"], permission_classes=[IsEditor])
     def reject(self, request, pk=None):
-        """
-        Allows editors to reject a journalist's join request.
+        """Reject a journalist's join request.
 
-        - param: request, the current HTTP request.
-        - param: pk, primary key of the join request.
-        - return: HTTP 200 response confirming rejection.
+            :param request: Current HTTP request.
+            :type request: HttpRequest
+            :param pk: Primary key of the join request.
+            :type pk: int
+            :return: Response confirming rejection.
+            :rtype: Response
         """
         join_request = self.get_object()
         join_request.status = "rejected"
@@ -216,39 +207,37 @@ class JoinRequestViewSet(viewsets.ModelViewSet):
 
 
 class JournalistPermissionMixin(UserPassesTestMixin):
-    """
-    Ensure user is a journalist.
+    """Restrict access to users with the journalist role.
     """
     def test_func(self):
+        """Verify the user has a journalist role.
+
+            :return: True if the user's role is journalist.
+            :rtype: bool
+        """
         return self.request.user.role == "journalist"
 
 
 class JoinPublicationView(LoginRequiredMixin, JournalistPermissionMixin,
                           CreateView
                           ):
-    """
-    Allows journalists to submit a join request for a publication.
+    """Allow journalists to submit join requests for publications.
 
-    Prevents duplicate requests for the same publication and displays
-    confirmation message on success.
-
-    - param: LoginRequiredMixin, ensures user is logged in.
-    - param: JournalistPermissionMixin, ensures user is a journalist.
-    - param: CreateView, handles join request form rendering and submission.
-    - return: redirects to publication list upon successful request.
+    Prevents duplicate requests and provides confirmation messages
+    upon successful submission.
     """
     model = JoinRequest
     form_class = JoinRequestForm
     template_name = "publications/join_publication.html"
 
     def dispatch(self, request, *args, **kwargs):
-        """
-        Handles initial request dispatch.
+        """Prevent duplicate join requests for the same publication.
 
-        Prevents duplicate join requests for the same publication.
-
-        - param: request, the current HTTP request.
-        - return: redirect if duplicate request exists, else proceeds normally.
+            :param request: Current HTTP request.
+            :type request: HttpRequest
+            :return: Redirect if a duplicate exists, otherwise proceed
+             normally.
+            :rtype: HttpResponseRedirect
         """
         self.publication = get_object_or_404(Publication, pk=self.kwargs["pk"])
 
@@ -266,12 +255,14 @@ class JoinPublicationView(LoginRequiredMixin, JournalistPermissionMixin,
         return super().dispatch(request, *args, **kwargs)
 
     def form_valid(self, form):
-        """
-        Process and save a valid join request forms.
+        """Process and save a valid join request form.
 
-        - Assigns the current user and selected publication before saving.
-        - param: form, the validated join request form.
-        - return: HTTP response after saving with success message.
+        Assigns the current user and selected publication before saving.
+
+            :param form: Validated join request form.
+            :type form: JoinRequestForm
+            :return: Redirect after successful submission.
+            :rtype: HttpResponseRedirect
         """
         form.instance.user = self.request.user
         form.instance.publication = self.publication
@@ -281,53 +272,58 @@ class JoinPublicationView(LoginRequiredMixin, JournalistPermissionMixin,
         return response
 
     def get_context_data(self, **kwargs):
-        """
-        Adds publication data to the form page.
+        """Add publication data to the form context.
 
-        - param: **kwargs, additional context arguments.
-        - return: context dictionary including publication object.
+            :param kwargs: Additional context arguments.
+            :type kwargs: dict
+            :return: Context including publication object.
+            :rtype: dict
         """
         context = super().get_context_data(**kwargs)
         context["publication"] = self.publication
         return context
 
     def get_success_url(self):
+        """Redirect to the publication list upon successful submission.
+
+            :return: URL for publication list view.
+            :rtype: str
+        """
         return reverse_lazy("publication_list")
 
 # --- Editor views ---
 
 
 class EditorPermissionMixin(UserPassesTestMixin):
-    """
-    Ensures a user has editor permissions.
+    """Restrict access to users with the editor role.
     """
     def test_func(self):
+        """Verify that the current user is an editor.
+
+            :return: True if the user's role is editor.
+            :rtype: bool
+        """
         return self.request.user.role == "editor"
 
 
 class EditorDashboardView(LoginRequiredMixin, TemplateView, PaginationMixin):
-    """
-    Displays the editor dashboard, showing all relevant publication data.
+    """Display the editor dashboard with key editorial data.
 
-    - Shows all publications managed by the editor.
-    - Displays pending join requests from journalists.
-    - Lists all articles and newsletters awaiting editorial approval.
-
-    - param: LoginRequiredMixin, ensures the user is logged in.
-    - param: TemplateView, provides template rendering for the
-      editor dashboard.
-    - return: renders the editor dashboard with publications, requests,
-      and pending articles.
+    Shows the editor's publications, pending join requests, and
+    articles awaiting approval.
     """
     template_name = "publications/editor_dashboard.html"
 
     def get_context_data(self, **kwargs):
-        """
-        Adds editor-related data, including publications,
-        join requests, and pending articles.
+        """Add editor-related data to the dashboard context.
 
-        - param: **kwargs, additional context arguments.
-        - return: context dictionary with dashboard data for the editor.
+        Includes publications managed by the editor, join requests,
+        and articles pending approval.
+
+            :param kwargs: Additional context arguments.
+            :type kwargs: dict
+            :return: Context dictionary with editor dashboard data.
+            :rtype: dict
         """
         context = super().get_context_data(**kwargs)
         user = self.request.user
@@ -351,45 +347,44 @@ class EditorDashboardView(LoginRequiredMixin, TemplateView, PaginationMixin):
 
 
 class ArticleReviewView(LoginRequiredMixin, DetailView):
-    """
-    Allows editors to preview, edit, approve, reject, or delete
+    """Allow editors to review, edit, approve, reject, or delete
     articles within their publications.
-
-    - param: LoginRequiredMixin, ensures the user is logged in.
-    - param: DetailView, provides detailed view of the article.
-    - return: renders article review page or redirects after actions.
     """
     model = Article
     template_name = "publications/article_review.html"
     context_object_name = "article"
 
     def get_queryset(self):
-        """
-        Limit visible articles to those managed by the logged-in editor.
+        """Limit visible articles to those managed by the current editor.
 
-        - return: queryset of articles under the editor's management.
+            :return: QuerySet of articles under the editor's publications.
+            :rtype: QuerySet
         """
         return Article.objects.filter(publication__editors=self.request.user)
 
     def get_context_data(self, **kwargs):
-        """
-        Include the inline editing form for article content.
+        """Include the inline article editing form in the context.
 
-        - param: **kwargs, additional context arguments.
-        - return: context dictionary including the edit form.
+            :param kwargs: Additional context arguments.
+            :type kwargs: dict
+            :return: Context dictionary including edit form.
+            :rtype: dict
         """
         context = super().get_context_data(**kwargs)
         context["form"] = ArticleForm(instance=self.get_object())
         return context
 
     def post(self, request, *args, **kwargs):
-        """
-        Handles editor actions (edit, approve, reject, or delete).
+        """Handle editor actions such as save, approve, reject, or delete.
 
-        - param: request, the current HTTP request.
-        - param: *args, positional arguments for the view.
-        - param: **kwargs, keyword arguments for the view.
-        - return: redirect to the same page or editor dashboard after action.
+            :param request: Current HTTP request.
+            :type request: HttpRequest
+            :param args: Positional arguments.
+            :type args: list
+            :param kwargs: Keyword arguments.
+            :type kwargs: dict
+            :return: Redirect to the same page or dashboard after action.
+            :rtype: HttpResponseRedirect
         """
         article = self.get_object()
         action = request.POST.get("action")
@@ -433,23 +428,20 @@ class ArticleReviewView(LoginRequiredMixin, DetailView):
 
 
 class PublicationArticlesView(LoginRequiredMixin, ListView, PaginationMixin):
-    """
-    Displays all articles belonging to a publication managed by the editor.
-    Editors can edit or delete any article within their publication.
+    """Display all articles belonging to a publication managed by the editor.
 
-    - param: LoginRequiredMixin, ensures the user is logged in.
-    - param: ListView, provides list rendering of publication articles.
-    - return: renders list of articles within a publication.
+    Editors can view, edit, or delete any article within their publication.
     """
     template_name = "publications/publication_articles.html"
     context_object_name = "articles"
     paginate_by = 10
 
     def get_queryset(self):
-        """
-        Retrieve all articles for a specific publication managed by the editor.
+        """Retrieve all articles for a specific publication managed by
+        the editor.
 
-        - return: queryset of publication articles ordered by creation date.
+            :return: QuerySet of articles ordered by creation date.
+            :rtype: QuerySet
         """
         self.publication = get_object_or_404(
             Publication, pk=self.kwargs["pk"], editors=self.request.user
@@ -461,11 +453,12 @@ class PublicationArticlesView(LoginRequiredMixin, ListView, PaginationMixin):
         )
 
     def get_context_data(self, **kwargs):
-        """
-        Adds publication data to the context for rendering.
+        """Add publication data to the view context.
 
-        - param: **kwargs, additional context arguments.
-        - return: context dictionary including publication information.
+            :param kwargs: Additional context arguments.
+            :type kwargs: dict
+            :return: Context dictionary including publication details.
+            :rtype: dict
         """
         context = super().get_context_data(**kwargs)
         context["publication"] = self.publication
@@ -475,27 +468,21 @@ class PublicationArticlesView(LoginRequiredMixin, ListView, PaginationMixin):
 class JoinRequestListView(LoginRequiredMixin, EditorPermissionMixin,
                           ListView, PaginationMixin
                           ):
-    """
-    Displays a list of pending join requests for publications managed
-    by the logged-in editor.
+    """Display all pending join requests for the editor's publications.
 
-    - param: LoginRequiredMixin, ensures the user is logged in.
-    - param: EditorPermissionMixin, ensures the user has editor privileges.
-    - param: ListView, provides the listing behaviour.
-    - param: PaginationMixin, enables pagination for large lists.
-    - return: renders the join requests list template.
+    Provides a paginated list of journalist requests awaiting approval.
     """
     model = JoinRequest
     template_name = "publications/join_requests_list.html"
     context_object_name = "requests"
 
     def get_queryset(self):
-        """
-        Retrieves all pending join requests related to the
-        editor's publications.
+        """Retrieve pending join requests for publications managed
+        by the editor.
 
-        - return: queryset of pending join requests with related user and
-          publication data.
+            :return: QuerySet of pending join requests with related user
+             and publication data.
+            :rtype: QuerySet
         """
         return (
             JoinRequest.objects.filter(
@@ -508,27 +495,23 @@ class JoinRequestListView(LoginRequiredMixin, EditorPermissionMixin,
 class ApproveJoinRequestView(LoginRequiredMixin, EditorPermissionMixin,
                              UpdateView
                              ):
-    """
-    Handles the approval of a journalist's join request by an editor.
-
-    - param: LoginRequiredMixin, ensures the user is logged in.
-    - param: EditorPermissionMixin, ensures the user is an editor.
-    - param: UpdateView, provides object update functionality.
-    - return: redirects back to the join requests list after approval.
+    """Handle the rejection of a journalist's join request by an editor.
     """
     model = JoinRequest
     fields = []
     template_name = "publications/approve_join_request.html"
 
     def post(self, request, *args, **kwargs):
-        """
-        Approves a pending join request and adds the journalist
-        to the publication.
+        """Reject a join request and optionally record feedback.
 
-        - param: request, the current HTTP request.
-        - param: *args, positional arguments.
-        - param: **kwargs, keyword arguments.
-        - return: redirect to the join requests list with success message.
+            :param request: Current HTTP request.
+            :type request: HttpRequest
+            :param args: Positional arguments.
+            :type args: list
+            :param kwargs: Keyword arguments.
+            :type kwargs: dict
+            :return: Redirect to the join requests list with an info message.
+            :rtype: HttpResponseRedirect
         """
         join_request = self.get_object()
         join_request.status = "approved"
@@ -543,26 +526,23 @@ class ApproveJoinRequestView(LoginRequiredMixin, EditorPermissionMixin,
 
 class RejectJoinRequestView(LoginRequiredMixin, EditorPermissionMixin,
                             UpdateView):
-    """
-    Handles rejection of a journalist's join request by an editor.
-
-    - param: LoginRequiredMixin, ensures the user is logged in.
-    - param: EditorPermissionMixin, ensures the user is an editor.
-    - param: UpdateView, allows modification of join request instance.
-    - return: redirects back to the join requests list after rejection.
+    """"Handle the rejection of a journalist's join request by an editor.
     """
     model = JoinRequest
     fields = []
     template_name = "publications/reject_join_request.html"
 
     def post(self, request, *args, **kwargs):
-        """
-        Rejects a join request, optionally recording editor feedback.
+        """Reject a join request and optionally record editor feedback.
 
-        - param: request, the current HTTP request.
-        - param: *args, positional arguments.
-        - param: **kwargs, keyword arguments.
-        - return: redirect to the join requests list with info message.
+            :param request: Current HTTP request.
+            :type request: HttpRequest
+            :param args: Positional arguments.
+            :type args: list
+            :param kwargs: Keyword arguments.
+            :type kwargs: dict
+            :return: Redirect to the join requests list with an info message.
+            :rtype: HttpResponseRedirect
         """
         join_request = self.get_object()
         feedback_text = request.POST.get("feedback", "").strip()
@@ -578,22 +558,19 @@ class RejectJoinRequestView(LoginRequiredMixin, EditorPermissionMixin,
 
 
 class ApproveArticleView(LoginRequiredMixin, EditorPermissionMixin, View):
-    """
-    Allows editors to approve and publish submitted articles.
-
-    - param: LoginRequiredMixin, ensures the user is logged in.
-    - param: EditorPermissionMixin, ensures only editors can approve.
-    - param: View, provides HTTP method handling.
-    - return: redirects back to the editor dashboard.
+    """Allow editors to approve and publish submitted articles.
     """
     def post(self, request, *args, **kwargs):
-        """
-        Publishes an article by changing its status to 'published'.
+        """Publish an article by changing its status to published.
 
-        - param: request, the current HTTP request.
-        - param: *args, positional arguments.
-        - param: **kwargs, keyword arguments.
-        - return: redirect to editor dashboard with success message.
+            :param request: Current HTTP request.
+            :type request: HttpRequest
+            :param args: Positional arguments.
+            :type args: list
+            :param kwargs: Keyword arguments.
+            :type kwargs: dict
+            :return: Redirect to the editor dashboard with a success message.
+            :rtype: HttpResponseRedirect
         """
         article = get_object_or_404(
             Article,
@@ -609,22 +586,19 @@ class ApproveArticleView(LoginRequiredMixin, EditorPermissionMixin, View):
 
 
 class RejectArticleView(LoginRequiredMixin, EditorPermissionMixin, View):
-    """
-    Allows editors to reject submitted articles and provide feedback.
-
-    - param: LoginRequiredMixin, ensures the user is logged in.
-    - param: EditorPermissionMixin, ensures only editors can reject.
-    - param: View, provides HTTP method handling.
-    - return: redirects back to the editor dashboard.
+    """Allow editors to reject submitted articles and provide feedback.
     """
     def post(self, request, *args, **kwargs):
-        """
-        Rejects an article and saves optional feedback from the editor.
+        """Reject an article and save optional editor feedback.
 
-        - param: request, the current HTTP request.
-        - param: *args, positional arguments.
-        - param: **kwargs, keyword arguments (expects 'pk').
-        - return: redirect to editor dashboard with warning message.
+            :param request: Current HTTP request.
+            :type request: HttpRequest
+            :param args: Positional arguments.
+            :type args: list
+            :param kwargs: Keyword arguments.
+            :type kwargs: dict
+            :return: Redirect to the editor dashboard with a warning message.
+            :rtype: HttpResponseRedirect
         """
         article = get_object_or_404(
             Article,
@@ -643,27 +617,22 @@ class RejectArticleView(LoginRequiredMixin, EditorPermissionMixin, View):
 class PublicationCreateView(LoginRequiredMixin, EditorPermissionMixin,
                             CreateView
                             ):
-    """
-    Allows editors to create new publications.
+    """Allow editors to create new publications.
 
-    Adds the creator as an editor of the new publication and displays
-    success message on creation.
-
-    - param: LoginRequiredMixin, ensures user is logged in.
-    - param: EditorPermissionMixin, ensures user has editor privileges.
-    - param: CreateView, provides publication creation form and logic.
-    - return: redirects to editor dashboard upon success.
+    The creator is automatically added as an editor and receives
+    a success message upon creation.
     """
     model = Publication
     form_class = PublicationForm
     template_name = "publications/publication_form.html"
 
     def form_valid(self, form):
-        """
-        Handles valid publication form submission.
+        """Process and save a valid publication form.
 
-        - param: form, the validated publication form.
-        - return: response redirecting to success URL.
+            :param form: Validated publication form instance.
+            :type form: PublicationForm
+            :return: Redirect to the success URL with a success message.
+            :rtype: HttpResponseRedirect
         """
         self.object = form.save()
         self.object.editors.add(self.request.user)
@@ -671,8 +640,10 @@ class PublicationCreateView(LoginRequiredMixin, EditorPermissionMixin,
         return super().form_valid(form)
 
     def get_success_url(self):
-        """
-        Redirects the editor to their dashboard after successful creation.
+        """Redirect to the editor dashboard upon successful creation.
+
+            :return: URL of the editor dashboard.
+            :rtype: str
         """
         return reverse_lazy("editor_dashboard")
 
@@ -680,32 +651,29 @@ class PublicationCreateView(LoginRequiredMixin, EditorPermissionMixin,
 class PublicationUpdateView(LoginRequiredMixin, EditorPermissionMixin,
                             UpdateView
                             ):
-    """
-    Allows editors to update existing publications they manage.
-
-    - param: LoginRequiredMixin, ensures user is logged in.
-    - param: EditorPermissionMixin, ensures user is an editor.
-    - param: UpdateView, provides publication editing form and logic.
-    - return: redirects to editor dashboard upon success.
+    """Allow editors to update existing publications they manage.
     """
     model = Publication
     form_class = PublicationForm
     template_name = "publications/publication_form.html"
 
     def form_valid(self, form):
-        """
-        Handles valid publication update submissions.
+        """Process and save a valid publication update form.
 
-        - param: form, the validated publication form.
-        - return: response redirecting to success URL.
+            :param form: Validated publication form instance.
+            :type form: PublicationForm
+            :return: Redirect to the success URL with a success message.
+            :rtype: HttpResponseRedirect
         """
         form.instance.editor = self.request.user
         messages.success(self.request, "Publication created successfully.")
         return super().form_valid(form)
 
     def get_success_url(self):
-        """
-        Redirects to the editor dashboard after publication update.
+        """Redirect to the editor dashboard after updating the publication.
+
+            :return: URL of the editor dashboard.
+            :rtype: str
         """
         return reverse_lazy("editor_dashboard")
 
@@ -713,22 +681,18 @@ class PublicationUpdateView(LoginRequiredMixin, EditorPermissionMixin,
 class PublicationDeleteView(LoginRequiredMixin, EditorPermissionMixin,
                             DeleteView
                             ):
-    """
-    Allows editors to delete publications they manage.
+    """Allow editors to delete publications they manage.
 
-    - Only publications belonging to the current editor can be deleted.
-
-    - param: LoginRequiredMixin, ensures user is logged in.
-    - param: EditorPermissionMixin, ensures user is an editor.
-    - param: DeleteView, provides deletion confirmation and logic.
-    - return: redirects to editor dashboard after deletion.
+    Only publications associated with the current editor can be deleted.
     """
     model = Publication
     template_name = "publications/publication_delete.html"
     success_url = reverse_lazy("editor_dashboard")
 
     def get_queryset(self):
-        """
-        Restrict deletable publications to those owned by the editor.
+        """Limit deletable publications to those owned by the logged-in editor.
+
+            :return: QuerySet of publications the editor manages.
+            :rtype: QuerySet
         """
         return Publication.objects.filter(editors=self.request.user)

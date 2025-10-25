@@ -770,8 +770,7 @@ class CommentViewSet(viewsets.ModelViewSet):
 
 
 class RatingViewSet(viewsets.ModelViewSet):
-    """
-    Manage article ratings from authenticated users.
+    """Manage article ratings from authenticated users.
     """
     queryset = Rating.objects.all().select_related("user", "article")
     serializer_class = RatingSerializer
