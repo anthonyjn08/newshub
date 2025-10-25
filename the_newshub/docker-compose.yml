@@ -1,3 +1,5 @@
+version: "3.9"
+
 services:
   db:
     image: mariadb:10.11
@@ -18,8 +20,10 @@ services:
       retries: 10
 
   web:
-    build: .
-    command: pypy manage.py runserver 0.0.0.0:8000
+    build:
+      context: .
+      dockerfile: docker/web/Dockerfile
+    command: python manage.py runserver 0.0.0.0:8000
     ports:
       - "8000:8000"
     depends_on:
@@ -31,6 +35,8 @@ services:
       DJANGO_DB_USER: newshub_admin
       DJANGO_DB_PASSWORD: newshub_pass
       DJANGO_DB_PORT: "3306"
+    volumes:
+      - .:/app
 
 volumes:
   db_data:
