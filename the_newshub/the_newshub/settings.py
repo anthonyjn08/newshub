@@ -108,12 +108,12 @@ TWITTER_API_SECRET = os.getenv("TWITTER_API_SECRET")
 
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.mysql",
-        "NAME": "newshub_db",
-        "USER": "newshub_admin",
-        "PASSWORD": "HyperionDev!",
-        "HOST": "localhost",
-        "PORT": "3306",
+         'ENGINE': 'django.db.backends.mysql',
+        'NAME': os.environ.get('DJANGO_DB_NAME', 'newshub_db'),
+        'USER': os.environ.get('DJANGO_DB_USER', 'newshub_admin'),
+        'PASSWORD': os.environ.get('DJANGO_DB_PASSWORD', 'newshub_pass'),
+        'HOST': os.environ.get('DJANGO_DB_HOST', 'db'),
+        'PORT': os.environ.get('DJANGO_DB_PORT', '3306'),
     }
 }
 

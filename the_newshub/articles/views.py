@@ -48,7 +48,7 @@ class HomeView(TemplateView):
         return context
 
 
-class ArticleListView(LoginRequiredMixin, PaginationMixin, ListView):
+class ArticleListView(PaginationMixin, ListView):
     """
     Displays a list of published articles and newsletters.
 
