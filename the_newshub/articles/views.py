@@ -46,7 +46,7 @@ class HomeView(TemplateView):
         return context
 
 
-class ArticleListView(LoginRequiredMixin, PaginationMixin, ListView):
+class ArticleListView(PaginationMixin, ListView):
     """Displays a list of published articles and newsletters.
 
         :param LoginRequiredMixin: ensures user is logged in to view the list.
