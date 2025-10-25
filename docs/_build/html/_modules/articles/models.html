@@ -1,0 +1,267 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>articles.models &mdash; Newshub 00.00.01 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=d7bb8d4d"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            Newshub
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">the_newshub</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Newshub</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">articles.models</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for articles.models</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">django.db</span><span class="w"> </span><span class="kn">import</span> <span class="n">models</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">django.conf</span><span class="w"> </span><span class="kn">import</span> <span class="n">settings</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">django.utils.text</span><span class="w"> </span><span class="kn">import</span> <span class="n">slugify</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">django.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">timezone</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">django_ckeditor_5.fields</span><span class="w"> </span><span class="kn">import</span> <span class="n">CKEditor5Field</span>
+
+<span class="n">User</span> <span class="o">=</span> <span class="n">settings</span><span class="o">.</span><span class="n">AUTH_USER_MODEL</span>
+
+
+<div class="viewcode-block" id="Article">
+<a class="viewcode-back" href="../../articles.html#articles.forms.Article">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">Article</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Model for articles and newsletters.</span>
+
+<span class="sd">    STATUS_CHOICES:</span>
+<span class="sd">        - The current stage of the article or newsletter.</span>
+
+<span class="sd">    TYPE_CHOICES:</span>
+<span class="sd">        - If the content is an article or newsletter.</span>
+
+<span class="sd">    Fields:</span>
+<span class="sd">        - title: CharField, the title of article or newsletter.</span>
+<span class="sd">        - slug: SlugField, the slug for article or newslettee.</span>
+<span class="sd">        - author: ForiegnKey, the article or newsletters full name.</span>
+<span class="sd">        - publication: ForiegnKey, the publication the author belongs to</span>
+<span class="sd">          if the article or newsletter wasn&#39;t an independently published.</span>
+<span class="sd">        - type: CharField, choice if content is a newesletter or an article.</span>
+<span class="sd">        - status: CharField, the current status, from draft to</span>
+<span class="sd">          published or rejected.</span>
+<span class="sd">        - content: TextField, content or newsletter.</span>
+<span class="sd">        - feedback: TextField, feedback from editor if applicable.</span>
+<span class="sd">        - created_at: DateTimeField, when the article was created.</span>
+<span class="sd">        - updated_at: DateTimeField, when the article was modified.</span>
+<span class="sd">        - published_at: DateTimeField, when the article was published.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">STATUS_CHOICES</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="p">(</span><span class="s2">&quot;draft&quot;</span><span class="p">,</span> <span class="s2">&quot;Draft&quot;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">&quot;pending_approval&quot;</span><span class="p">,</span> <span class="s2">&quot;Pending Approval&quot;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">&quot;published&quot;</span><span class="p">,</span> <span class="s2">&quot;Published&quot;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">&quot;rejected&quot;</span><span class="p">,</span> <span class="s2">&quot;Rejected&quot;</span><span class="p">),</span>
+        <span class="p">]</span>
+
+    <span class="n">TYPE_CHOICES</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="p">(</span><span class="s2">&quot;article&quot;</span><span class="p">,</span> <span class="s2">&quot;Article&quot;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">&quot;newsletter&quot;</span><span class="p">,</span> <span class="s2">&quot;Newsletter&quot;</span><span class="p">),</span>
+        <span class="p">]</span>
+
+    <span class="n">title</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
+    <span class="n">slug</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">SlugField</span><span class="p">(</span><span class="n">unique</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">author</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span>
+        <span class="n">User</span><span class="p">,</span> <span class="n">on_delete</span><span class="o">=</span><span class="n">models</span><span class="o">.</span><span class="n">SET_NULL</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s2">&quot;articles&quot;</span>
+        <span class="p">)</span>
+    <span class="n">publication</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span>
+        <span class="s2">&quot;publications.Publication&quot;</span><span class="p">,</span> <span class="n">on_delete</span><span class="o">=</span><span class="n">models</span><span class="o">.</span><span class="n">CASCADE</span><span class="p">,</span>
+        <span class="n">related_name</span><span class="o">=</span><span class="s2">&quot;articles&quot;</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="p">)</span>
+    <span class="nb">type</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span>
+        <span class="n">max_length</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">choices</span><span class="o">=</span><span class="n">TYPE_CHOICES</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s2">&quot;article&quot;</span><span class="p">,</span>
+        <span class="n">help_text</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;Choose &#39;Article&#39; for multi-block content, &quot;</span>
+                   <span class="s2">&quot;or &#39;Newsletter&#39; for simple text content.&quot;</span><span class="p">)</span>
+        <span class="p">)</span>
+    <span class="n">status</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span>
+        <span class="n">max_length</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">choices</span><span class="o">=</span><span class="n">STATUS_CHOICES</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s2">&quot;draft&quot;</span>
+        <span class="p">)</span>
+    <span class="n">content</span> <span class="o">=</span> <span class="n">CKEditor5Field</span><span class="p">(</span><span class="s2">&quot;Content&quot;</span><span class="p">,</span> <span class="n">config_name</span><span class="o">=</span><span class="s2">&quot;default&quot;</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">feedback</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">TextField</span><span class="p">(</span><span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">created_at</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateTimeField</span><span class="p">(</span><span class="n">auto_now_add</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">updated_at</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateTimeField</span><span class="p">(</span><span class="n">auto_now</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">published_at</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateTimeField</span><span class="p">(</span><span class="n">null</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<div class="viewcode-block" id="Article.save">
+<a class="viewcode-back" href="../../articles.html#articles.forms.Article.save">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Override the default save method.</span>
+
+<span class="sd">        - Automatically generates a unique slug if not provided.</span>
+<span class="sd">        - Automatically sets `published_at` when status is &#39;published&#39;.</span>
+
+<span class="sd">        - param: *args, positional arguments passed to the parent save method.</span>
+<span class="sd">        - param: **kwargs, keyword arguments passed to the parent save method.</span>
+<span class="sd">        - return: None.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">slug</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">slug</span> <span class="o">=</span> <span class="n">slugify</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">title</span><span class="si">}</span><span class="s2">-</span><span class="si">{</span><span class="n">timezone</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">timestamp</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Automatically set published_at when publishing</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">status</span> <span class="o">==</span> <span class="s2">&quot;published&quot;</span> <span class="ow">and</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">published_at</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">published_at</span> <span class="o">=</span> <span class="n">timezone</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">average_rating</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the average score (1-5) for this article.</span>
+<span class="sd">        If no ratings exist, returns 0.</span>
+
+<span class="sd">        - param: none.</span>
+<span class="sd">        - return: float representing the average rating rounded</span>
+<span class="sd">          to 1 decimal place.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">ratings</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ratings</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">ratings</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+            <span class="k">return</span> <span class="nb">round</span><span class="p">(</span><span class="nb">sum</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">score</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">ratings</span><span class="p">)</span> <span class="o">/</span> <span class="n">ratings</span><span class="o">.</span><span class="n">count</span><span class="p">(),</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="k">return</span> <span class="mi">0</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">title</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">get_type_display</span><span class="p">()</span><span class="si">}</span><span class="s2"> - &quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">get_status_display</span><span class="p">()</span><span class="si">}</span><span class="s2">)&quot;</span>
+            <span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="Comment">
+<a class="viewcode-back" href="../../articles.html#articles.forms.Comment">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">Comment</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Model for comments under  each article.</span>
+
+<span class="sd">    Fields:</span>
+<span class="sd">        - article: ForiegnKey, the article the comment belongs to.</span>
+<span class="sd">        - user: ForiegnKey, the user the comment belongs to.</span>
+<span class="sd">        - text: TextField, the comment text.</span>
+<span class="sd">        - created_at: DateTimeField, the date when the comment was created.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">article</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span>
+        <span class="n">Article</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s2">&quot;comments&quot;</span><span class="p">,</span> <span class="n">on_delete</span><span class="o">=</span><span class="n">models</span><span class="o">.</span><span class="n">CASCADE</span>
+        <span class="p">)</span>
+    <span class="n">user</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">User</span><span class="p">,</span> <span class="n">on_delete</span><span class="o">=</span><span class="n">models</span><span class="o">.</span><span class="n">CASCADE</span><span class="p">)</span>
+    <span class="n">text</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">TextField</span><span class="p">()</span>
+    <span class="n">created_at</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateTimeField</span><span class="p">(</span><span class="n">auto_now_add</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="k">class</span><span class="w"> </span><span class="nc">Meta</span><span class="p">:</span>
+        <span class="n">ordering</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;-created_at&quot;</span><span class="p">]</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;Comment by </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">user</span><span class="si">}</span><span class="s2"> on </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">article</span><span class="si">}</span><span class="s2">&quot;</span></div>
+
+
+
+<div class="viewcode-block" id="Rating">
+<a class="viewcode-back" href="../../articles.html#articles.forms.Rating">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">Rating</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    For users to rate articles.</span>
+
+<span class="sd">    Fields:</span>
+<span class="sd">        - article: ForiegnKey, the aricle to be rated.</span>
+<span class="sd">        - user: ForiegnKey, user who gave the rating.</span>
+<span class="sd">        - score: PositiveIntegerField, the out of 5 score.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">article</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span>
+        <span class="n">Article</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s2">&quot;ratings&quot;</span><span class="p">,</span> <span class="n">on_delete</span><span class="o">=</span><span class="n">models</span><span class="o">.</span><span class="n">CASCADE</span>
+        <span class="p">)</span>
+    <span class="n">user</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">User</span><span class="p">,</span> <span class="n">on_delete</span><span class="o">=</span><span class="n">models</span><span class="o">.</span><span class="n">CASCADE</span><span class="p">)</span>
+    <span class="n">score</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">PositiveSmallIntegerField</span><span class="p">()</span>
+
+    <span class="k">class</span><span class="w"> </span><span class="nc">Meta</span><span class="p">:</span>
+        <span class="n">unique_together</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;article&quot;</span><span class="p">,</span> <span class="s2">&quot;user&quot;</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">score</span><span class="si">}</span><span class="s2">★ by </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">display_name</span><span class="w"> </span><span class="ow">or</span><span class="w"> </span><span class="bp">self</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">email</span><span class="si">}</span><span class="s2">&quot;</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Anthony Nelson.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

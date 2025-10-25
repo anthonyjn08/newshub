@@ -1,0 +1,1903 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>articles package &mdash; Newshub 00.00.01 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=d7bb8d4d"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="articles.migrations package" href="articles.migrations.html" />
+    <link rel="prev" title="the_newshub" href="modules.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            Newshub
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">the_newshub</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">articles package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#subpackages">Subpackages</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="articles.migrations.html">articles.migrations package</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#submodules">Submodules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-articles.admin">articles.admin module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#articles.admin.ArticleAdmin"><code class="docutils literal notranslate"><span class="pre">ArticleAdmin</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-articles.apps">articles.apps module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#articles.apps.ArticlesConfig"><code class="docutils literal notranslate"><span class="pre">ArticlesConfig</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-articles.forms">articles.forms module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#articles.forms.ArticleForm"><code class="docutils literal notranslate"><span class="pre">ArticleForm</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#articles.forms.CommentForm"><code class="docutils literal notranslate"><span class="pre">CommentForm</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#articles.forms.RatingForm"><code class="docutils literal notranslate"><span class="pre">RatingForm</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-articles.models">articles.models module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#articles.models.Article"><code class="docutils literal notranslate"><span class="pre">Article</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#articles.models.Comment"><code class="docutils literal notranslate"><span class="pre">Comment</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#articles.models.Rating"><code class="docutils literal notranslate"><span class="pre">Rating</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-articles.permissions">articles.permissions module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#articles.permissions.IsEditorOrJournalist"><code class="docutils literal notranslate"><span class="pre">IsEditorOrJournalist</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#articles.permissions.ReadOnly"><code class="docutils literal notranslate"><span class="pre">ReadOnly</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-articles.serializers">articles.serializers module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#articles.serializers.ArticleSerializer"><code class="docutils literal notranslate"><span class="pre">ArticleSerializer</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#articles.serializers.CommentSerializer"><code class="docutils literal notranslate"><span class="pre">CommentSerializer</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#articles.serializers.RatingSerializer"><code class="docutils literal notranslate"><span class="pre">RatingSerializer</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-articles.signals">articles.signals module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#articles.signals.handle_article_publication"><code class="docutils literal notranslate"><span class="pre">handle_article_publication()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-articles.tests">articles.tests module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#articles.tests.JournalistFlowTests"><code class="docutils literal notranslate"><span class="pre">JournalistFlowTests</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-articles.tweepy">articles.tweepy module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#articles.tweepy.get_twitter_client"><code class="docutils literal notranslate"><span class="pre">get_twitter_client()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#articles.tweepy.tweet_article"><code class="docutils literal notranslate"><span class="pre">tweet_article()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-articles.urls">articles.urls module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-articles.views">articles.views module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#articles.views.ApproveArticleView"><code class="docutils literal notranslate"><span class="pre">ApproveArticleView</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#articles.views.ArticleCreateView"><code class="docutils literal notranslate"><span class="pre">ArticleCreateView</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#articles.views.ArticleDeleteView"><code class="docutils literal notranslate"><span class="pre">ArticleDeleteView</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#articles.views.ArticleDetailView"><code class="docutils literal notranslate"><span class="pre">ArticleDetailView</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#articles.views.ArticleListView"><code class="docutils literal notranslate"><span class="pre">ArticleListView</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#articles.views.ArticleUpdateView"><code class="docutils literal notranslate"><span class="pre">ArticleUpdateView</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#articles.views.ArticleViewSet"><code class="docutils literal notranslate"><span class="pre">ArticleViewSet</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#articles.views.CommentViewSet"><code class="docutils literal notranslate"><span class="pre">CommentViewSet</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#articles.views.EditorPermissionMixin"><code class="docutils literal notranslate"><span class="pre">EditorPermissionMixin</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#articles.views.HomeView"><code class="docutils literal notranslate"><span class="pre">HomeView</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#articles.views.JournalistDashboardView"><code class="docutils literal notranslate"><span class="pre">JournalistDashboardView</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#articles.views.JournalistPermissionMixin"><code class="docutils literal notranslate"><span class="pre">JournalistPermissionMixin</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#articles.views.PendingArticlesView"><code class="docutils literal notranslate"><span class="pre">PendingArticlesView</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#articles.views.RatingViewSet"><code class="docutils literal notranslate"><span class="pre">RatingViewSet</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#articles.views.RejectArticleView"><code class="docutils literal notranslate"><span class="pre">RejectArticleView</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#articles.views.SubmitForApprovalView"><code class="docutils literal notranslate"><span class="pre">SubmitForApprovalView</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-articles">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="core.html">core package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="manage.html">manage module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="publications.html">publications package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="subscriptions.html">subscriptions package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="the_newshub.html">the_newshub package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="users.html">users package</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Newshub</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="modules.html">the_newshub</a></li>
+      <li class="breadcrumb-item active">articles package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/articles.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="articles-package">
+<h1>articles package<a class="headerlink" href="#articles-package" title="Link to this heading"></a></h1>
+<section id="subpackages">
+<h2>Subpackages<a class="headerlink" href="#subpackages" title="Link to this heading"></a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="articles.migrations.html">articles.migrations package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="articles.migrations.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="articles.migrations.html#module-articles.migrations.0001_initial">articles.migrations.0001_initial module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="articles.migrations.html#articles.migrations.0001_initial.Migration"><code class="docutils literal notranslate"><span class="pre">Migration</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="articles.migrations.html#articles.migrations.0001_initial.Migration.dependencies"><code class="docutils literal notranslate"><span class="pre">Migration.dependencies</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="articles.migrations.html#articles.migrations.0001_initial.Migration.initial"><code class="docutils literal notranslate"><span class="pre">Migration.initial</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="articles.migrations.html#articles.migrations.0001_initial.Migration.operations"><code class="docutils literal notranslate"><span class="pre">Migration.operations</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="articles.migrations.html#module-articles.migrations.0002_article_content_article_type_and_more">articles.migrations.0002_article_content_article_type_and_more module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="articles.migrations.html#articles.migrations.0002_article_content_article_type_and_more.Migration"><code class="docutils literal notranslate"><span class="pre">Migration</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="articles.migrations.html#articles.migrations.0002_article_content_article_type_and_more.Migration.dependencies"><code class="docutils literal notranslate"><span class="pre">Migration.dependencies</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="articles.migrations.html#articles.migrations.0002_article_content_article_type_and_more.Migration.operations"><code class="docutils literal notranslate"><span class="pre">Migration.operations</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="articles.migrations.html#module-articles.migrations.0003_alter_article_content">articles.migrations.0003_alter_article_content module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="articles.migrations.html#articles.migrations.0003_alter_article_content.Migration"><code class="docutils literal notranslate"><span class="pre">Migration</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="articles.migrations.html#articles.migrations.0003_alter_article_content.Migration.dependencies"><code class="docutils literal notranslate"><span class="pre">Migration.dependencies</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="articles.migrations.html#articles.migrations.0003_alter_article_content.Migration.operations"><code class="docutils literal notranslate"><span class="pre">Migration.operations</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="articles.migrations.html#module-articles.migrations.0004_delete_articleblock">articles.migrations.0004_delete_articleblock module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="articles.migrations.html#articles.migrations.0004_delete_articleblock.Migration"><code class="docutils literal notranslate"><span class="pre">Migration</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="articles.migrations.html#articles.migrations.0004_delete_articleblock.Migration.dependencies"><code class="docutils literal notranslate"><span class="pre">Migration.dependencies</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="articles.migrations.html#articles.migrations.0004_delete_articleblock.Migration.operations"><code class="docutils literal notranslate"><span class="pre">Migration.operations</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="articles.migrations.html#module-articles.migrations.0005_alter_article_content">articles.migrations.0005_alter_article_content module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="articles.migrations.html#articles.migrations.0005_alter_article_content.Migration"><code class="docutils literal notranslate"><span class="pre">Migration</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="articles.migrations.html#articles.migrations.0005_alter_article_content.Migration.dependencies"><code class="docutils literal notranslate"><span class="pre">Migration.dependencies</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="articles.migrations.html#articles.migrations.0005_alter_article_content.Migration.operations"><code class="docutils literal notranslate"><span class="pre">Migration.operations</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="articles.migrations.html#module-articles.migrations">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading"></a></h2>
+</section>
+<section id="module-articles.admin">
+<span id="articles-admin-module"></span><h2>articles.admin module<a class="headerlink" href="#module-articles.admin" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="articles.admin.ArticleAdmin">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">articles.admin.</span></span><span class="sig-name descname"><span class="pre">ArticleAdmin</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">admin_site</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/articles/admin.html#ArticleAdmin"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#articles.admin.ArticleAdmin" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ModelAdmin</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="articles.admin.ArticleAdmin.list_display">
+<span class="sig-name descname"><span class="pre">list_display</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">('title',</span> <span class="pre">'publication',</span> <span class="pre">'author',</span> <span class="pre">'status',</span> <span class="pre">'published_at')</span></em><a class="headerlink" href="#articles.admin.ArticleAdmin.list_display" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="articles.admin.ArticleAdmin.media">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">media</span></span><a class="headerlink" href="#articles.admin.ArticleAdmin.media" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="articles.admin.ArticleAdmin.prepopulated_fields">
+<span class="sig-name descname"><span class="pre">prepopulated_fields</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'slug':</span> <span class="pre">('title',)}</span></em><a class="headerlink" href="#articles.admin.ArticleAdmin.prepopulated_fields" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-articles.apps">
+<span id="articles-apps-module"></span><h2>articles.apps module<a class="headerlink" href="#module-articles.apps" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="articles.apps.ArticlesConfig">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">articles.apps.</span></span><span class="sig-name descname"><span class="pre">ArticlesConfig</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">app_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">app_module</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/articles/apps.html#ArticlesConfig"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#articles.apps.ArticlesConfig" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">AppConfig</span></code></p>
+<p>Import Article signals.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="articles.apps.ArticlesConfig.default_auto_field">
+<span class="sig-name descname"><span class="pre">default_auto_field</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'django.db.models.BigAutoField'</span></em><a class="headerlink" href="#articles.apps.ArticlesConfig.default_auto_field" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="articles.apps.ArticlesConfig.name">
+<span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'articles'</span></em><a class="headerlink" href="#articles.apps.ArticlesConfig.name" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="articles.apps.ArticlesConfig.ready">
+<span class="sig-name descname"><span class="pre">ready</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/articles/apps.html#ArticlesConfig.ready"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#articles.apps.ArticlesConfig.ready" title="Link to this definition"></a></dt>
+<dd><p>Override this method in subclasses to run code when Django starts.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-articles.forms">
+<span id="articles-forms-module"></span><h2>articles.forms module<a class="headerlink" href="#module-articles.forms" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="articles.forms.ArticleForm">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">articles.forms.</span></span><span class="sig-name descname"><span class="pre">ArticleForm</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/articles/forms.html#ArticleForm"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#articles.forms.ArticleForm" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ModelForm</span></code></p>
+<p>Form to create articles.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="articles.forms.ArticleForm.Meta">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Meta</span></span><a class="reference internal" href="_modules/articles/forms.html#ArticleForm.Meta"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#articles.forms.ArticleForm.Meta" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="articles.forms.ArticleForm.Meta.fields">
+<span class="sig-name descname"><span class="pre">fields</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['title',</span> <span class="pre">'type',</span> <span class="pre">'publication',</span> <span class="pre">'content']</span></em><a class="headerlink" href="#articles.forms.ArticleForm.Meta.fields" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="articles.forms.ArticleForm.Meta.help_texts">
+<span class="sig-name descname"><span class="pre">help_texts</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'content':</span> <span class="pre">'Use</span> <span class="pre">HTML</span> <span class="pre">elements</span> <span class="pre">for</span> <span class="pre">structure</span> <span class="pre">(e.g.</span> <span class="pre">&amp;lt;h2&amp;gt;,</span> <span class="pre">&amp;lt;p&amp;gt;,</span> <span class="pre">&amp;lt;strong&amp;gt;).</span> <span class="pre">You</span> <span class="pre">can</span> <span class="pre">also</span> <span class="pre">embed</span> <span class="pre">images,</span> <span class="pre">videos,</span> <span class="pre">and</span> <span class="pre">links</span> <span class="pre">directly.'}</span></em><a class="headerlink" href="#articles.forms.ArticleForm.Meta.help_texts" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="articles.forms.ArticleForm.Meta.model">
+<span class="sig-name descname"><span class="pre">model</span></span><a class="headerlink" href="#articles.forms.ArticleForm.Meta.model" title="Link to this definition"></a></dt>
+<dd><p>alias of <a class="reference internal" href="#articles.models.Article" title="articles.models.Article"><code class="xref py py-class docutils literal notranslate"><span class="pre">Article</span></code></a></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="articles.forms.ArticleForm.Meta.widgets">
+<span class="sig-name descname"><span class="pre">widgets</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'content':</span> <span class="pre">&lt;django_ckeditor_5.widgets.CKEditor5Widget</span> <span class="pre">object&gt;}</span></em><a class="headerlink" href="#articles.forms.ArticleForm.Meta.widgets" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="articles.forms.ArticleForm.base_fields">
+<span class="sig-name descname"><span class="pre">base_fields</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'content':</span> <span class="pre">&lt;django.forms.fields.CharField</span> <span class="pre">object&gt;,</span> <span class="pre">'publication':</span> <span class="pre">&lt;django.forms.models.ModelChoiceField</span> <span class="pre">object&gt;,</span> <span class="pre">'title':</span> <span class="pre">&lt;django.forms.fields.CharField</span> <span class="pre">object&gt;,</span> <span class="pre">'type':</span> <span class="pre">&lt;django.forms.fields.TypedChoiceField</span> <span class="pre">object&gt;}</span></em><a class="headerlink" href="#articles.forms.ArticleForm.base_fields" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="articles.forms.ArticleForm.declared_fields">
+<span class="sig-name descname"><span class="pre">declared_fields</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{}</span></em><a class="headerlink" href="#articles.forms.ArticleForm.declared_fields" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="articles.forms.ArticleForm.media">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">media</span></span><a class="headerlink" href="#articles.forms.ArticleForm.media" title="Link to this definition"></a></dt>
+<dd><p>Return all media required to render the widgets on this form.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="articles.forms.CommentForm">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">articles.forms.</span></span><span class="sig-name descname"><span class="pre">CommentForm</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">files=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">auto_id='id_%s'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prefix=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">initial=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">error_class=&lt;class</span> <span class="pre">'django.forms.utils.ErrorList'&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label_suffix=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">empty_permitted=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field_order=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_required_attribute=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">renderer=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bound_field_class=None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/articles/forms.html#CommentForm"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#articles.forms.CommentForm" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Form</span></code></p>
+<p>Form to let readers add comments to artcles.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="articles.forms.CommentForm.base_fields">
+<span class="sig-name descname"><span class="pre">base_fields</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'text':</span> <span class="pre">&lt;django.forms.fields.CharField</span> <span class="pre">object&gt;}</span></em><a class="headerlink" href="#articles.forms.CommentForm.base_fields" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="articles.forms.CommentForm.declared_fields">
+<span class="sig-name descname"><span class="pre">declared_fields</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'text':</span> <span class="pre">&lt;django.forms.fields.CharField</span> <span class="pre">object&gt;}</span></em><a class="headerlink" href="#articles.forms.CommentForm.declared_fields" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="articles.forms.CommentForm.media">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">media</span></span><a class="headerlink" href="#articles.forms.CommentForm.media" title="Link to this definition"></a></dt>
+<dd><p>Return all media required to render the widgets on this form.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="articles.forms.RatingForm">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">articles.forms.</span></span><span class="sig-name descname"><span class="pre">RatingForm</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">files=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">auto_id='id_%s'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prefix=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">initial=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">error_class=&lt;class</span> <span class="pre">'django.forms.utils.ErrorList'&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label_suffix=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">empty_permitted=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field_order=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_required_attribute=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">renderer=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bound_field_class=None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/articles/forms.html#RatingForm"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#articles.forms.RatingForm" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Form</span></code></p>
+<p>Form to let readers rate articles.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="articles.forms.RatingForm.base_fields">
+<span class="sig-name descname"><span class="pre">base_fields</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'score':</span> <span class="pre">&lt;django.forms.fields.IntegerField</span> <span class="pre">object&gt;}</span></em><a class="headerlink" href="#articles.forms.RatingForm.base_fields" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="articles.forms.RatingForm.declared_fields">
+<span class="sig-name descname"><span class="pre">declared_fields</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'score':</span> <span class="pre">&lt;django.forms.fields.IntegerField</span> <span class="pre">object&gt;}</span></em><a class="headerlink" href="#articles.forms.RatingForm.declared_fields" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="articles.forms.RatingForm.media">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">media</span></span><a class="headerlink" href="#articles.forms.RatingForm.media" title="Link to this definition"></a></dt>
+<dd><p>Return all media required to render the widgets on this form.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-articles.models">
+<span id="articles-models-module"></span><h2>articles.models module<a class="headerlink" href="#module-articles.models" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="articles.models.Article">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">articles.models.</span></span><span class="sig-name descname"><span class="pre">Article</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/articles/models.html#Article"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#articles.models.Article" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Model</span></code></p>
+<p>Model for articles and newsletters.</p>
+<dl class="simple">
+<dt>STATUS_CHOICES:</dt><dd><ul class="simple">
+<li><p>The current stage of the article or newsletter.</p></li>
+</ul>
+</dd>
+<dt>TYPE_CHOICES:</dt><dd><ul class="simple">
+<li><p>If the content is an article or newsletter.</p></li>
+</ul>
+</dd>
+<dt>Fields:</dt><dd><ul class="simple">
+<li><p>title: CharField, the title of article or newsletter.</p></li>
+<li><p>slug: SlugField, the slug for article or newslettee.</p></li>
+<li><p>author: ForiegnKey, the article or newsletters full name.</p></li>
+<li><p>publication: ForiegnKey, the publication the author belongs to
+if the article or newsletter wasn’t an independently published.</p></li>
+<li><p>type: CharField, choice if content is a newesletter or an article.</p></li>
+<li><p>status: CharField, the current status, from draft to
+published or rejected.</p></li>
+<li><p>content: TextField, content or newsletter.</p></li>
+<li><p>feedback: TextField, feedback from editor if applicable.</p></li>
+<li><p>created_at: DateTimeField, when the article was created.</p></li>
+<li><p>updated_at: DateTimeField, when the article was modified.</p></li>
+<li><p>published_at: DateTimeField, when the article was published.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py exception">
+<dt class="sig sig-object py" id="articles.models.Article.DoesNotExist">
+<em class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">DoesNotExist</span></span><a class="headerlink" href="#articles.models.Article.DoesNotExist" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ObjectDoesNotExist</span></code></p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="articles.models.Article.MultipleObjectsReturned">
+<em class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">MultipleObjectsReturned</span></span><a class="headerlink" href="#articles.models.Article.MultipleObjectsReturned" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">MultipleObjectsReturned</span></code></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="articles.models.Article.STATUS_CHOICES">
+<span class="sig-name descname"><span class="pre">STATUS_CHOICES</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[('draft',</span> <span class="pre">'Draft'),</span> <span class="pre">('pending_approval',</span> <span class="pre">'Pending</span> <span class="pre">Approval'),</span> <span class="pre">('published',</span> <span class="pre">'Published'),</span> <span class="pre">('rejected',</span> <span class="pre">'Rejected')]</span></em><a class="headerlink" href="#articles.models.Article.STATUS_CHOICES" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="articles.models.Article.TYPE_CHOICES">
+<span class="sig-name descname"><span class="pre">TYPE_CHOICES</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[('article',</span> <span class="pre">'Article'),</span> <span class="pre">('newsletter',</span> <span class="pre">'Newsletter')]</span></em><a class="headerlink" href="#articles.models.Article.TYPE_CHOICES" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="articles.models.Article.author">
+<span class="sig-name descname"><span class="pre">author</span></span><a class="headerlink" href="#articles.models.Article.author" title="Link to this definition"></a></dt>
+<dd><p>Accessor to the related object on the forward side of a many-to-one or
+one-to-one (via ForwardOneToOneDescriptor subclass) relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Child.parent</span></code> is a <code class="docutils literal notranslate"><span class="pre">ForwardManyToOneDescriptor</span></code> instance.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="articles.models.Article.author_id">
+<span class="sig-name descname"><span class="pre">author_id</span></span><a class="headerlink" href="#articles.models.Article.author_id" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="articles.models.Article.average_rating">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">average_rating</span></span><a class="headerlink" href="#articles.models.Article.average_rating" title="Link to this definition"></a></dt>
+<dd><p>Returns the average score (1-5) for this article.
+If no ratings exist, returns 0.</p>
+<ul class="simple">
+<li><p>param: none.</p></li>
+<li><p>return: float representing the average rating rounded
+to 1 decimal place.</p></li>
+</ul>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="articles.models.Article.comments">
+<span class="sig-name descname"><span class="pre">comments</span></span><a class="headerlink" href="#articles.models.Article.comments" title="Link to this definition"></a></dt>
+<dd><p>Accessor to the related objects manager on the reverse side of a
+many-to-one relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Parent.children</span></code> is a <code class="docutils literal notranslate"><span class="pre">ReverseManyToOneDescriptor</span></code> instance.</p>
+<p>Most of the implementation is delegated to a dynamically defined manager
+class built by <code class="docutils literal notranslate"><span class="pre">create_forward_many_to_many_manager()</span></code> defined below.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="articles.models.Article.content">
+<span class="sig-name descname"><span class="pre">content</span></span><a class="headerlink" href="#articles.models.Article.content" title="Link to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="articles.models.Article.created_at">
+<span class="sig-name descname"><span class="pre">created_at</span></span><a class="headerlink" href="#articles.models.Article.created_at" title="Link to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="articles.models.Article.feedback">
+<span class="sig-name descname"><span class="pre">feedback</span></span><a class="headerlink" href="#articles.models.Article.feedback" title="Link to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="articles.models.Article.get_next_by_created_at">
+<span class="sig-name descname"><span class="pre">get_next_by_created_at</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field=&lt;django.db.models.fields.DateTimeField:</span> <span class="pre">created_at&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_next=True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#articles.models.Article.get_next_by_created_at" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="articles.models.Article.get_next_by_updated_at">
+<span class="sig-name descname"><span class="pre">get_next_by_updated_at</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field=&lt;django.db.models.fields.DateTimeField:</span> <span class="pre">updated_at&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_next=True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#articles.models.Article.get_next_by_updated_at" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="articles.models.Article.get_previous_by_created_at">
+<span class="sig-name descname"><span class="pre">get_previous_by_created_at</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field=&lt;django.db.models.fields.DateTimeField:</span> <span class="pre">created_at&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_next=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#articles.models.Article.get_previous_by_created_at" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="articles.models.Article.get_previous_by_updated_at">
+<span class="sig-name descname"><span class="pre">get_previous_by_updated_at</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field=&lt;django.db.models.fields.DateTimeField:</span> <span class="pre">updated_at&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_next=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#articles.models.Article.get_previous_by_updated_at" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="articles.models.Article.get_status_display">
+<span class="sig-name descname"><span class="pre">get_status_display</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field=&lt;django.db.models.fields.CharField:</span> <span class="pre">status&gt;</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#articles.models.Article.get_status_display" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="articles.models.Article.get_type_display">
+<span class="sig-name descname"><span class="pre">get_type_display</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field=&lt;django.db.models.fields.CharField:</span> <span class="pre">type&gt;</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#articles.models.Article.get_type_display" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="articles.models.Article.id">
+<span class="sig-name descname"><span class="pre">id</span></span><a class="headerlink" href="#articles.models.Article.id" title="Link to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="articles.models.Article.independent_authors">
+<span class="sig-name descname"><span class="pre">independent_authors</span></span><a class="headerlink" href="#articles.models.Article.independent_authors" title="Link to this definition"></a></dt>
+<dd><p>Accessor to the related objects manager on the forward and reverse sides of
+a many-to-many relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Pizza</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">toppings</span> <span class="o">=</span> <span class="n">ManyToManyField</span><span class="p">(</span><span class="n">Topping</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;pizzas&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Pizza.toppings</span></code> and <code class="docutils literal notranslate"><span class="pre">Topping.pizzas</span></code> are <code class="docutils literal notranslate"><span class="pre">ManyToManyDescriptor</span></code>
+instances.</p>
+<p>Most of the implementation is delegated to a dynamically defined manager
+class built by <code class="docutils literal notranslate"><span class="pre">create_forward_many_to_many_manager()</span></code> defined below.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="articles.models.Article.objects">
+<span class="sig-name descname"><span class="pre">objects</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;django.db.models.manager.Manager</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#articles.models.Article.objects" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="articles.models.Article.publication">
+<span class="sig-name descname"><span class="pre">publication</span></span><a class="headerlink" href="#articles.models.Article.publication" title="Link to this definition"></a></dt>
+<dd><p>Accessor to the related object on the forward side of a many-to-one or
+one-to-one (via ForwardOneToOneDescriptor subclass) relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Child.parent</span></code> is a <code class="docutils literal notranslate"><span class="pre">ForwardManyToOneDescriptor</span></code> instance.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="articles.models.Article.publication_id">
+<span class="sig-name descname"><span class="pre">publication_id</span></span><a class="headerlink" href="#articles.models.Article.publication_id" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="articles.models.Article.published_at">
+<span class="sig-name descname"><span class="pre">published_at</span></span><a class="headerlink" href="#articles.models.Article.published_at" title="Link to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="articles.models.Article.ratings">
+<span class="sig-name descname"><span class="pre">ratings</span></span><a class="headerlink" href="#articles.models.Article.ratings" title="Link to this definition"></a></dt>
+<dd><p>Accessor to the related objects manager on the reverse side of a
+many-to-one relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Parent.children</span></code> is a <code class="docutils literal notranslate"><span class="pre">ReverseManyToOneDescriptor</span></code> instance.</p>
+<p>Most of the implementation is delegated to a dynamically defined manager
+class built by <code class="docutils literal notranslate"><span class="pre">create_forward_many_to_many_manager()</span></code> defined below.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="articles.models.Article.save">
+<span class="sig-name descname"><span class="pre">save</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/articles/models.html#Article.save"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#articles.models.Article.save" title="Link to this definition"></a></dt>
+<dd><p>Override the default save method.</p>
+<ul class="simple">
+<li><p>Automatically generates a unique slug if not provided.</p></li>
+<li><p>Automatically sets <cite>published_at</cite> when status is ‘published’.</p></li>
+<li><p>param: <a href="#id1"><span class="problematic" id="id2">*</span></a>args, positional arguments passed to the parent save method.</p></li>
+<li><p>param: <a href="#id3"><span class="problematic" id="id4">**</span></a>kwargs, keyword arguments passed to the parent save method.</p></li>
+<li><p>return: None.</p></li>
+</ul>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="articles.models.Article.slug">
+<span class="sig-name descname"><span class="pre">slug</span></span><a class="headerlink" href="#articles.models.Article.slug" title="Link to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="articles.models.Article.status">
+<span class="sig-name descname"><span class="pre">status</span></span><a class="headerlink" href="#articles.models.Article.status" title="Link to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="articles.models.Article.title">
+<span class="sig-name descname"><span class="pre">title</span></span><a class="headerlink" href="#articles.models.Article.title" title="Link to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="articles.models.Article.type">
+<span class="sig-name descname"><span class="pre">type</span></span><a class="headerlink" href="#articles.models.Article.type" title="Link to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="articles.models.Article.updated_at">
+<span class="sig-name descname"><span class="pre">updated_at</span></span><a class="headerlink" href="#articles.models.Article.updated_at" title="Link to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="articles.models.Comment">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">articles.models.</span></span><span class="sig-name descname"><span class="pre">Comment</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/articles/models.html#Comment"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#articles.models.Comment" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Model</span></code></p>
+<p>Model for comments under  each article.</p>
+<dl class="simple">
+<dt>Fields:</dt><dd><ul class="simple">
+<li><p>article: ForiegnKey, the article the comment belongs to.</p></li>
+<li><p>user: ForiegnKey, the user the comment belongs to.</p></li>
+<li><p>text: TextField, the comment text.</p></li>
+<li><p>created_at: DateTimeField, the date when the comment was created.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py exception">
+<dt class="sig sig-object py" id="articles.models.Comment.DoesNotExist">
+<em class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">DoesNotExist</span></span><a class="headerlink" href="#articles.models.Comment.DoesNotExist" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ObjectDoesNotExist</span></code></p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="articles.models.Comment.MultipleObjectsReturned">
+<em class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">MultipleObjectsReturned</span></span><a class="headerlink" href="#articles.models.Comment.MultipleObjectsReturned" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">MultipleObjectsReturned</span></code></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="articles.models.Comment.article">
+<span class="sig-name descname"><span class="pre">article</span></span><a class="headerlink" href="#articles.models.Comment.article" title="Link to this definition"></a></dt>
+<dd><p>Accessor to the related object on the forward side of a many-to-one or
+one-to-one (via ForwardOneToOneDescriptor subclass) relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Child.parent</span></code> is a <code class="docutils literal notranslate"><span class="pre">ForwardManyToOneDescriptor</span></code> instance.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="articles.models.Comment.article_id">
+<span class="sig-name descname"><span class="pre">article_id</span></span><a class="headerlink" href="#articles.models.Comment.article_id" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="articles.models.Comment.created_at">
+<span class="sig-name descname"><span class="pre">created_at</span></span><a class="headerlink" href="#articles.models.Comment.created_at" title="Link to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="articles.models.Comment.get_next_by_created_at">
+<span class="sig-name descname"><span class="pre">get_next_by_created_at</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field=&lt;django.db.models.fields.DateTimeField:</span> <span class="pre">created_at&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_next=True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#articles.models.Comment.get_next_by_created_at" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="articles.models.Comment.get_previous_by_created_at">
+<span class="sig-name descname"><span class="pre">get_previous_by_created_at</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field=&lt;django.db.models.fields.DateTimeField:</span> <span class="pre">created_at&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_next=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#articles.models.Comment.get_previous_by_created_at" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="articles.models.Comment.id">
+<span class="sig-name descname"><span class="pre">id</span></span><a class="headerlink" href="#articles.models.Comment.id" title="Link to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="articles.models.Comment.objects">
+<span class="sig-name descname"><span class="pre">objects</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;django.db.models.manager.Manager</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#articles.models.Comment.objects" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="articles.models.Comment.text">
+<span class="sig-name descname"><span class="pre">text</span></span><a class="headerlink" href="#articles.models.Comment.text" title="Link to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="articles.models.Comment.user">
+<span class="sig-name descname"><span class="pre">user</span></span><a class="headerlink" href="#articles.models.Comment.user" title="Link to this definition"></a></dt>
+<dd><p>Accessor to the related object on the forward side of a many-to-one or
+one-to-one (via ForwardOneToOneDescriptor subclass) relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Child.parent</span></code> is a <code class="docutils literal notranslate"><span class="pre">ForwardManyToOneDescriptor</span></code> instance.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="articles.models.Comment.user_id">
+<span class="sig-name descname"><span class="pre">user_id</span></span><a class="headerlink" href="#articles.models.Comment.user_id" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="articles.models.Rating">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">articles.models.</span></span><span class="sig-name descname"><span class="pre">Rating</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/articles/models.html#Rating"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#articles.models.Rating" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Model</span></code></p>
+<p>For users to rate articles.</p>
+<dl class="simple">
+<dt>Fields:</dt><dd><ul class="simple">
+<li><p>article: ForiegnKey, the aricle to be rated.</p></li>
+<li><p>user: ForiegnKey, user who gave the rating.</p></li>
+<li><p>score: PositiveIntegerField, the out of 5 score.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py exception">
+<dt class="sig sig-object py" id="articles.models.Rating.DoesNotExist">
+<em class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">DoesNotExist</span></span><a class="headerlink" href="#articles.models.Rating.DoesNotExist" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ObjectDoesNotExist</span></code></p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="articles.models.Rating.MultipleObjectsReturned">
+<em class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">MultipleObjectsReturned</span></span><a class="headerlink" href="#articles.models.Rating.MultipleObjectsReturned" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">MultipleObjectsReturned</span></code></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="articles.models.Rating.article">
+<span class="sig-name descname"><span class="pre">article</span></span><a class="headerlink" href="#articles.models.Rating.article" title="Link to this definition"></a></dt>
+<dd><p>Accessor to the related object on the forward side of a many-to-one or
+one-to-one (via ForwardOneToOneDescriptor subclass) relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Child.parent</span></code> is a <code class="docutils literal notranslate"><span class="pre">ForwardManyToOneDescriptor</span></code> instance.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="articles.models.Rating.article_id">
+<span class="sig-name descname"><span class="pre">article_id</span></span><a class="headerlink" href="#articles.models.Rating.article_id" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="articles.models.Rating.id">
+<span class="sig-name descname"><span class="pre">id</span></span><a class="headerlink" href="#articles.models.Rating.id" title="Link to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="articles.models.Rating.objects">
+<span class="sig-name descname"><span class="pre">objects</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;django.db.models.manager.Manager</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#articles.models.Rating.objects" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="articles.models.Rating.score">
+<span class="sig-name descname"><span class="pre">score</span></span><a class="headerlink" href="#articles.models.Rating.score" title="Link to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="articles.models.Rating.user">
+<span class="sig-name descname"><span class="pre">user</span></span><a class="headerlink" href="#articles.models.Rating.user" title="Link to this definition"></a></dt>
+<dd><p>Accessor to the related object on the forward side of a many-to-one or
+one-to-one (via ForwardOneToOneDescriptor subclass) relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Child.parent</span></code> is a <code class="docutils literal notranslate"><span class="pre">ForwardManyToOneDescriptor</span></code> instance.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="articles.models.Rating.user_id">
+<span class="sig-name descname"><span class="pre">user_id</span></span><a class="headerlink" href="#articles.models.Rating.user_id" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-articles.permissions">
+<span id="articles-permissions-module"></span><h2>articles.permissions module<a class="headerlink" href="#module-articles.permissions" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="articles.permissions.IsEditorOrJournalist">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">articles.permissions.</span></span><span class="sig-name descname"><span class="pre">IsEditorOrJournalist</span></span><a class="reference internal" href="_modules/articles/permissions.html#IsEditorOrJournalist"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#articles.permissions.IsEditorOrJournalist" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BasePermission</span></code></p>
+<p>To ensure user is an editor or journalist.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="articles.permissions.IsEditorOrJournalist.has_permission">
+<span class="sig-name descname"><span class="pre">has_permission</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">view</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/articles/permissions.html#IsEditorOrJournalist.has_permission"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#articles.permissions.IsEditorOrJournalist.has_permission" title="Link to this definition"></a></dt>
+<dd><p>Return <cite>True</cite> if permission is granted, <cite>False</cite> otherwise.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="articles.permissions.ReadOnly">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">articles.permissions.</span></span><span class="sig-name descname"><span class="pre">ReadOnly</span></span><a class="reference internal" href="_modules/articles/permissions.html#ReadOnly"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#articles.permissions.ReadOnly" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BasePermission</span></code></p>
+<p>To enforce read only permission.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="articles.permissions.ReadOnly.has_permission">
+<span class="sig-name descname"><span class="pre">has_permission</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">view</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/articles/permissions.html#ReadOnly.has_permission"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#articles.permissions.ReadOnly.has_permission" title="Link to this definition"></a></dt>
+<dd><p>Return <cite>True</cite> if permission is granted, <cite>False</cite> otherwise.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-articles.serializers">
+<span id="articles-serializers-module"></span><h2>articles.serializers module<a class="headerlink" href="#module-articles.serializers" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="articles.serializers.ArticleSerializer">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">articles.serializers.</span></span><span class="sig-name descname"><span class="pre">ArticleSerializer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/articles/serializers.html#ArticleSerializer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#articles.serializers.ArticleSerializer" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ModelSerializer</span></code></p>
+<p>Article serializer.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="articles.serializers.ArticleSerializer.Meta">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Meta</span></span><a class="reference internal" href="_modules/articles/serializers.html#ArticleSerializer.Meta"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#articles.serializers.ArticleSerializer.Meta" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="articles.serializers.ArticleSerializer.Meta.fields">
+<span class="sig-name descname"><span class="pre">fields</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['id',</span> <span class="pre">'title',</span> <span class="pre">'type',</span> <span class="pre">'content',</span> <span class="pre">'status',</span> <span class="pre">'feedback',</span> <span class="pre">'author_name',</span> <span class="pre">'publication',</span> <span class="pre">'created_at',</span> <span class="pre">'updated_at']</span></em><a class="headerlink" href="#articles.serializers.ArticleSerializer.Meta.fields" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="articles.serializers.ArticleSerializer.Meta.model">
+<span class="sig-name descname"><span class="pre">model</span></span><a class="headerlink" href="#articles.serializers.ArticleSerializer.Meta.model" title="Link to this definition"></a></dt>
+<dd><p>alias of <a class="reference internal" href="#articles.models.Article" title="articles.models.Article"><code class="xref py py-class docutils literal notranslate"><span class="pre">Article</span></code></a></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="articles.serializers.ArticleSerializer.Meta.read_only_fields">
+<span class="sig-name descname"><span class="pre">read_only_fields</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['author_name',</span> <span class="pre">'status',</span> <span class="pre">'feedback']</span></em><a class="headerlink" href="#articles.serializers.ArticleSerializer.Meta.read_only_fields" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="articles.serializers.ArticleSerializer.create">
+<span class="sig-name descname"><span class="pre">create</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">validated_data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/articles/serializers.html#ArticleSerializer.create"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#articles.serializers.ArticleSerializer.create" title="Link to this definition"></a></dt>
+<dd><p>Automatically assign author and set publication status:
+- Independent articles (no publication) auto-publish.
+- Publication-linked articles go to pending approval.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="articles.serializers.CommentSerializer">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">articles.serializers.</span></span><span class="sig-name descname"><span class="pre">CommentSerializer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/articles/serializers.html#CommentSerializer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#articles.serializers.CommentSerializer" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ModelSerializer</span></code></p>
+<p>Serializer for user comments.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="articles.serializers.CommentSerializer.Meta">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Meta</span></span><a class="reference internal" href="_modules/articles/serializers.html#CommentSerializer.Meta"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#articles.serializers.CommentSerializer.Meta" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="articles.serializers.CommentSerializer.Meta.fields">
+<span class="sig-name descname"><span class="pre">fields</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['id',</span> <span class="pre">'article',</span> <span class="pre">'user',</span> <span class="pre">'user_display',</span> <span class="pre">'text',</span> <span class="pre">'created_at']</span></em><a class="headerlink" href="#articles.serializers.CommentSerializer.Meta.fields" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="articles.serializers.CommentSerializer.Meta.model">
+<span class="sig-name descname"><span class="pre">model</span></span><a class="headerlink" href="#articles.serializers.CommentSerializer.Meta.model" title="Link to this definition"></a></dt>
+<dd><p>alias of <a class="reference internal" href="#articles.models.Comment" title="articles.models.Comment"><code class="xref py py-class docutils literal notranslate"><span class="pre">Comment</span></code></a></p>
+</dd></dl>
+
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="articles.serializers.RatingSerializer">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">articles.serializers.</span></span><span class="sig-name descname"><span class="pre">RatingSerializer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/articles/serializers.html#RatingSerializer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#articles.serializers.RatingSerializer" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ModelSerializer</span></code></p>
+<p>Serializer for user ratings.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="articles.serializers.RatingSerializer.Meta">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Meta</span></span><a class="reference internal" href="_modules/articles/serializers.html#RatingSerializer.Meta"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#articles.serializers.RatingSerializer.Meta" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="articles.serializers.RatingSerializer.Meta.fields">
+<span class="sig-name descname"><span class="pre">fields</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['id',</span> <span class="pre">'article',</span> <span class="pre">'user',</span> <span class="pre">'user_display',</span> <span class="pre">'score']</span></em><a class="headerlink" href="#articles.serializers.RatingSerializer.Meta.fields" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="articles.serializers.RatingSerializer.Meta.model">
+<span class="sig-name descname"><span class="pre">model</span></span><a class="headerlink" href="#articles.serializers.RatingSerializer.Meta.model" title="Link to this definition"></a></dt>
+<dd><p>alias of <a class="reference internal" href="#articles.models.Rating" title="articles.models.Rating"><code class="xref py py-class docutils literal notranslate"><span class="pre">Rating</span></code></a></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="articles.serializers.RatingSerializer.validate">
+<span class="sig-name descname"><span class="pre">validate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/articles/serializers.html#RatingSerializer.validate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#articles.serializers.RatingSerializer.validate" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-articles.signals">
+<span id="articles-signals-module"></span><h2>articles.signals module<a class="headerlink" href="#module-articles.signals" title="Link to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="articles.signals.handle_article_publication">
+<span class="sig-prename descclassname"><span class="pre">articles.signals.</span></span><span class="sig-name descname"><span class="pre">handle_article_publication</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sender</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">instance</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">created</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/articles/signals.html#handle_article_publication"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#articles.signals.handle_article_publication" title="Link to this definition"></a></dt>
+<dd><p>Send tweet + email ONLY when an article is actually published.
+- Independent articles (no publication): notify if created as ‘published’.
+- Publication articles: notify only when status changes to ‘published’</p>
+<blockquote>
+<div><p><em>after</em> editor approval.</p>
+</div></blockquote>
+</dd></dl>
+
+</section>
+<section id="module-articles.tests">
+<span id="articles-tests-module"></span><h2>articles.tests module<a class="headerlink" href="#module-articles.tests" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="articles.tests.JournalistFlowTests">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">articles.tests.</span></span><span class="sig-name descname"><span class="pre">JournalistFlowTests</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">methodName</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'runTest'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/articles/tests.html#JournalistFlowTests"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#articles.tests.JournalistFlowTests" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">TestCase</span></code></p>
+<p>Tests journalist workflow including article creation,
+automatic publishing for independent article, and dashboard display.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="articles.tests.JournalistFlowTests.setUp">
+<span class="sig-name descname"><span class="pre">setUp</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/articles/tests.html#JournalistFlowTests.setUp"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#articles.tests.JournalistFlowTests.setUp" title="Link to this definition"></a></dt>
+<dd><p>Hook method for setting up the test fixture before exercising it.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="articles.tests.JournalistFlowTests.test_journalist_can_access_dashboard">
+<span class="sig-name descname"><span class="pre">test_journalist_can_access_dashboard</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/articles/tests.html#JournalistFlowTests.test_journalist_can_access_dashboard"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#articles.tests.JournalistFlowTests.test_journalist_can_access_dashboard" title="Link to this definition"></a></dt>
+<dd><p>Tests journalist dashboard loads correctly.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="articles.tests.JournalistFlowTests.test_journalist_creates_article_for_publication_needs_approval">
+<span class="sig-name descname"><span class="pre">test_journalist_creates_article_for_publication_needs_approval</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/articles/tests.html#JournalistFlowTests.test_journalist_creates_article_for_publication_needs_approval"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#articles.tests.JournalistFlowTests.test_journalist_creates_article_for_publication_needs_approval" title="Link to this definition"></a></dt>
+<dd><p>Tests that journalist articles linked to a publication should
+need editor approval before they’re published.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="articles.tests.JournalistFlowTests.test_journalist_creates_independent_article_auto_publishes">
+<span class="sig-name descname"><span class="pre">test_journalist_creates_independent_article_auto_publishes</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/articles/tests.html#JournalistFlowTests.test_journalist_creates_independent_article_auto_publishes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#articles.tests.JournalistFlowTests.test_journalist_creates_independent_article_auto_publishes" title="Link to this definition"></a></dt>
+<dd><p>Tests that independent articles publish immediately.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="articles.tests.JournalistFlowTests.test_journalist_sees_articles_in_dashboard_sections">
+<span class="sig-name descname"><span class="pre">test_journalist_sees_articles_in_dashboard_sections</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/articles/tests.html#JournalistFlowTests.test_journalist_sees_articles_in_dashboard_sections"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#articles.tests.JournalistFlowTests.test_journalist_sees_articles_in_dashboard_sections" title="Link to this definition"></a></dt>
+<dd><p>Tests that articles have correct categories in the dashboard.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-articles.tweepy">
+<span id="articles-tweepy-module"></span><h2>articles.tweepy module<a class="headerlink" href="#module-articles.tweepy" title="Link to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="articles.tweepy.get_twitter_client">
+<span class="sig-prename descclassname"><span class="pre">articles.tweepy.</span></span><span class="sig-name descname"><span class="pre">get_twitter_client</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/articles/tweepy.html#get_twitter_client"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#articles.tweepy.get_twitter_client" title="Link to this definition"></a></dt>
+<dd><p>Authenticate tweepy.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="articles.tweepy.tweet_article">
+<span class="sig-prename descclassname"><span class="pre">articles.tweepy.</span></span><span class="sig-name descname"><span class="pre">tweet_article</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">article</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/articles/tweepy.html#tweet_article"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#articles.tweepy.tweet_article" title="Link to this definition"></a></dt>
+<dd><p>Send a tweet when an article or newsletter is published.</p>
+</dd></dl>
+
+</section>
+<section id="module-articles.urls">
+<span id="articles-urls-module"></span><h2>articles.urls module<a class="headerlink" href="#module-articles.urls" title="Link to this heading"></a></h2>
+</section>
+<section id="module-articles.views">
+<span id="articles-views-module"></span><h2>articles.views module<a class="headerlink" href="#module-articles.views" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="articles.views.ApproveArticleView">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">articles.views.</span></span><span class="sig-name descname"><span class="pre">ApproveArticleView</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/articles/views.html#ApproveArticleView"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#articles.views.ApproveArticleView" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">LoginRequiredMixin</span></code>, <a class="reference internal" href="#articles.views.EditorPermissionMixin" title="articles.views.EditorPermissionMixin"><code class="xref py py-class docutils literal notranslate"><span class="pre">EditorPermissionMixin</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">TemplateView</span></code></p>
+<p>Handle article approval by editors.</p>
+<p>Changes the article’s status to published.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="articles.views.ApproveArticleView.post">
+<span class="sig-name descname"><span class="pre">post</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/articles/views.html#ApproveArticleView.post"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#articles.views.ApproveArticleView.post" title="Link to this definition"></a></dt>
+<dd><p>Approve an article and mark it as published.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>request</strong> (<em>HttpRequest</em>) – Current HTTP request.</p></li>
+<li><p><strong>*args</strong> – <p>Positional arguments.</p>
+</p></li>
+<li><p><strong>**kwargs</strong> – <p>Keyword arguments containing the article ID.</p>
+</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Redirect to the pending articles list.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>HttpResponseRedirect</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="articles.views.ArticleCreateView">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">articles.views.</span></span><span class="sig-name descname"><span class="pre">ArticleCreateView</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/articles/views.html#ArticleCreateView"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#articles.views.ArticleCreateView" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">LoginRequiredMixin</span></code>, <a class="reference internal" href="#articles.views.JournalistPermissionMixin" title="articles.views.JournalistPermissionMixin"><code class="xref py py-class docutils literal notranslate"><span class="pre">JournalistPermissionMixin</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">CreateView</span></code></p>
+<p>Allow journalists to create new articles or newsletters.</p>
+<p>Independent articles are published automatically, while those linked
+to a publication are submitted for editor approval.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="articles.views.ArticleCreateView.form_class">
+<span class="sig-name descname"><span class="pre">form_class</span></span><a class="headerlink" href="#articles.views.ArticleCreateView.form_class" title="Link to this definition"></a></dt>
+<dd><p>alias of <a class="reference internal" href="#articles.forms.ArticleForm" title="articles.forms.ArticleForm"><code class="xref py py-class docutils literal notranslate"><span class="pre">ArticleForm</span></code></a></p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="articles.views.ArticleCreateView.form_invalid">
+<span class="sig-name descname"><span class="pre">form_invalid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">form</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/articles/views.html#ArticleCreateView.form_invalid"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#articles.views.ArticleCreateView.form_invalid" title="Link to this definition"></a></dt>
+<dd><p>Handle invalid form submission.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>form</strong> (<a class="reference internal" href="#articles.forms.ArticleForm" title="articles.forms.ArticleForm"><em>ArticleForm</em></a>) – Form containing validation errors.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Re-rendered form with error messages.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>HttpResponse</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="articles.views.ArticleCreateView.form_valid">
+<span class="sig-name descname"><span class="pre">form_valid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">form</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/articles/views.html#ArticleCreateView.form_valid"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#articles.views.ArticleCreateView.form_valid" title="Link to this definition"></a></dt>
+<dd><p>Save a valid form, assign author, and set publication status.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>form</strong> (<a class="reference internal" href="#articles.forms.ArticleForm" title="articles.forms.ArticleForm"><em>ArticleForm</em></a>) – Submitted form with validated data.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Redirect to dashboard after successful creation.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>HttpResponseRedirect</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="articles.views.ArticleCreateView.get_form">
+<span class="sig-name descname"><span class="pre">get_form</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">form_class</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/articles/views.html#ArticleCreateView.get_form"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#articles.views.ArticleCreateView.get_form" title="Link to this definition"></a></dt>
+<dd><p>Limit publication choices to those the journalist belongs to.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>form_class</strong> (<em>Form</em><em> or </em><em>None</em>) – Form class used to render the article form.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Form instance with filtered publication queryset.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#articles.forms.ArticleForm" title="articles.forms.ArticleForm">ArticleForm</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="articles.views.ArticleCreateView.model">
+<span class="sig-name descname"><span class="pre">model</span></span><a class="headerlink" href="#articles.views.ArticleCreateView.model" title="Link to this definition"></a></dt>
+<dd><p>alias of <a class="reference internal" href="#articles.models.Article" title="articles.models.Article"><code class="xref py py-class docutils literal notranslate"><span class="pre">Article</span></code></a></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="articles.views.ArticleCreateView.success_url">
+<span class="sig-name descname"><span class="pre">success_url</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'/articles/journalist/dashboard/'</span></em><a class="headerlink" href="#articles.views.ArticleCreateView.success_url" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="articles.views.ArticleCreateView.template_name">
+<span class="sig-name descname"><span class="pre">template_name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'articles/article_form.html'</span></em><a class="headerlink" href="#articles.views.ArticleCreateView.template_name" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="articles.views.ArticleDeleteView">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">articles.views.</span></span><span class="sig-name descname"><span class="pre">ArticleDeleteView</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/articles/views.html#ArticleDeleteView"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#articles.views.ArticleDeleteView" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">LoginRequiredMixin</span></code>, <a class="reference internal" href="#articles.views.JournalistPermissionMixin" title="articles.views.JournalistPermissionMixin"><code class="xref py py-class docutils literal notranslate"><span class="pre">JournalistPermissionMixin</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">DeleteView</span></code></p>
+<p>Allow journalists to delete their own articles or newsletters.</p>
+<p>Requires login and journalist permissions.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="articles.views.ArticleDeleteView.get_queryset">
+<span class="sig-name descname"><span class="pre">get_queryset</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/articles/views.html#ArticleDeleteView.get_queryset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#articles.views.ArticleDeleteView.get_queryset" title="Link to this definition"></a></dt>
+<dd><p>Restrict deletable articles to those authored by the current user.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>QuerySet of articles owned by the journalist.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>QuerySet</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="articles.views.ArticleDeleteView.model">
+<span class="sig-name descname"><span class="pre">model</span></span><a class="headerlink" href="#articles.views.ArticleDeleteView.model" title="Link to this definition"></a></dt>
+<dd><p>alias of <a class="reference internal" href="#articles.models.Article" title="articles.models.Article"><code class="xref py py-class docutils literal notranslate"><span class="pre">Article</span></code></a></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="articles.views.ArticleDeleteView.success_url">
+<span class="sig-name descname"><span class="pre">success_url</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'/articles/journalist/dashboard/'</span></em><a class="headerlink" href="#articles.views.ArticleDeleteView.success_url" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="articles.views.ArticleDeleteView.template_name">
+<span class="sig-name descname"><span class="pre">template_name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'articles/article_delete.html'</span></em><a class="headerlink" href="#articles.views.ArticleDeleteView.template_name" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="articles.views.ArticleDetailView">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">articles.views.</span></span><span class="sig-name descname"><span class="pre">ArticleDetailView</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/articles/views.html#ArticleDetailView"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#articles.views.ArticleDetailView" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">DetailView</span></code></p>
+<p>Display a detailed view of a published article or newsletter.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>DetailView</strong> – Renders the article detail template.</p>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="articles.views.ArticleDetailView.context_object_name">
+<span class="sig-name descname"><span class="pre">context_object_name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'article'</span></em><a class="headerlink" href="#articles.views.ArticleDetailView.context_object_name" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="articles.views.ArticleDetailView.get_context_data">
+<span class="sig-name descname"><span class="pre">get_context_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/articles/views.html#ArticleDetailView.get_context_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#articles.views.ArticleDetailView.get_context_data" title="Link to this definition"></a></dt>
+<dd><p>Add subscription info to context for publication and journalist.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>**kwargs</strong> – <p>Additional context data.</p>
+</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Updated context dictionary.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="articles.views.ArticleDetailView.get_queryset">
+<span class="sig-name descname"><span class="pre">get_queryset</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/articles/views.html#ArticleDetailView.get_queryset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#articles.views.ArticleDetailView.get_queryset" title="Link to this definition"></a></dt>
+<dd><p>Limit visibility to published items for readers and include
+author’s own drafts.</p>
+<blockquote>
+<div><dl class="field-list simple">
+<dt class="field-odd">return<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Filtered queryset of articles.</p>
+</dd>
+<dt class="field-even">rtype<span class="colon">:</span></dt>
+<dd class="field-even"><p>QuerySet</p>
+</dd>
+</dl>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="articles.views.ArticleDetailView.model">
+<span class="sig-name descname"><span class="pre">model</span></span><a class="headerlink" href="#articles.views.ArticleDetailView.model" title="Link to this definition"></a></dt>
+<dd><p>alias of <a class="reference internal" href="#articles.models.Article" title="articles.models.Article"><code class="xref py py-class docutils literal notranslate"><span class="pre">Article</span></code></a></p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="articles.views.ArticleDetailView.post">
+<span class="sig-name descname"><span class="pre">post</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/articles/views.html#ArticleDetailView.post"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#articles.views.ArticleDetailView.post" title="Link to this definition"></a></dt>
+<dd><p>Handle comments, ratings, and subscription actions, then redirect
+to the article detail page.</p>
+<blockquote>
+<div><dl class="field-list simple">
+<dt class="field-odd">param request<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Current HTTP request.</p>
+</dd>
+<dt class="field-even">type request<span class="colon">:</span></dt>
+<dd class="field-even"><p>HttpRequest</p>
+</dd>
+<dt class="field-odd">return<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Redirect to article detail.</p>
+</dd>
+<dt class="field-even">rtype<span class="colon">:</span></dt>
+<dd class="field-even"><p>HttpResponseRedirect</p>
+</dd>
+</dl>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="articles.views.ArticleDetailView.slug_field">
+<span class="sig-name descname"><span class="pre">slug_field</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'slug'</span></em><a class="headerlink" href="#articles.views.ArticleDetailView.slug_field" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="articles.views.ArticleDetailView.slug_url_kwarg">
+<span class="sig-name descname"><span class="pre">slug_url_kwarg</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'slug'</span></em><a class="headerlink" href="#articles.views.ArticleDetailView.slug_url_kwarg" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="articles.views.ArticleDetailView.template_name">
+<span class="sig-name descname"><span class="pre">template_name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'articles/article_detail.html'</span></em><a class="headerlink" href="#articles.views.ArticleDetailView.template_name" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="articles.views.ArticleListView">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">articles.views.</span></span><span class="sig-name descname"><span class="pre">ArticleListView</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/articles/views.html#ArticleListView"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#articles.views.ArticleListView" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">LoginRequiredMixin</span></code>, <a class="reference internal" href="core.html#core.mixins.PaginationMixin" title="core.mixins.PaginationMixin"><code class="xref py py-class docutils literal notranslate"><span class="pre">PaginationMixin</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">ListView</span></code></p>
+<p>Displays a list of published articles and newsletters.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>LoginRequiredMixin</strong> – ensures user is logged in to view the list.</p></li>
+<li><p><strong>ListView</strong> – provides paginated display of articles and
+newsletters.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="articles.views.ArticleListView.context_object_name">
+<span class="sig-name descname"><span class="pre">context_object_name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'articles'</span></em><a class="headerlink" href="#articles.views.ArticleListView.context_object_name" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="articles.views.ArticleListView.get_context_data">
+<span class="sig-name descname"><span class="pre">get_context_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/articles/views.html#ArticleListView.get_context_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#articles.views.ArticleListView.get_context_data" title="Link to this definition"></a></dt>
+<dd><p>Adds separate article and newsletter lists to context.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return context<span class="colon">:</span></dt>
+<dd class="field-odd"><p>published articles and newsletters.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="articles.views.ArticleListView.get_queryset">
+<span class="sig-name descname"><span class="pre">get_queryset</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/articles/views.html#ArticleListView.get_queryset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#articles.views.ArticleListView.get_queryset" title="Link to this definition"></a></dt>
+<dd><p>Returns the queryset for published articles or newsletters.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return queryset<span class="colon">:</span></dt>
+<dd class="field-odd"><p>filteres by type (if specified) and status.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="articles.views.ArticleListView.model">
+<span class="sig-name descname"><span class="pre">model</span></span><a class="headerlink" href="#articles.views.ArticleListView.model" title="Link to this definition"></a></dt>
+<dd><p>alias of <a class="reference internal" href="#articles.models.Article" title="articles.models.Article"><code class="xref py py-class docutils literal notranslate"><span class="pre">Article</span></code></a></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="articles.views.ArticleListView.paginate_by">
+<span class="sig-name descname"><span class="pre">paginate_by</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">10</span></em><a class="headerlink" href="#articles.views.ArticleListView.paginate_by" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="articles.views.ArticleListView.template_name">
+<span class="sig-name descname"><span class="pre">template_name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'articles/article_list.html'</span></em><a class="headerlink" href="#articles.views.ArticleListView.template_name" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="articles.views.ArticleUpdateView">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">articles.views.</span></span><span class="sig-name descname"><span class="pre">ArticleUpdateView</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/articles/views.html#ArticleUpdateView"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#articles.views.ArticleUpdateView" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">LoginRequiredMixin</span></code>, <a class="reference internal" href="#articles.views.JournalistPermissionMixin" title="articles.views.JournalistPermissionMixin"><code class="xref py py-class docutils literal notranslate"><span class="pre">JournalistPermissionMixin</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">UpdateView</span></code></p>
+<p>Allow journalists to edit their existing articles or newsletters.</p>
+<p>Independent articles are published automatically, while publication-linked
+ones are submitted for approval. Journalists can only edit their own work.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="articles.views.ArticleUpdateView.form_class">
+<span class="sig-name descname"><span class="pre">form_class</span></span><a class="headerlink" href="#articles.views.ArticleUpdateView.form_class" title="Link to this definition"></a></dt>
+<dd><p>alias of <a class="reference internal" href="#articles.forms.ArticleForm" title="articles.forms.ArticleForm"><code class="xref py py-class docutils literal notranslate"><span class="pre">ArticleForm</span></code></a></p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="articles.views.ArticleUpdateView.form_invalid">
+<span class="sig-name descname"><span class="pre">form_invalid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">form</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/articles/views.html#ArticleUpdateView.form_invalid"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#articles.views.ArticleUpdateView.form_invalid" title="Link to this definition"></a></dt>
+<dd><p>Handle invalid form submissions.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>form</strong> (<a class="reference internal" href="#articles.forms.ArticleForm" title="articles.forms.ArticleForm"><em>ArticleForm</em></a>) – Form containing validation errors.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Re-rendered form with error messages.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>HttpResponse</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="articles.views.ArticleUpdateView.form_valid">
+<span class="sig-name descname"><span class="pre">form_valid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">form</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/articles/views.html#ArticleUpdateView.form_valid"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#articles.views.ArticleUpdateView.form_valid" title="Link to this definition"></a></dt>
+<dd><p>Save changes and update publication status and timestamps.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>form</strong> (<a class="reference internal" href="#articles.forms.ArticleForm" title="articles.forms.ArticleForm"><em>ArticleForm</em></a>) – Submitted article form with valid data.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Redirect to dashboard after successful update.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>HttpResponseRedirect</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="articles.views.ArticleUpdateView.get_form">
+<span class="sig-name descname"><span class="pre">get_form</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">form_class</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/articles/views.html#ArticleUpdateView.get_form"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#articles.views.ArticleUpdateView.get_form" title="Link to this definition"></a></dt>
+<dd><p>Limit publication choices to the journalist’s memberships.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>form_class</strong> (<em>Form</em><em> or </em><em>None</em>) – Form class used to render the update form.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Form instance with filtered publication queryset.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#articles.forms.ArticleForm" title="articles.forms.ArticleForm">ArticleForm</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="articles.views.ArticleUpdateView.get_queryset">
+<span class="sig-name descname"><span class="pre">get_queryset</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/articles/views.html#ArticleUpdateView.get_queryset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#articles.views.ArticleUpdateView.get_queryset" title="Link to this definition"></a></dt>
+<dd><p>Restrict editable articles to the current journalist.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Queryset containing only the journalist’s articles.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>QuerySet</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="articles.views.ArticleUpdateView.model">
+<span class="sig-name descname"><span class="pre">model</span></span><a class="headerlink" href="#articles.views.ArticleUpdateView.model" title="Link to this definition"></a></dt>
+<dd><p>alias of <a class="reference internal" href="#articles.models.Article" title="articles.models.Article"><code class="xref py py-class docutils literal notranslate"><span class="pre">Article</span></code></a></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="articles.views.ArticleUpdateView.success_url">
+<span class="sig-name descname"><span class="pre">success_url</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'/articles/journalist/dashboard/'</span></em><a class="headerlink" href="#articles.views.ArticleUpdateView.success_url" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="articles.views.ArticleUpdateView.template_name">
+<span class="sig-name descname"><span class="pre">template_name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'articles/article_form.html'</span></em><a class="headerlink" href="#articles.views.ArticleUpdateView.template_name" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="articles.views.ArticleViewSet">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">articles.views.</span></span><span class="sig-name descname"><span class="pre">ArticleViewSet</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/articles/views.html#ArticleViewSet"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#articles.views.ArticleViewSet" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ModelViewSet</span></code></p>
+<p>View for managing and viewing published articles.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>ModelViewSet</strong> – Base class for REST framework viewsets.</p>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="articles.views.ArticleViewSet.basename">
+<span class="sig-name descname"><span class="pre">basename</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#articles.views.ArticleViewSet.basename" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="articles.views.ArticleViewSet.description">
+<span class="sig-name descname"><span class="pre">description</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#articles.views.ArticleViewSet.description" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="articles.views.ArticleViewSet.detail">
+<span class="sig-name descname"><span class="pre">detail</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#articles.views.ArticleViewSet.detail" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="articles.views.ArticleViewSet.get_object">
+<span class="sig-name descname"><span class="pre">get_object</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/articles/views.html#ArticleViewSet.get_object"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#articles.views.ArticleViewSet.get_object" title="Link to this definition"></a></dt>
+<dd><p>Retrieve an article by slug.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Article instance.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="#articles.models.Article" title="articles.models.Article">Article</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="articles.views.ArticleViewSet.get_queryset">
+<span class="sig-name descname"><span class="pre">get_queryset</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/articles/views.html#ArticleViewSet.get_queryset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#articles.views.ArticleViewSet.get_queryset" title="Link to this definition"></a></dt>
+<dd><p>Return all published articles.</p>
+<blockquote>
+<div><dl class="field-list simple">
+<dt class="field-odd">return<span class="colon">:</span></dt>
+<dd class="field-odd"><p>QuerySet of published articles.</p>
+</dd>
+<dt class="field-even">rtype<span class="colon">:</span></dt>
+<dd class="field-even"><p>QuerySet</p>
+</dd>
+</dl>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="articles.views.ArticleViewSet.my_submissions">
+<span class="sig-name descname"><span class="pre">my_submissions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/articles/views.html#ArticleViewSet.my_submissions"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#articles.views.ArticleViewSet.my_submissions" title="Link to this definition"></a></dt>
+<dd><p>Return journalist’s articles grouped by status.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>request</strong> (<em>Request</em>) – HTTP request object.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Categorized articles.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Response</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="articles.views.ArticleViewSet.name">
+<span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#articles.views.ArticleViewSet.name" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="articles.views.ArticleViewSet.perform_create">
+<span class="sig-name descname"><span class="pre">perform_create</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">serializer</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/articles/views.html#ArticleViewSet.perform_create"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#articles.views.ArticleViewSet.perform_create" title="Link to this definition"></a></dt>
+<dd><p>Set current user as author and publish if no publication is linked.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>serializer</strong> (<a class="reference internal" href="#articles.serializers.ArticleSerializer" title="articles.serializers.ArticleSerializer"><em>ArticleSerializer</em></a>) – Article serializer instance.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="articles.views.ArticleViewSet.permission_classes">
+<span class="sig-name descname"><span class="pre">permission_classes</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[&lt;class</span> <span class="pre">'rest_framework.permissions.IsAuthenticated'&gt;]</span></em><a class="headerlink" href="#articles.views.ArticleViewSet.permission_classes" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="articles.views.ArticleViewSet.queryset">
+<span class="sig-name descname"><span class="pre">queryset</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;QuerySet</span> <span class="pre">[&lt;Article:</span> <span class="pre">Newsletter</span> <span class="pre">(Newsletter</span> <span class="pre">-</span> <span class="pre">Published)&gt;,</span> <span class="pre">&lt;Article:</span> <span class="pre">test</span> <span class="pre">newletter</span> <span class="pre">(Newsletter</span> <span class="pre">-</span> <span class="pre">Published)&gt;,</span> <span class="pre">&lt;Article:</span> <span class="pre">image</span> <span class="pre">test</span> <span class="pre">(Article</span> <span class="pre">-</span> <span class="pre">Published)&gt;,</span> <span class="pre">&lt;Article:</span> <span class="pre">editor</span> <span class="pre">appproval</span> <span class="pre">test</span> <span class="pre">(Article</span> <span class="pre">-</span> <span class="pre">Published)&gt;,</span> <span class="pre">&lt;Article:</span> <span class="pre">newsletter</span> <span class="pre">editor</span> <span class="pre">(Newsletter</span> <span class="pre">-</span> <span class="pre">Published)&gt;,</span> <span class="pre">&lt;Article:</span> <span class="pre">email</span> <span class="pre">test</span> <span class="pre">(Article</span> <span class="pre">-</span> <span class="pre">Published)&gt;,</span> <span class="pre">&lt;Article:</span> <span class="pre">twewet</span> <span class="pre">(Article</span> <span class="pre">-</span> <span class="pre">Published)&gt;,</span> <span class="pre">&lt;Article:</span> <span class="pre">bfrbf</span> <span class="pre">(Article</span> <span class="pre">-</span> <span class="pre">Published)&gt;,</span> <span class="pre">&lt;Article:</span> <span class="pre">brbw</span> <span class="pre">(Article</span> <span class="pre">-</span> <span class="pre">Published)&gt;,</span> <span class="pre">&lt;Article:</span> <span class="pre">Pagination</span> <span class="pre">test</span> <span class="pre">(Article</span> <span class="pre">-</span> <span class="pre">Published)&gt;,</span> <span class="pre">&lt;Article:</span> <span class="pre">PS6</span> <span class="pre">(Article</span> <span class="pre">-</span> <span class="pre">Published)&gt;,</span> <span class="pre">&lt;Article:</span> <span class="pre">trigger</span> <span class="pre">test</span> <span class="pre">(Article</span> <span class="pre">-</span> <span class="pre">Published)&gt;,</span> <span class="pre">&lt;Article:</span> <span class="pre">dbeaqb</span> <span class="pre">(Article</span> <span class="pre">-</span> <span class="pre">Published)&gt;,</span> <span class="pre">&lt;Article:</span> <span class="pre">dwbwr</span> <span class="pre">(Article</span> <span class="pre">-</span> <span class="pre">Published)&gt;,</span> <span class="pre">&lt;Article:</span> <span class="pre">signal</span> <span class="pre">test</span> <span class="pre">(Article</span> <span class="pre">-</span> <span class="pre">Published)&gt;,</span> <span class="pre">&lt;Article:</span> <span class="pre">signal</span> <span class="pre">test</span> <span class="pre">2</span> <span class="pre">(Newsletter</span> <span class="pre">-</span> <span class="pre">Published)&gt;,</span> <span class="pre">&lt;Article:</span> <span class="pre">test</span> <span class="pre">sub</span> <span class="pre">(Article</span> <span class="pre">-</span> <span class="pre">Pending</span> <span class="pre">Approval)&gt;]&gt;</span></em><a class="headerlink" href="#articles.views.ArticleViewSet.queryset" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="articles.views.ArticleViewSet.serializer_class">
+<span class="sig-name descname"><span class="pre">serializer_class</span></span><a class="headerlink" href="#articles.views.ArticleViewSet.serializer_class" title="Link to this definition"></a></dt>
+<dd><p>alias of <a class="reference internal" href="#articles.serializers.ArticleSerializer" title="articles.serializers.ArticleSerializer"><code class="xref py py-class docutils literal notranslate"><span class="pre">ArticleSerializer</span></code></a></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="articles.views.ArticleViewSet.suffix">
+<span class="sig-name descname"><span class="pre">suffix</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#articles.views.ArticleViewSet.suffix" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="articles.views.CommentViewSet">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">articles.views.</span></span><span class="sig-name descname"><span class="pre">CommentViewSet</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/articles/views.html#CommentViewSet"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#articles.views.CommentViewSet" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ModelViewSet</span></code></p>
+<p>Manage article comments from authenticated users.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="articles.views.CommentViewSet.basename">
+<span class="sig-name descname"><span class="pre">basename</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#articles.views.CommentViewSet.basename" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="articles.views.CommentViewSet.description">
+<span class="sig-name descname"><span class="pre">description</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#articles.views.CommentViewSet.description" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="articles.views.CommentViewSet.detail">
+<span class="sig-name descname"><span class="pre">detail</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#articles.views.CommentViewSet.detail" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="articles.views.CommentViewSet.name">
+<span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#articles.views.CommentViewSet.name" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="articles.views.CommentViewSet.perform_create">
+<span class="sig-name descname"><span class="pre">perform_create</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">serializer</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/articles/views.html#CommentViewSet.perform_create"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#articles.views.CommentViewSet.perform_create" title="Link to this definition"></a></dt>
+<dd><p>Assign the current user to the created comment.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>serializer</strong> (<a class="reference internal" href="#articles.serializers.CommentSerializer" title="articles.serializers.CommentSerializer"><em>CommentSerializer</em></a>) – Comment serializer instance.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="articles.views.CommentViewSet.permission_classes">
+<span class="sig-name descname"><span class="pre">permission_classes</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[&lt;rest_framework.permissions.OperandHolder</span> <span class="pre">object&gt;]</span></em><a class="headerlink" href="#articles.views.CommentViewSet.permission_classes" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="articles.views.CommentViewSet.queryset">
+<span class="sig-name descname"><span class="pre">queryset</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;QuerySet</span> <span class="pre">[&lt;Comment:</span> <span class="pre">Comment</span> <span class="pre">by</span> <span class="pre">reader&#64;test.com</span> <span class="pre">on</span> <span class="pre">signal</span> <span class="pre">test</span> <span class="pre">(Article</span> <span class="pre">-</span> <span class="pre">Published)&gt;,</span> <span class="pre">&lt;Comment:</span> <span class="pre">Comment</span> <span class="pre">by</span> <span class="pre">reader&#64;test.com</span> <span class="pre">on</span> <span class="pre">signal</span> <span class="pre">test</span> <span class="pre">(Article</span> <span class="pre">-</span> <span class="pre">Published)&gt;]&gt;</span></em><a class="headerlink" href="#articles.views.CommentViewSet.queryset" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="articles.views.CommentViewSet.serializer_class">
+<span class="sig-name descname"><span class="pre">serializer_class</span></span><a class="headerlink" href="#articles.views.CommentViewSet.serializer_class" title="Link to this definition"></a></dt>
+<dd><p>alias of <a class="reference internal" href="#articles.serializers.CommentSerializer" title="articles.serializers.CommentSerializer"><code class="xref py py-class docutils literal notranslate"><span class="pre">CommentSerializer</span></code></a></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="articles.views.CommentViewSet.suffix">
+<span class="sig-name descname"><span class="pre">suffix</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#articles.views.CommentViewSet.suffix" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="articles.views.EditorPermissionMixin">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">articles.views.</span></span><span class="sig-name descname"><span class="pre">EditorPermissionMixin</span></span><a class="reference internal" href="_modules/articles/views.html#EditorPermissionMixin"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#articles.views.EditorPermissionMixin" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">UserPassesTestMixin</span></code></p>
+<p>Ensure user is an editor with relevant permissions.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="articles.views.EditorPermissionMixin.test_func">
+<span class="sig-name descname"><span class="pre">test_func</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/articles/views.html#EditorPermissionMixin.test_func"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#articles.views.EditorPermissionMixin.test_func" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="articles.views.HomeView">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">articles.views.</span></span><span class="sig-name descname"><span class="pre">HomeView</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/articles/views.html#HomeView"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#articles.views.HomeView" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">TemplateView</span></code></p>
+<p>The sites home page.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Params TemplateView<span class="colon">:</span></dt>
+<dd class="field-odd"><p>displays view template.</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="articles.views.HomeView.get_context_data">
+<span class="sig-name descname"><span class="pre">get_context_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/articles/views.html#HomeView.get_context_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#articles.views.HomeView.get_context_data" title="Link to this definition"></a></dt>
+<dd><p>Returns the context for the home page.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Param<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a href="#id11"><span class="problematic" id="id12">**</span></a>kwargs, keyword arguments passed to the view.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>context, a dictionary with latest articles and
+newsletters.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="articles.views.HomeView.template_name">
+<span class="sig-name descname"><span class="pre">template_name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'home.html'</span></em><a class="headerlink" href="#articles.views.HomeView.template_name" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="articles.views.JournalistDashboardView">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">articles.views.</span></span><span class="sig-name descname"><span class="pre">JournalistDashboardView</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/articles/views.html#JournalistDashboardView"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#articles.views.JournalistDashboardView" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">LoginRequiredMixin</span></code>, <a class="reference internal" href="#articles.views.JournalistPermissionMixin" title="articles.views.JournalistPermissionMixin"><code class="xref py py-class docutils literal notranslate"><span class="pre">JournalistPermissionMixin</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">ListView</span></code></p>
+<p>Display a dashboard of all articles authored by the journalist.</p>
+<p>Includes published, pending, draft, and rejected items.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="articles.views.JournalistDashboardView.context_object_name">
+<span class="sig-name descname"><span class="pre">context_object_name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'articles'</span></em><a class="headerlink" href="#articles.views.JournalistDashboardView.context_object_name" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="articles.views.JournalistDashboardView.get_context_data">
+<span class="sig-name descname"><span class="pre">get_context_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/articles/views.html#JournalistDashboardView.get_context_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#articles.views.JournalistDashboardView.get_context_data" title="Link to this definition"></a></dt>
+<dd><p>Add grouped article lists to the context by publication status.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>**kwargs</strong> – <p>Additional context arguments.</p>
+</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Context dictionary with grouped article data.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="articles.views.JournalistDashboardView.get_queryset">
+<span class="sig-name descname"><span class="pre">get_queryset</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/articles/views.html#JournalistDashboardView.get_queryset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#articles.views.JournalistDashboardView.get_queryset" title="Link to this definition"></a></dt>
+<dd><p>Retrieve all articles authored by the current journalist.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>QuerySet of the journalist’s articles ordered by creation
+date.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>QuerySet</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="articles.views.JournalistDashboardView.model">
+<span class="sig-name descname"><span class="pre">model</span></span><a class="headerlink" href="#articles.views.JournalistDashboardView.model" title="Link to this definition"></a></dt>
+<dd><p>alias of <a class="reference internal" href="#articles.models.Article" title="articles.models.Article"><code class="xref py py-class docutils literal notranslate"><span class="pre">Article</span></code></a></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="articles.views.JournalistDashboardView.template_name">
+<span class="sig-name descname"><span class="pre">template_name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'articles/journalist_dashboard.html'</span></em><a class="headerlink" href="#articles.views.JournalistDashboardView.template_name" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="articles.views.JournalistPermissionMixin">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">articles.views.</span></span><span class="sig-name descname"><span class="pre">JournalistPermissionMixin</span></span><a class="reference internal" href="_modules/articles/views.html#JournalistPermissionMixin"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#articles.views.JournalistPermissionMixin" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">UserPassesTestMixin</span></code></p>
+<p>Ensure user is a journalist and has relevant permissions.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="articles.views.JournalistPermissionMixin.test_func">
+<span class="sig-name descname"><span class="pre">test_func</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/articles/views.html#JournalistPermissionMixin.test_func"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#articles.views.JournalistPermissionMixin.test_func" title="Link to this definition"></a></dt>
+<dd><p>Check if the user is a journalist.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>True if the user’s role is journalist.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="articles.views.PendingArticlesView">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">articles.views.</span></span><span class="sig-name descname"><span class="pre">PendingArticlesView</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/articles/views.html#PendingArticlesView"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#articles.views.PendingArticlesView" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">LoginRequiredMixin</span></code>, <a class="reference internal" href="#articles.views.EditorPermissionMixin" title="articles.views.EditorPermissionMixin"><code class="xref py py-class docutils literal notranslate"><span class="pre">EditorPermissionMixin</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">ListView</span></code></p>
+<p>Display a list of articles pending editor approval.</p>
+<p>Requires login and editor permissions.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="articles.views.PendingArticlesView.context_object_name">
+<span class="sig-name descname"><span class="pre">context_object_name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'articles'</span></em><a class="headerlink" href="#articles.views.PendingArticlesView.context_object_name" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="articles.views.PendingArticlesView.get_queryset">
+<span class="sig-name descname"><span class="pre">get_queryset</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/articles/views.html#PendingArticlesView.get_queryset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#articles.views.PendingArticlesView.get_queryset" title="Link to this definition"></a></dt>
+<dd><p>Retrieve articles awaiting approval for the logged-in editor.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>QuerySet of pending articles.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>QuerySet</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="articles.views.PendingArticlesView.model">
+<span class="sig-name descname"><span class="pre">model</span></span><a class="headerlink" href="#articles.views.PendingArticlesView.model" title="Link to this definition"></a></dt>
+<dd><p>alias of <a class="reference internal" href="#articles.models.Article" title="articles.models.Article"><code class="xref py py-class docutils literal notranslate"><span class="pre">Article</span></code></a></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="articles.views.PendingArticlesView.template_name">
+<span class="sig-name descname"><span class="pre">template_name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'articles/article_pending_list.html'</span></em><a class="headerlink" href="#articles.views.PendingArticlesView.template_name" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="articles.views.RatingViewSet">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">articles.views.</span></span><span class="sig-name descname"><span class="pre">RatingViewSet</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/articles/views.html#RatingViewSet"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#articles.views.RatingViewSet" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ModelViewSet</span></code></p>
+<p>Manage article ratings from authenticated users.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="articles.views.RatingViewSet.basename">
+<span class="sig-name descname"><span class="pre">basename</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#articles.views.RatingViewSet.basename" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="articles.views.RatingViewSet.description">
+<span class="sig-name descname"><span class="pre">description</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#articles.views.RatingViewSet.description" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="articles.views.RatingViewSet.detail">
+<span class="sig-name descname"><span class="pre">detail</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#articles.views.RatingViewSet.detail" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="articles.views.RatingViewSet.name">
+<span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#articles.views.RatingViewSet.name" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="articles.views.RatingViewSet.perform_create">
+<span class="sig-name descname"><span class="pre">perform_create</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">serializer</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/articles/views.html#RatingViewSet.perform_create"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#articles.views.RatingViewSet.perform_create" title="Link to this definition"></a></dt>
+<dd><p>Assign the current user to the created rating.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>serializer</strong> (<a class="reference internal" href="#articles.serializers.RatingSerializer" title="articles.serializers.RatingSerializer"><em>RatingSerializer</em></a>) – Rating serializer instance.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="articles.views.RatingViewSet.permission_classes">
+<span class="sig-name descname"><span class="pre">permission_classes</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[&lt;class</span> <span class="pre">'rest_framework.permissions.IsAuthenticated'&gt;]</span></em><a class="headerlink" href="#articles.views.RatingViewSet.permission_classes" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="articles.views.RatingViewSet.queryset">
+<span class="sig-name descname"><span class="pre">queryset</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;QuerySet</span> <span class="pre">[&lt;Rating:</span> <span class="pre">4★</span> <span class="pre">by</span> <span class="pre">reader&gt;,</span> <span class="pre">&lt;Rating:</span> <span class="pre">4★</span> <span class="pre">by</span> <span class="pre">reader&gt;]&gt;</span></em><a class="headerlink" href="#articles.views.RatingViewSet.queryset" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="articles.views.RatingViewSet.serializer_class">
+<span class="sig-name descname"><span class="pre">serializer_class</span></span><a class="headerlink" href="#articles.views.RatingViewSet.serializer_class" title="Link to this definition"></a></dt>
+<dd><p>alias of <a class="reference internal" href="#articles.serializers.RatingSerializer" title="articles.serializers.RatingSerializer"><code class="xref py py-class docutils literal notranslate"><span class="pre">RatingSerializer</span></code></a></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="articles.views.RatingViewSet.suffix">
+<span class="sig-name descname"><span class="pre">suffix</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#articles.views.RatingViewSet.suffix" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="articles.views.RejectArticleView">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">articles.views.</span></span><span class="sig-name descname"><span class="pre">RejectArticleView</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/articles/views.html#RejectArticleView"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#articles.views.RejectArticleView" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">LoginRequiredMixin</span></code>, <a class="reference internal" href="#articles.views.EditorPermissionMixin" title="articles.views.EditorPermissionMixin"><code class="xref py py-class docutils literal notranslate"><span class="pre">EditorPermissionMixin</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">TemplateView</span></code></p>
+<p>Handle article rejection by editors.</p>
+<p>Stores feedback and marks the article as rejected.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="articles.views.RejectArticleView.post">
+<span class="sig-name descname"><span class="pre">post</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/articles/views.html#RejectArticleView.post"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#articles.views.RejectArticleView.post" title="Link to this definition"></a></dt>
+<dd><p>Reject an article and store feedback.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>request</strong> (<em>HttpRequest</em>) – Current HTTP request.</p></li>
+<li><p><strong>*args</strong> – <p>Positional arguments.</p>
+</p></li>
+<li><p><strong>**kwargs</strong> – <p>Keyword arguments containing the article ID.</p>
+</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Redirect to the pending articles list.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>HttpResponseRedirect</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="articles.views.SubmitForApprovalView">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">articles.views.</span></span><span class="sig-name descname"><span class="pre">SubmitForApprovalView</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/articles/views.html#SubmitForApprovalView"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#articles.views.SubmitForApprovalView" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">LoginRequiredMixin</span></code>, <a class="reference internal" href="#articles.views.JournalistPermissionMixin" title="articles.views.JournalistPermissionMixin"><code class="xref py py-class docutils literal notranslate"><span class="pre">JournalistPermissionMixin</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">TemplateView</span></code></p>
+<p>Handle article submission for editor approval.</p>
+<p>Journalists can submit only their own articles.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="articles.views.SubmitForApprovalView.post">
+<span class="sig-name descname"><span class="pre">post</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/articles/views.html#SubmitForApprovalView.post"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#articles.views.SubmitForApprovalView.post" title="Link to this definition"></a></dt>
+<dd><p>Process article submission for editor review.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>request</strong> (<em>HttpRequest</em>) – Current HTTP request.</p></li>
+<li><p><strong>*args</strong> – <p>Positional arguments.</p>
+</p></li>
+<li><p><strong>**kwargs</strong> – <p>Keyword arguments containing the article ID.</p>
+</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Redirect to journalist dashboard with status message.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>HttpResponseRedirect</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-articles">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-articles" title="Link to this heading"></a></h2>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="modules.html" class="btn btn-neutral float-left" title="the_newshub" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="articles.migrations.html" class="btn btn-neutral float-right" title="articles.migrations package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Anthony Nelson.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

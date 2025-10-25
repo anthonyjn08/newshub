@@ -1,0 +1,535 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>users.views &mdash; Newshub 00.00.01 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=d7bb8d4d"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            Newshub
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">the_newshub</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Newshub</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">users.views</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for users.views</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">django.shortcuts</span><span class="w"> </span><span class="kn">import</span> <span class="n">render</span><span class="p">,</span> <span class="n">get_object_or_404</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">django.contrib</span><span class="w"> </span><span class="kn">import</span> <span class="n">messages</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">django.contrib.auth</span><span class="w"> </span><span class="kn">import</span> <span class="n">login</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">django.contrib.auth.decorators</span><span class="w"> </span><span class="kn">import</span> <span class="n">login_required</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">django.contrib.auth.mixins</span><span class="w"> </span><span class="kn">import</span> <span class="n">LoginRequiredMixin</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">django.contrib.auth.views</span><span class="w"> </span><span class="kn">import</span> <span class="n">LoginView</span><span class="p">,</span> <span class="n">LogoutView</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">django.urls</span><span class="w"> </span><span class="kn">import</span> <span class="n">reverse_lazy</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">django.views.generic</span><span class="w"> </span><span class="kn">import</span> <span class="n">CreateView</span><span class="p">,</span> <span class="n">TemplateView</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">django.shortcuts</span><span class="w"> </span><span class="kn">import</span> <span class="n">redirect</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">User</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.forms</span><span class="w"> </span><span class="kn">import</span> <span class="n">ReaderSignUpForm</span><span class="p">,</span> <span class="n">JournalistSignUpForm</span><span class="p">,</span> <span class="n">EditorSignUpForm</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">publications.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">Publication</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">articles.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">Article</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">subscriptions.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">Subscription</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">core.mixins</span><span class="w"> </span><span class="kn">import</span> <span class="n">PaginationMixin</span>
+
+
+<div class="viewcode-block" id="SignUpReaderView">
+<a class="viewcode-back" href="../../users.html#users.views.SignUpReaderView">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">SignUpReaderView</span><span class="p">(</span><span class="n">CreateView</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Allows registration for reader accounts, then assigns the</span>
+<span class="sd">    reader role.</span>
+
+<span class="sd">    - param: CreateView, provides user creation form and logic.</span>
+<span class="sd">    - return: redirects to home page upon successful registration.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="n">User</span>
+    <span class="n">form_class</span> <span class="o">=</span> <span class="n">ReaderSignUpForm</span>
+    <span class="n">template_name</span> <span class="o">=</span> <span class="s2">&quot;users/signup_reader.html&quot;</span>
+    <span class="n">success_url</span> <span class="o">=</span> <span class="n">reverse_lazy</span><span class="p">(</span><span class="s2">&quot;home&quot;</span><span class="p">)</span>
+
+<div class="viewcode-block" id="SignUpReaderView.get_form">
+<a class="viewcode-back" href="../../users.html#users.views.SignUpReaderView.get_form">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_form</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">form_class</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns readers signup form.</span>
+
+<span class="sd">        - param: form_class, optional form class to use.</span>
+<span class="sd">        - return: form instance with updated widget attributes.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">form</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">get_form</span><span class="p">(</span><span class="n">form_class</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">field</span> <span class="ow">in</span> <span class="n">form</span><span class="o">.</span><span class="n">fields</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+            <span class="n">field</span><span class="o">.</span><span class="n">widget</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s1">&#39;class&#39;</span><span class="p">:</span> <span class="s1">&#39;form-control&#39;</span><span class="p">})</span>
+        <span class="k">return</span> <span class="n">form</span></div>
+
+
+<div class="viewcode-block" id="SignUpReaderView.form_valid">
+<a class="viewcode-back" href="../../users.html#users.views.SignUpReaderView.form_valid">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">form_valid</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">form</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Process a valid reader signup form.</span>
+
+<span class="sd">        - param: form, validated user registration form.</span>
+<span class="sd">        - return: redirect to home page.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">user</span> <span class="o">=</span> <span class="n">form</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">commit</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="n">user</span><span class="o">.</span><span class="n">role</span> <span class="o">=</span> <span class="s2">&quot;reader&quot;</span>
+        <span class="n">user</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+        <span class="n">login</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="p">,</span> <span class="n">user</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">success_url</span><span class="p">)</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="SignUpJournalistView">
+<a class="viewcode-back" href="../../users.html#users.views.SignUpJournalistView">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">SignUpJournalistView</span><span class="p">(</span><span class="n">CreateView</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Handles registration for journalist accounts and assigns the user</span>
+<span class="sd">    to the journalist group.</span>
+
+<span class="sd">    - param: CreateView, provides user creation form and logic.</span>
+<span class="sd">    - return: redirects to home page upon successful registration.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="n">User</span>
+    <span class="n">form_class</span> <span class="o">=</span> <span class="n">JournalistSignUpForm</span>
+    <span class="n">template_name</span> <span class="o">=</span> <span class="s2">&quot;users/signup_journalist.html&quot;</span>
+    <span class="n">success_url</span> <span class="o">=</span> <span class="n">reverse_lazy</span><span class="p">(</span><span class="s2">&quot;home&quot;</span><span class="p">)</span>
+
+<div class="viewcode-block" id="SignUpJournalistView.get_form">
+<a class="viewcode-back" href="../../users.html#users.views.SignUpJournalistView.get_form">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_form</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">form_class</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns journalist signup form.</span>
+
+<span class="sd">        - param: form_class, optional form class to use.</span>
+<span class="sd">        - return: form instance with updated widget attributes.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">form</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">get_form</span><span class="p">(</span><span class="n">form_class</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">field</span> <span class="ow">in</span> <span class="n">form</span><span class="o">.</span><span class="n">fields</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+            <span class="n">field</span><span class="o">.</span><span class="n">widget</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s1">&#39;class&#39;</span><span class="p">:</span> <span class="s1">&#39;form-control&#39;</span><span class="p">})</span>
+        <span class="k">return</span> <span class="n">form</span></div>
+
+
+<div class="viewcode-block" id="SignUpJournalistView.form_valid">
+<a class="viewcode-back" href="../../users.html#users.views.SignUpJournalistView.form_valid">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">form_valid</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">form</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Process a valid journalist signup form.</span>
+
+<span class="sd">        - param: form, validated user registration form.</span>
+<span class="sd">        - return: redirect to home page.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">user</span> <span class="o">=</span> <span class="n">form</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">commit</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="n">user</span><span class="o">.</span><span class="n">role</span> <span class="o">=</span> <span class="s2">&quot;journalist&quot;</span>
+        <span class="n">user</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+        <span class="n">login</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="p">,</span> <span class="n">user</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">success_url</span><span class="p">)</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="SignUpEditorView">
+<a class="viewcode-back" href="../../users.html#users.views.SignUpEditorView">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">SignUpEditorView</span><span class="p">(</span><span class="n">CreateView</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Handles registration for editor accounts.</span>
+
+<span class="sd">    Assigns the editor role to new users.</span>
+
+<span class="sd">    - param: CreateView, provides user creation form and logic.</span>
+<span class="sd">    - return: redirects to home page upon successful registration.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="n">User</span>
+    <span class="n">form_class</span> <span class="o">=</span> <span class="n">EditorSignUpForm</span>
+    <span class="n">template_name</span> <span class="o">=</span> <span class="s2">&quot;users/signup_editor.html&quot;</span>
+    <span class="n">success_url</span> <span class="o">=</span> <span class="n">reverse_lazy</span><span class="p">(</span><span class="s2">&quot;home&quot;</span><span class="p">)</span>
+
+<div class="viewcode-block" id="SignUpEditorView.get_form">
+<a class="viewcode-back" href="../../users.html#users.views.SignUpEditorView.get_form">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_form</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">form_class</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns editor signup form.</span>
+
+<span class="sd">        - param: form_class, optional form class to use.</span>
+<span class="sd">        - return: form instance with updated widget attributes.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">form</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">get_form</span><span class="p">(</span><span class="n">form_class</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">field</span> <span class="ow">in</span> <span class="n">form</span><span class="o">.</span><span class="n">fields</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+            <span class="n">field</span><span class="o">.</span><span class="n">widget</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s1">&#39;class&#39;</span><span class="p">:</span> <span class="s1">&#39;form-control&#39;</span><span class="p">})</span>
+        <span class="k">return</span> <span class="n">form</span></div>
+
+
+<div class="viewcode-block" id="SignUpEditorView.form_valid">
+<a class="viewcode-back" href="../../users.html#users.views.SignUpEditorView.form_valid">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">form_valid</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">form</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Process a valid editor signup form.</span>
+
+<span class="sd">        - param: form, validated user registration form.</span>
+<span class="sd">        - return: redirect to home page.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">user</span> <span class="o">=</span> <span class="n">form</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">commit</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="n">user</span><span class="o">.</span><span class="n">role</span> <span class="o">=</span> <span class="s2">&quot;editor&quot;</span>
+        <span class="n">user</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+        <span class="n">login</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="p">,</span> <span class="n">user</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">success_url</span><span class="p">)</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="CustomLoginView">
+<a class="viewcode-back" href="../../users.html#users.views.CustomLoginView">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">CustomLoginView</span><span class="p">(</span><span class="n">LoginView</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Custom login for all users.</span>
+
+<span class="sd">    - param: LoginView, provides built-in authentication functionality.</span>
+<span class="sd">    - return: renders login page and handles authentication.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">template_name</span> <span class="o">=</span> <span class="s2">&quot;users/login.html&quot;</span>
+
+<div class="viewcode-block" id="CustomLoginView.get_form">
+<a class="viewcode-back" href="../../users.html#users.views.CustomLoginView.get_form">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_form</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">form_class</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Gets the login form.</span>
+
+<span class="sd">        - param: form_class, optional form class to use.</span>
+<span class="sd">        - return: form instance with updated widget attributes.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">form</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">get_form</span><span class="p">(</span><span class="n">form_class</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">field</span> <span class="ow">in</span> <span class="n">form</span><span class="o">.</span><span class="n">fields</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+            <span class="n">field</span><span class="o">.</span><span class="n">widget</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s1">&#39;class&#39;</span><span class="p">:</span> <span class="s1">&#39;form-control&#39;</span><span class="p">})</span>
+        <span class="k">return</span> <span class="n">form</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="CustomLogoutView">
+<a class="viewcode-back" href="../../users.html#users.views.CustomLogoutView">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">CustomLogoutView</span><span class="p">(</span><span class="n">LogoutView</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Custom logout view.</span>
+
+<span class="sd">    - param: LogoutView, provides built-in logout functionality.</span>
+<span class="sd">    - return: redirects to the home page after logout.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">next_page</span> <span class="o">=</span> <span class="n">reverse_lazy</span><span class="p">(</span><span class="s2">&quot;home&quot;</span><span class="p">)</span>
+
+<div class="viewcode-block" id="CustomLogoutView.dispatch">
+<a class="viewcode-back" href="../../users.html#users.views.CustomLogoutView.dispatch">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">dispatch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Add logout confirmation message before redirecting.</span>
+
+<span class="sd">        - param: request, the current HTTP request.</span>
+<span class="sd">        - param: *args, positional arguments.</span>
+<span class="sd">        - param: **kwargs, keyword arguments.</span>
+<span class="sd">        - return: response redirecting to the next page after logout.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">messages</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s2">&quot;You’ve been signed out successfully.&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">dispatch</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="ProfileView">
+<a class="viewcode-back" href="../../users.html#users.views.ProfileView">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">ProfileView</span><span class="p">(</span><span class="n">LoginRequiredMixin</span><span class="p">,</span> <span class="n">TemplateView</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Displays a user&#39;s profile page.</span>
+
+<span class="sd">    Readers have limited content shown.</span>
+<span class="sd">    Journalists see their articles.</span>
+<span class="sd">    Editors see their managed publications.</span>
+
+<span class="sd">    - param: LoginRequiredMixin, ensures the user is authenticated.</span>
+<span class="sd">    - param: TemplateView, provides template rendering.</span>
+<span class="sd">    - return: renders user profile with personalized content.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">template_name</span> <span class="o">=</span> <span class="s2">&quot;users/profile.html&quot;</span>
+
+<div class="viewcode-block" id="ProfileView.get_context_data">
+<a class="viewcode-back" href="../../users.html#users.views.ProfileView.get_context_data">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_context_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Add user-specific data to the profile page.</span>
+
+<span class="sd">        - For journalists: includes their articles.</span>
+<span class="sd">        - For editors: includes publications they manage.</span>
+<span class="sd">        - param: **kwargs, additional context arguments.</span>
+<span class="sd">        - return: context dictionary with user-specific content.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">context</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">get_context_data</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="n">user</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">user</span>
+
+        <span class="n">context</span><span class="p">[</span><span class="s2">&quot;articles&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">user</span><span class="o">.</span><span class="n">articles</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">user</span><span class="o">.</span><span class="n">role</span> <span class="o">==</span> <span class="s2">&quot;journalist&quot;</span> <span class="ow">and</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">user</span><span class="p">,</span> <span class="s2">&quot;articles&quot;</span><span class="p">)</span>
+            <span class="k">else</span> <span class="n">Article</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">none</span><span class="p">()</span>
+            <span class="p">)</span>
+        <span class="n">context</span><span class="p">[</span><span class="s2">&quot;publications&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">user</span><span class="o">.</span><span class="n">edited_publications</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">user</span><span class="o">.</span><span class="n">role</span> <span class="o">==</span> <span class="s2">&quot;editor&quot;</span>
+            <span class="k">else</span> <span class="n">Publication</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">none</span><span class="p">()</span>
+            <span class="p">)</span>
+        <span class="k">return</span> <span class="n">context</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="ReaderDashboardView">
+<a class="viewcode-back" href="../../users.html#users.views.ReaderDashboardView">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">ReaderDashboardView</span><span class="p">(</span><span class="n">LoginRequiredMixin</span><span class="p">,</span> <span class="n">PaginationMixin</span><span class="p">,</span> <span class="n">TemplateView</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Displays the reader&#39;s dashboard.</span>
+<span class="sd">    Shows and allows management of their active subscriptions to</span>
+<span class="sd">    publications and journalists.</span>
+
+<span class="sd">    - param: LoginRequiredMixin, ensures the user is logged in.</span>
+<span class="sd">    - param: PaginationMixin, enables pagination for subscriptions.</span>
+<span class="sd">    - param: TemplateView, provides dashboard rendering.</span>
+<span class="sd">    - return: renders the reader dashboard page.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">template_name</span> <span class="o">=</span> <span class="s2">&quot;users/reader_dashboard.html&quot;</span>
+    <span class="n">paginate_by</span> <span class="o">=</span> <span class="mi">10</span>
+
+<div class="viewcode-block" id="ReaderDashboardView.get_context_data">
+<a class="viewcode-back" href="../../users.html#users.views.ReaderDashboardView.get_context_data">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_context_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Add paginated publication and journalist subscriptions to the context.</span>
+
+<span class="sd">        - Splits pagination between publications and journalists.</span>
+<span class="sd">        - param: **kwargs, additional context arguments.</span>
+<span class="sd">        - return: dictionary with subscription data and pagination objects.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">context</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">get_context_data</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="p">(</span><span class="n">paginator_pub</span><span class="p">,</span> <span class="n">page_obj_pub</span><span class="p">,</span> <span class="n">publication_subs</span><span class="p">,</span>
+         <span class="n">is_paginated_pub</span><span class="p">)</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">paginate_queryset</span><span class="p">(</span>
+             <span class="n">Subscription</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">subscriber</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="p">,</span>
+                                         <span class="n">publication__isnull</span><span class="o">=</span><span class="kc">False</span>
+                                         <span class="p">)</span><span class="o">.</span><span class="n">select_related</span><span class="p">(</span><span class="s2">&quot;publication&quot;</span>
+                                                          <span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">paginate_by</span><span class="p">,</span>
+                                                          <span class="p">)</span>
+
+        <span class="p">(</span><span class="n">paginator_jour</span><span class="p">,</span> <span class="n">page_obj_jour</span><span class="p">,</span> <span class="n">journalist_subs</span><span class="p">,</span>
+         <span class="n">is_paginated_jour</span><span class="p">)</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">paginate_queryset</span><span class="p">(</span>
+            <span class="n">Subscription</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">subscriber</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="p">,</span>
+                                        <span class="n">journalist__isnull</span><span class="o">=</span><span class="kc">False</span>
+                                        <span class="p">)</span><span class="o">.</span><span class="n">select_related</span><span class="p">(</span><span class="s2">&quot;journalist&quot;</span>
+                                                         <span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">paginate_by</span><span class="p">,</span>
+                                                           <span class="p">)</span>
+
+        <span class="n">context</span><span class="o">.</span><span class="n">update</span><span class="p">({</span>
+            <span class="s2">&quot;publication_subs&quot;</span><span class="p">:</span> <span class="n">publication_subs</span><span class="p">,</span>
+            <span class="s2">&quot;journalist_subs&quot;</span><span class="p">:</span> <span class="n">journalist_subs</span><span class="p">,</span>
+            <span class="s2">&quot;paginator_pub&quot;</span><span class="p">:</span> <span class="n">paginator_pub</span><span class="p">,</span>
+            <span class="s2">&quot;page_obj_pub&quot;</span><span class="p">:</span> <span class="n">page_obj_pub</span><span class="p">,</span>
+            <span class="s2">&quot;is_paginated_pub&quot;</span><span class="p">:</span> <span class="n">is_paginated_pub</span><span class="p">,</span>
+            <span class="s2">&quot;paginator_jour&quot;</span><span class="p">:</span> <span class="n">paginator_jour</span><span class="p">,</span>
+            <span class="s2">&quot;page_obj_jour&quot;</span><span class="p">:</span> <span class="n">page_obj_jour</span><span class="p">,</span>
+            <span class="s2">&quot;is_paginated_jour&quot;</span><span class="p">:</span> <span class="n">is_paginated_jour</span><span class="p">,</span>
+            <span class="p">})</span>
+        <span class="k">return</span> <span class="n">context</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="editor_profile">
+<a class="viewcode-back" href="../../users.html#users.views.editor_profile">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">editor_profile</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">editor_id</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Displays the public profile of an editor.</span>
+
+<span class="sd">    Shows all publications managed by the editor.</span>
+
+<span class="sd">    - param: request, the current HTTP request.</span>
+<span class="sd">    - param: editor_id, the ID of the editor to display.</span>
+<span class="sd">    - return: rendered editor profile template with publications and articles.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">editor</span> <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span><span class="n">User</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="n">editor_id</span><span class="p">,</span> <span class="n">role</span><span class="o">=</span><span class="s2">&quot;editor&quot;</span><span class="p">)</span>
+
+    <span class="c1"># All publications this editor manages</span>
+    <span class="n">publications</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">Publication</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">editors</span><span class="o">=</span><span class="n">editor</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">distinct</span><span class="p">()</span>
+        <span class="o">.</span><span class="n">order_by</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">)</span>
+        <span class="p">)</span>
+
+    <span class="c1"># All articles under those publications</span>
+    <span class="n">articles</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">Article</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">publication__in</span><span class="o">=</span><span class="n">publications</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">select_related</span><span class="p">(</span><span class="s2">&quot;publication&quot;</span><span class="p">,</span> <span class="s2">&quot;author&quot;</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">order_by</span><span class="p">(</span><span class="s2">&quot;-published_at&quot;</span><span class="p">)</span>
+    <span class="p">)</span>
+
+    <span class="n">context</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;editor&quot;</span><span class="p">:</span> <span class="n">editor</span><span class="p">,</span>
+        <span class="s2">&quot;publications&quot;</span><span class="p">:</span> <span class="n">publications</span><span class="p">,</span>
+        <span class="s2">&quot;articles&quot;</span><span class="p">:</span> <span class="n">articles</span><span class="p">,</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s2">&quot;users/editor_profile.html&quot;</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="journalist_profile">
+<a class="viewcode-back" href="../../users.html#users.views.journalist_profile">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">journalist_profile</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">journalist_id</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Displays the public profile of a journalist.</span>
+
+<span class="sd">    Shows all published articles authored by the journalist, lists all</span>
+<span class="sd">    publications they have written forand indicates whether the current</span>
+<span class="sd">    reader is subscribed to this journalist.</span>
+
+<span class="sd">    - param: request, the current HTTP request.</span>
+<span class="sd">    - param: journalist_id, the ID of the journalist to display.</span>
+<span class="sd">    - return: rendered journalist profile template with articles and</span>
+<span class="sd">      subscription info.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">journalist</span> <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span><span class="n">User</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="n">journalist_id</span><span class="p">,</span> <span class="n">role</span><span class="o">=</span><span class="s2">&quot;journalist&quot;</span><span class="p">)</span>
+
+    <span class="n">articles</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">Article</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">author</span><span class="o">=</span><span class="n">journalist</span><span class="p">,</span> <span class="n">status</span><span class="o">=</span><span class="s2">&quot;published&quot;</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">select_related</span><span class="p">(</span><span class="s2">&quot;publication&quot;</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">order_by</span><span class="p">(</span><span class="s2">&quot;-published_at&quot;</span><span class="p">)</span>
+    <span class="p">)</span>
+
+    <span class="c1"># All publications they’ve written for</span>
+    <span class="n">publications</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">Publication</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">articles__author</span><span class="o">=</span><span class="n">journalist</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">distinct</span><span class="p">()</span>
+        <span class="o">.</span><span class="n">order_by</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">)</span>
+    <span class="p">)</span>
+
+    <span class="c1"># Check if current reader is subscribed</span>
+    <span class="n">is_subscribed</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">is_authenticated</span> <span class="ow">and</span> <span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">role</span> <span class="o">==</span> <span class="s2">&quot;reader&quot;</span><span class="p">:</span>
+        <span class="n">is_subscribed</span> <span class="o">=</span> <span class="n">journalist</span><span class="o">.</span><span class="n">journalist_subscriptions</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span>
+            <span class="n">subscriber</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">user</span>
+            <span class="p">)</span><span class="o">.</span><span class="n">exists</span><span class="p">()</span>
+
+    <span class="n">context</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;journalist&quot;</span><span class="p">:</span> <span class="n">journalist</span><span class="p">,</span>
+        <span class="s2">&quot;articles&quot;</span><span class="p">:</span> <span class="n">articles</span><span class="p">,</span>
+        <span class="s2">&quot;publications&quot;</span><span class="p">:</span> <span class="n">publications</span><span class="p">,</span>
+        <span class="s2">&quot;is_subscribed&quot;</span><span class="p">:</span> <span class="n">is_subscribed</span><span class="p">,</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s2">&quot;users/journalist_profile.html&quot;</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="reader_profile">
+<a class="viewcode-back" href="../../users.html#users.views.reader_profile">[docs]</a>
+<span class="nd">@login_required</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">reader_profile</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Displays the reader&#39;s profile page.</span>
+
+<span class="sd">    Shows their active subscriptions to publications and journalists.</span>
+
+<span class="sd">    - param: request, the current HTTP request.</span>
+<span class="sd">    - return: rendered reader profile template with subscription data.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">role</span> <span class="o">!=</span> <span class="s2">&quot;reader&quot;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s2">&quot;users/profile.html&quot;</span><span class="p">)</span>
+
+    <span class="n">publication_subs</span> <span class="o">=</span> <span class="n">Subscription</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span>
+        <span class="n">subscriber</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="p">,</span> <span class="n">publication__isnull</span><span class="o">=</span><span class="kc">False</span>
+    <span class="p">)</span><span class="o">.</span><span class="n">select_related</span><span class="p">(</span><span class="s2">&quot;publication&quot;</span><span class="p">)</span>
+
+    <span class="n">journalist_subs</span> <span class="o">=</span> <span class="n">Subscription</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span>
+        <span class="n">subscriber</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="p">,</span> <span class="n">journalist__isnull</span><span class="o">=</span><span class="kc">False</span>
+    <span class="p">)</span><span class="o">.</span><span class="n">select_related</span><span class="p">(</span><span class="s2">&quot;journalist&quot;</span><span class="p">)</span>
+
+    <span class="n">context</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;publication_subs&quot;</span><span class="p">:</span> <span class="n">publication_subs</span><span class="p">,</span>
+        <span class="s2">&quot;journalist_subs&quot;</span><span class="p">:</span> <span class="n">journalist_subs</span><span class="p">,</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s2">&quot;users/reader_profile.html&quot;</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Anthony Nelson.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

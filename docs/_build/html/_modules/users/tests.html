@@ -1,0 +1,232 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>users.tests &mdash; Newshub 00.00.01 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=d7bb8d4d"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            Newshub
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">the_newshub</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Newshub</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">users.tests</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for users.tests</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">django.test</span><span class="w"> </span><span class="kn">import</span> <span class="n">TestCase</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">django.urls</span><span class="w"> </span><span class="kn">import</span> <span class="n">reverse</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">users.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">User</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">publications.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">Publication</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">articles.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">Article</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">subscriptions.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">Subscription</span>
+
+
+<div class="viewcode-block" id="ReaderFlowTests">
+<a class="viewcode-back" href="../../users.html#users.tests.ReaderFlowTests">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">ReaderFlowTests</span><span class="p">(</span><span class="n">TestCase</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Tests reader dashboard functionality, including subscription</span>
+<span class="sd">    listings and unsubscribe functionality.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="ReaderFlowTests.setUp">
+<a class="viewcode-back" href="../../users.html#users.tests.ReaderFlowTests.setUp">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">setUp</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># Create users and publication</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">reader</span> <span class="o">=</span> <span class="n">User</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">create_user</span><span class="p">(</span>
+            <span class="n">email</span><span class="o">=</span><span class="s2">&quot;bumblebee@test.com&quot;</span><span class="p">,</span>
+            <span class="n">first_name</span><span class="o">=</span><span class="s2">&quot;Bumble&quot;</span><span class="p">,</span>
+            <span class="n">last_name</span><span class="o">=</span><span class="s2">&quot;Bee&quot;</span><span class="p">,</span>
+            <span class="n">password</span><span class="o">=</span><span class="s2">&quot;pass123&quot;</span><span class="p">,</span>
+            <span class="n">role</span><span class="o">=</span><span class="s2">&quot;reader&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">journalist</span> <span class="o">=</span> <span class="n">User</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">create_user</span><span class="p">(</span>
+            <span class="n">email</span><span class="o">=</span><span class="s2">&quot;optimus@test.com&quot;</span><span class="p">,</span>
+            <span class="n">first_name</span><span class="o">=</span><span class="s2">&quot;Optimus&quot;</span><span class="p">,</span>
+            <span class="n">last_name</span><span class="o">=</span><span class="s2">&quot;Prime&quot;</span><span class="p">,</span>
+            <span class="n">password</span><span class="o">=</span><span class="s2">&quot;pass123&quot;</span><span class="p">,</span>
+            <span class="n">role</span><span class="o">=</span><span class="s2">&quot;journalist&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">publication</span> <span class="o">=</span> <span class="n">Publication</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+            <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Cybertron Daily&quot;</span><span class="p">,</span>
+            <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Latest Cybertonian news.&quot;</span>
+        <span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">article</span> <span class="o">=</span> <span class="n">Article</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+            <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Decipticons Attack&quot;</span><span class="p">,</span> <span class="n">author</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">journalist</span><span class="p">,</span>
+            <span class="n">publication</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">publication</span><span class="p">,</span> <span class="n">status</span><span class="o">=</span><span class="s2">&quot;published&quot;</span><span class="p">,</span>
+            <span class="n">content</span><span class="o">=</span><span class="s2">&quot;&lt;p&gt;Transform and roll out&lt;/p&gt;&quot;</span>
+            <span class="p">)</span>
+
+        <span class="c1"># Create subscriptions</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pub_sub</span> <span class="o">=</span> <span class="n">Subscription</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+            <span class="n">subscriber</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">reader</span><span class="p">,</span> <span class="n">publication</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">publication</span>
+            <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">jour_sub</span> <span class="o">=</span> <span class="n">Subscription</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+            <span class="n">subscriber</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">reader</span><span class="p">,</span> <span class="n">journalist</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">journalist</span>
+            <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="ReaderFlowTests.test_reader_dashboard_loads_with_subscriptions">
+<a class="viewcode-back" href="../../users.html#users.tests.ReaderFlowTests.test_reader_dashboard_loads_with_subscriptions">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">test_reader_dashboard_loads_with_subscriptions</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Reader dashboard should display both types of subscriptions.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">login</span><span class="p">(</span><span class="n">email</span><span class="o">=</span><span class="s2">&quot;bumblebee@test.com&quot;</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="s2">&quot;pass123&quot;</span><span class="p">)</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">reverse</span><span class="p">(</span><span class="s2">&quot;reader_dashboard&quot;</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">status_code</span><span class="p">,</span> <span class="mi">200</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertContains</span><span class="p">(</span><span class="n">response</span><span class="p">,</span> <span class="s2">&quot;Publication Subscriptions&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertContains</span><span class="p">(</span><span class="n">response</span><span class="p">,</span> <span class="s2">&quot;Cybertron Daily&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertContains</span><span class="p">(</span><span class="n">response</span><span class="p">,</span> <span class="s2">&quot;Optimus Prime&quot;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="ReaderFlowTests.test_reader_can_unsubscribe_from_publication">
+<a class="viewcode-back" href="../../users.html#users.tests.ReaderFlowTests.test_reader_can_unsubscribe_from_publication">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">test_reader_can_unsubscribe_from_publication</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Reader should be able to unsubscribe from a publication.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">login</span><span class="p">(</span><span class="n">email</span><span class="o">=</span><span class="s2">&quot;bumblebee@test.com&quot;</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="s2">&quot;pass123&quot;</span><span class="p">)</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
+            <span class="n">reverse</span><span class="p">(</span><span class="s2">&quot;unsubscribe_publication&quot;</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">publication</span><span class="o">.</span><span class="n">pk</span><span class="p">]),</span>
+            <span class="n">follow</span><span class="o">=</span><span class="kc">True</span>
+            <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">status_code</span><span class="p">,</span> <span class="mi">200</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertFalse</span><span class="p">(</span><span class="n">Subscription</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span>
+            <span class="n">subscriber</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">reader</span><span class="p">,</span> <span class="n">publication</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">publication</span><span class="p">)</span><span class="o">.</span><span class="n">exists</span><span class="p">())</span></div>
+
+
+<div class="viewcode-block" id="ReaderFlowTests.test_reader_can_unsubscribe_from_journalist">
+<a class="viewcode-back" href="../../users.html#users.tests.ReaderFlowTests.test_reader_can_unsubscribe_from_journalist">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">test_reader_can_unsubscribe_from_journalist</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Reader should be able to unsubscribe from a journalist.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">login</span><span class="p">(</span><span class="n">email</span><span class="o">=</span><span class="s2">&quot;bumblebee@test.com&quot;</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="s2">&quot;pass123&quot;</span><span class="p">)</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">reverse</span><span class="p">(</span>
+            <span class="s2">&quot;unsubscribe_journalist&quot;</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">journalist</span><span class="o">.</span><span class="n">pk</span><span class="p">]),</span> <span class="n">follow</span><span class="o">=</span><span class="kc">True</span>
+            <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">status_code</span><span class="p">,</span> <span class="mi">200</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertFalse</span><span class="p">(</span><span class="n">Subscription</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span>
+                <span class="n">subscriber</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">reader</span><span class="p">,</span> <span class="n">journalist</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">journalist</span>
+                <span class="p">)</span><span class="o">.</span><span class="n">exists</span><span class="p">()</span>
+                <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="ReaderFlowTests.test_dashboard_requires_login">
+<a class="viewcode-back" href="../../users.html#users.tests.ReaderFlowTests.test_dashboard_requires_login">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">test_dashboard_requires_login</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Unauthenticated users should be redirected to login page.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">reverse</span><span class="p">(</span><span class="s2">&quot;reader_dashboard&quot;</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">status_code</span><span class="p">,</span> <span class="mi">302</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertIn</span><span class="p">(</span><span class="s2">&quot;/login&quot;</span><span class="p">,</span> <span class="n">response</span><span class="o">.</span><span class="n">url</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="ReaderFlowTests.test_dashboard_pagination_works">
+<a class="viewcode-back" href="../../users.html#users.tests.ReaderFlowTests.test_dashboard_pagination_works">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">test_dashboard_pagination_works</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Dashboard should correctly paginate long subscription lists.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Create additional publication subscriptions</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">15</span><span class="p">):</span>
+            <span class="n">pub</span> <span class="o">=</span> <span class="n">Publication</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;TestPub</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">Subscription</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">subscriber</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">reader</span><span class="p">,</span>
+                                        <span class="n">publication</span><span class="o">=</span><span class="n">pub</span>
+                                        <span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">login</span><span class="p">(</span><span class="n">email</span><span class="o">=</span><span class="s2">&quot;bumblebee@test.com&quot;</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="s2">&quot;pass123&quot;</span><span class="p">)</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">reverse</span><span class="p">(</span><span class="s2">&quot;reader_dashboard&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;?page=2&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">status_code</span><span class="p">,</span> <span class="mi">200</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertContains</span><span class="p">(</span><span class="n">response</span><span class="p">,</span> <span class="s2">&quot;TestPub&quot;</span><span class="p">)</span></div>
+</div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Anthony Nelson.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
