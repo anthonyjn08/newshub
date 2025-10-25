@@ -203,6 +203,11 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="articles.html#module-articles.permissions">articles.permissions module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="articles.html#articles.permissions.ArticlePermissions"><code class="docutils literal notranslate"><span class="pre">ArticlePermissions</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="articles.html#articles.permissions.ArticlePermissions.has_object_permission"><code class="docutils literal notranslate"><span class="pre">ArticlePermissions.has_object_permission()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="articles.html#articles.permissions.ArticlePermissions.has_permission"><code class="docutils literal notranslate"><span class="pre">ArticlePermissions.has_permission()</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="articles.html#articles.permissions.IsEditorOrJournalist"><code class="docutils literal notranslate"><span class="pre">IsEditorOrJournalist</span></code></a><ul>
 <li class="toctree-l4"><a class="reference internal" href="articles.html#articles.permissions.IsEditorOrJournalist.has_permission"><code class="docutils literal notranslate"><span class="pre">IsEditorOrJournalist.has_permission()</span></code></a></li>
 </ul>
@@ -310,7 +315,7 @@
 <li class="toctree-l4"><a class="reference internal" href="articles.html#articles.views.ArticleViewSet.detail"><code class="docutils literal notranslate"><span class="pre">ArticleViewSet.detail</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="articles.html#articles.views.ArticleViewSet.get_object"><code class="docutils literal notranslate"><span class="pre">ArticleViewSet.get_object()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="articles.html#articles.views.ArticleViewSet.get_queryset"><code class="docutils literal notranslate"><span class="pre">ArticleViewSet.get_queryset()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="articles.html#articles.views.ArticleViewSet.my_submissions"><code class="docutils literal notranslate"><span class="pre">ArticleViewSet.my_submissions()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="articles.html#articles.views.ArticleViewSet.lookup_field"><code class="docutils literal notranslate"><span class="pre">ArticleViewSet.lookup_field</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="articles.html#articles.views.ArticleViewSet.name"><code class="docutils literal notranslate"><span class="pre">ArticleViewSet.name</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="articles.html#articles.views.ArticleViewSet.perform_create"><code class="docutils literal notranslate"><span class="pre">ArticleViewSet.perform_create()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="articles.html#articles.views.ArticleViewSet.permission_classes"><code class="docutils literal notranslate"><span class="pre">ArticleViewSet.permission_classes</span></code></a></li>
@@ -490,12 +495,22 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="publications.html#module-publications.permissions">publications.permissions module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="publications.html#publications.permissions.EditorOnlyPermission"><code class="docutils literal notranslate"><span class="pre">EditorOnlyPermission</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="publications.html#publications.permissions.EditorOnlyPermission.has_object_permission"><code class="docutils literal notranslate"><span class="pre">EditorOnlyPermission.has_object_permission()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="publications.html#publications.permissions.EditorOnlyPermission.has_permission"><code class="docutils literal notranslate"><span class="pre">EditorOnlyPermission.has_permission()</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="publications.html#publications.permissions.IsEditor"><code class="docutils literal notranslate"><span class="pre">IsEditor</span></code></a><ul>
 <li class="toctree-l4"><a class="reference internal" href="publications.html#publications.permissions.IsEditor.has_permission"><code class="docutils literal notranslate"><span class="pre">IsEditor.has_permission()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="publications.html#publications.permissions.IsJournalist"><code class="docutils literal notranslate"><span class="pre">IsJournalist</span></code></a><ul>
 <li class="toctree-l4"><a class="reference internal" href="publications.html#publications.permissions.IsJournalist.has_permission"><code class="docutils literal notranslate"><span class="pre">IsJournalist.has_permission()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="publications.html#publications.permissions.PublicationPermissions"><code class="docutils literal notranslate"><span class="pre">PublicationPermissions</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="publications.html#publications.permissions.PublicationPermissions.has_object_permission"><code class="docutils literal notranslate"><span class="pre">PublicationPermissions.has_object_permission()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="publications.html#publications.permissions.PublicationPermissions.has_permission"><code class="docutils literal notranslate"><span class="pre">PublicationPermissions.has_permission()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="publications.html#publications.permissions.ReadOnly"><code class="docutils literal notranslate"><span class="pre">ReadOnly</span></code></a><ul>
@@ -644,9 +659,11 @@
 <li class="toctree-l4"><a class="reference internal" href="publications.html#publications.views.PublicationViewSet.basename"><code class="docutils literal notranslate"><span class="pre">PublicationViewSet.basename</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="publications.html#publications.views.PublicationViewSet.description"><code class="docutils literal notranslate"><span class="pre">PublicationViewSet.description</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="publications.html#publications.views.PublicationViewSet.detail"><code class="docutils literal notranslate"><span class="pre">PublicationViewSet.detail</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="publications.html#publications.views.PublicationViewSet.get_permissions"><code class="docutils literal notranslate"><span class="pre">PublicationViewSet.get_permissions()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="publications.html#publications.views.PublicationViewSet.get_queryset"><code class="docutils literal notranslate"><span class="pre">PublicationViewSet.get_queryset()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="publications.html#publications.views.PublicationViewSet.lookup_field"><code class="docutils literal notranslate"><span class="pre">PublicationViewSet.lookup_field</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="publications.html#publications.views.PublicationViewSet.name"><code class="docutils literal notranslate"><span class="pre">PublicationViewSet.name</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="publications.html#publications.views.PublicationViewSet.perform_create"><code class="docutils literal notranslate"><span class="pre">PublicationViewSet.perform_create()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="publications.html#publications.views.PublicationViewSet.permission_classes"><code class="docutils literal notranslate"><span class="pre">PublicationViewSet.permission_classes</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="publications.html#publications.views.PublicationViewSet.queryset"><code class="docutils literal notranslate"><span class="pre">PublicationViewSet.queryset</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="publications.html#publications.views.PublicationViewSet.serializer_class"><code class="docutils literal notranslate"><span class="pre">PublicationViewSet.serializer_class</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="publications.html#publications.views.PublicationViewSet.suffix"><code class="docutils literal notranslate"><span class="pre">PublicationViewSet.suffix</span></code></a></li>

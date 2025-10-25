@@ -83,7 +83,7 @@
                                   <span class="n">UpdateView</span><span class="p">,</span> <span class="n">TemplateView</span><span class="p">)</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">Publication</span><span class="p">,</span> <span class="n">JoinRequest</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.serializers</span><span class="w"> </span><span class="kn">import</span> <span class="n">PublicationSerializer</span><span class="p">,</span> <span class="n">JoinRequestSerializer</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">.permissions</span><span class="w"> </span><span class="kn">import</span> <span class="n">IsEditor</span><span class="p">,</span> <span class="n">ReadOnly</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.permissions</span><span class="w"> </span><span class="kn">import</span> <span class="n">IsEditor</span><span class="p">,</span> <span class="n">PublicationPermissions</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.forms</span><span class="w"> </span><span class="kn">import</span> <span class="n">PublicationForm</span><span class="p">,</span> <span class="n">JoinRequestForm</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">articles.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">Article</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">articles.forms</span><span class="w"> </span><span class="kn">import</span> <span class="n">ArticleForm</span>
@@ -167,43 +167,53 @@
 <div class="viewcode-block" id="PublicationViewSet">
 <a class="viewcode-back" href="../../publications.html#publications.views.PublicationViewSet">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">PublicationViewSet</span><span class="p">(</span><span class="n">viewsets</span><span class="o">.</span><span class="n">ModelViewSet</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Provide CRUD operations for publications.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Manage publication CRUD operations.</span>
 
-<span class="sd">    Editors can create and manage publications, while readers</span>
-<span class="sd">    can only view them.</span>
+<span class="sd">    Editors can create and manage their publications.</span>
+<span class="sd">    Journalists and readers can only view existing publications.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">queryset</span> <span class="o">=</span> <span class="n">Publication</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
     <span class="n">serializer_class</span> <span class="o">=</span> <span class="n">PublicationSerializer</span>
+    <span class="n">queryset</span> <span class="o">=</span> <span class="n">Publication</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">prefetch_related</span><span class="p">(</span>
+        <span class="s2">&quot;editors&quot;</span><span class="p">,</span> <span class="s2">&quot;journalists&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">order_by</span><span class="p">(</span><span class="s2">&quot;id&quot;</span><span class="p">)</span>
 
-<div class="viewcode-block" id="PublicationViewSet.get_permissions">
-<a class="viewcode-back" href="../../publications.html#publications.views.PublicationViewSet.get_permissions">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">get_permissions</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Assign view or edit permissions depending on the action.</span>
+    <span class="n">permission_classes</span> <span class="o">=</span> <span class="p">[</span><span class="n">IsAuthenticated</span><span class="p">,</span> <span class="n">PublicationPermissions</span><span class="p">]</span>
+    <span class="n">lookup_field</span> <span class="o">=</span> <span class="s2">&quot;id&quot;</span>
 
-<span class="sd">            :return: List of permission instances.</span>
-<span class="sd">            :rtype: list</span>
+<div class="viewcode-block" id="PublicationViewSet.get_queryset">
+<a class="viewcode-back" href="../../publications.html#publications.views.PublicationViewSet.get_queryset">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_queryset</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Filter publications based on user role.</span>
+
+<span class="sd">        Editors can only see their own publications and</span>
+<span class="sd">        journalists and readers see all publications.</span>
+
+<span class="sd">        :return: Filtered queryset of publications.</span>
+<span class="sd">        :rtype: QuerySet</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">action</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;list&quot;</span><span class="p">,</span> <span class="s2">&quot;retrieve&quot;</span><span class="p">]:</span>
-            <span class="k">return</span> <span class="p">[</span><span class="n">ReadOnly</span><span class="p">()]</span>
-        <span class="k">return</span> <span class="p">[</span><span class="n">IsAuthenticated</span><span class="p">()]</span></div>
+        <span class="n">user</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">user</span>
+
+        <span class="c1"># Editors: see their own publications</span>
+        <span class="k">if</span> <span class="n">user</span><span class="o">.</span><span class="n">role</span> <span class="o">==</span> <span class="s2">&quot;editor&quot;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">user</span><span class="o">.</span><span class="n">edited_publications</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+
+        <span class="c1"># Journalists &amp; readers: can view all publications</span>
+        <span class="k">if</span> <span class="n">user</span><span class="o">.</span><span class="n">role</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;journalist&quot;</span><span class="p">,</span> <span class="s2">&quot;reader&quot;</span><span class="p">]:</span>
+            <span class="k">return</span> <span class="n">Publication</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="n">Publication</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">none</span><span class="p">()</span></div>
 
 
 <div class="viewcode-block" id="PublicationViewSet.perform_create">
 <a class="viewcode-back" href="../../publications.html#publications.views.PublicationViewSet.perform_create">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">perform_create</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">serializer</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Automatically assign the current user as an editor</span>
-<span class="sd">        when creating a publication..</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Assign the requesting editor to a new publication.</span>
 
-<span class="sd">            :param serializer: Validated publication serializer instance.</span>
-<span class="sd">            :type serializer: PublicationSerializer</span>
-<span class="sd">            :return: None</span>
+<span class="sd">        :param serializer: Validated publication serializer.</span>
+<span class="sd">        :type serializer: PublicationSerializer</span>
+<span class="sd">        :return: None</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="c1"># Auto-assign current user as editor</span>
         <span class="n">publication</span> <span class="o">=</span> <span class="n">serializer</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
-        <span class="n">publication</span><span class="o">.</span><span class="n">editors</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="p">)</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">role</span> <span class="o">!=</span> <span class="s2">&quot;editor&quot;</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">role</span> <span class="o">=</span> <span class="s2">&quot;editor&quot;</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">save</span><span class="p">()</span></div>
+        <span class="n">publication</span><span class="o">.</span><span class="n">editors</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="p">)</span></div>
 </div>
 
 
@@ -442,7 +452,8 @@
 
 <div class="viewcode-block" id="EditorDashboardView">
 <a class="viewcode-back" href="../../publications.html#publications.views.EditorDashboardView">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">EditorDashboardView</span><span class="p">(</span><span class="n">LoginRequiredMixin</span><span class="p">,</span> <span class="n">TemplateView</span><span class="p">,</span> <span class="n">PaginationMixin</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">EditorDashboardView</span><span class="p">(</span><span class="n">LoginRequiredMixin</span><span class="p">,</span> <span class="n">EditorPermissionMixin</span><span class="p">,</span>
+                          <span class="n">TemplateView</span><span class="p">,</span> <span class="n">PaginationMixin</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Display the editor dashboard with key editorial data.</span>
 
 <span class="sd">    Shows the editor&#39;s publications, pending join requests, and</span>

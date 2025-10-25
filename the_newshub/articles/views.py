@@ -1,15 +1,14 @@
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.db.models import Q
 from django.urls import reverse_lazy
 from django.utils import timezone
 from django.shortcuts import redirect, get_object_or_404
 from django.views.generic import (ListView, CreateView, DetailView,
                                   UpdateView, DeleteView, TemplateView)
-from rest_framework import viewsets, status
-from rest_framework.decorators import action
+from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated
-from rest_framework.response import Response
-from .permissions import ReadOnly
+from .permissions import ReadOnly, ArticlePermissions
 from .forms import ArticleForm
 from .models import Article, Comment, Rating
 from .serializers import (
@@ -316,24 +315,49 @@ class ArticleViewSet(viewsets.ModelViewSet):
 
         :param ModelViewSet: Base class for REST framework viewsets.
     """
-    queryset = Article.objects.all().select_related("author", "publication")
     serializer_class = ArticleSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, ArticlePermissions]
+    lookup_field = "slug"
+    queryset = Article.objects.select_related(
+        "author", "publication").order_by("-created_at")
 
     def get_queryset(self):
-        """
-        Return all published articles.
+        """Filter articles based on user role.
 
-            :return: QuerySet of published articles.
-            :rtype: QuerySet
+        All users see published articles, journalists also see
+        their own and editors see articles all articles in their
+        publications.
+
+        :return: Filtered queryset of articles.
+        :rtype: QuerySet
         """
-        return Article.objects.filter(status="published")
+        user = self.request.user
+
+        if user.role == "reader":
+            return Article.objects.filter(status="published")
+
+        if user.role == "journalist":
+            return Article.objects.filter(
+                Q(author=user) | Q(status="published")
+            ).distinct()
+
+        if user.role == "editor":
+            return Article.objects.filter(
+                Q(publication__in=user.edited_publications.all())
+                | Q(status="published")
+            ).distinct()
+
+        return Article.objects.none()
 
     def perform_create(self, serializer):
-        """Set current user as author and publish if no publication is linked.
+        """Assign author and status upon creation.
 
-            :param serializer: Article serializer instance.
-            :type serializer: ArticleSerializer
+        Independent articles are published immediately,
+        publication linked articles require editor approval.
+
+        :param serializer: Validated article serializer.
+        :type serializer: ArticleSerializer
+        :return: None
         """
         article = serializer.save(author=self.request.user)
         if not article.publication:
@@ -342,55 +366,26 @@ class ArticleViewSet(viewsets.ModelViewSet):
             article.save()
 
     def get_object(self):
-        """Retrieve an article by slug.
+        """Retrieve an article and enforce object-level permissions.
 
-            :return: Article instance.
-            :rtype: Article
+        Ensures users can only access articles they have permission for.
+
+        :return: The requested article object.
+        :rtype: Article
         """
-        slug = self.kwargs.get("slug")  # Get slug from URL
-        return Article.objects.get(slug=slug)
-
-    @action(detail=False, methods=["get"],
-            permission_classes=[IsAuthenticated]
+        lookup_field_value = self.kwargs.get(self.lookup_field)
+        article = get_object_or_404(
+            Article, **{self.lookup_field: lookup_field_value}
             )
-    def my_submissions(self, request):
-        """Return journalist's articles grouped by status.
-
-            :param request: HTTP request object.
-            :type request: Request
-            :return: Categorized articles.
-            :rtype: Response
-        """
-        user = request.user
-        if user.role != "journalist":
-            return Response(
-                {"detail": "Only journalists can access submissions."},
-                status=status.HTTP_403_FORBIDDEN,
-            )
-
-        articles = Article.objects.filter(author=user).order_by("-updated_at")
-        data = {
-            "drafts": ArticleSerializer(
-                articles.filter(status="draft"), many=True
-            ).data,
-            "pending_approval": ArticleSerializer(
-                articles.filter(status="pending_approval"), many=True
-            ).data,
-            "published": ArticleSerializer(
-                articles.filter(status="published"), many=True
-            ).data,
-            "rejected": ArticleSerializer(
-                articles.filter(status="rejected"), many=True
-            ).data,
-        }
-        return Response(data, status=status.HTTP_200_OK)
+        # Explicitly check permissions on this object
+        self.check_object_permissions(self.request, article)
+        return article
 
 # --- Journalist Article Views ---
 
 
 class JournalistPermissionMixin(UserPassesTestMixin):
-    """
-    Ensure user is a journalist and has relevant permissions.
+    """Ensure user is a journalist and has relevant permissions.
     """
     def test_func(self):
         """Check if the user is a journalist.
@@ -404,8 +399,7 @@ class JournalistPermissionMixin(UserPassesTestMixin):
 class ArticleCreateView(LoginRequiredMixin, JournalistPermissionMixin,
                         CreateView
                         ):
-    """
-    Allow journalists to create new articles or newsletters.
+    """Allow journalists to create new articles or newsletters.
 
     Independent articles are published automatically, while those linked
     to a publication are submitted for editor approval.

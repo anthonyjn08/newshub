@@ -72,6 +72,7 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#module-articles.permissions">articles.permissions module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#articles.permissions.ArticlePermissions"><code class="docutils literal notranslate"><span class="pre">ArticlePermissions</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#articles.permissions.IsEditorOrJournalist"><code class="docutils literal notranslate"><span class="pre">IsEditorOrJournalist</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#articles.permissions.ReadOnly"><code class="docutils literal notranslate"><span class="pre">ReadOnly</span></code></a></li>
 </ul>
@@ -815,6 +816,25 @@ one-to-one (via ForwardOneToOneDescriptor subclass) relation.</p>
 <section id="module-articles.permissions">
 <span id="articles-permissions-module"></span><h2>articles.permissions module<a class="headerlink" href="#module-articles.permissions" title="Link to this heading"></a></h2>
 <dl class="py class">
+<dt class="sig sig-object py" id="articles.permissions.ArticlePermissions">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">articles.permissions.</span></span><span class="sig-name descname"><span class="pre">ArticlePermissions</span></span><a class="reference internal" href="_modules/articles/permissions.html#ArticlePermissions"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#articles.permissions.ArticlePermissions" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BasePermission</span></code></p>
+<p>Ensures users have correct access.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="articles.permissions.ArticlePermissions.has_object_permission">
+<span class="sig-name descname"><span class="pre">has_object_permission</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">view</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">obj</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/articles/permissions.html#ArticlePermissions.has_object_permission"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#articles.permissions.ArticlePermissions.has_object_permission" title="Link to this definition"></a></dt>
+<dd><p>Return <cite>True</cite> if permission is granted, <cite>False</cite> otherwise.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="articles.permissions.ArticlePermissions.has_permission">
+<span class="sig-name descname"><span class="pre">has_permission</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">view</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/articles/permissions.html#ArticlePermissions.has_permission"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#articles.permissions.ArticlePermissions.has_permission" title="Link to this definition"></a></dt>
+<dd><p>Return <cite>True</cite> if permission is granted, <cite>False</cite> otherwise.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
 <dt class="sig sig-object py" id="articles.permissions.IsEditorOrJournalist">
 <em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">articles.permissions.</span></span><span class="sig-name descname"><span class="pre">IsEditorOrJournalist</span></span><a class="reference internal" href="_modules/articles/permissions.html#IsEditorOrJournalist"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#articles.permissions.IsEditorOrJournalist" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BasePermission</span></code></p>
@@ -865,7 +885,7 @@ one-to-one (via ForwardOneToOneDescriptor subclass) relation.</p>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="articles.serializers.ArticleSerializer.Meta.read_only_fields">
-<span class="sig-name descname"><span class="pre">read_only_fields</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['author_name',</span> <span class="pre">'status',</span> <span class="pre">'feedback']</span></em><a class="headerlink" href="#articles.serializers.ArticleSerializer.Meta.read_only_fields" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">read_only_fields</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['author_name',</span> <span class="pre">'status']</span></em><a class="headerlink" href="#articles.serializers.ArticleSerializer.Meta.read_only_fields" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -1260,7 +1280,7 @@ to the article detail page.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="articles.views.ArticleListView">
 <em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">articles.views.</span></span><span class="sig-name descname"><span class="pre">ArticleListView</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/articles/views.html#ArticleListView"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#articles.views.ArticleListView" title="Link to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">LoginRequiredMixin</span></code>, <a class="reference internal" href="core.html#core.mixins.PaginationMixin" title="core.mixins.PaginationMixin"><code class="xref py py-class docutils literal notranslate"><span class="pre">PaginationMixin</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">ListView</span></code></p>
+<dd><p>Bases: <a class="reference internal" href="core.html#core.mixins.PaginationMixin" title="core.mixins.PaginationMixin"><code class="xref py py-class docutils literal notranslate"><span class="pre">PaginationMixin</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">ListView</span></code></p>
 <p>Displays a list of published articles and newsletters.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -1440,10 +1460,11 @@ ones are submitted for approval. Journalists can only edit their own work.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="articles.views.ArticleViewSet.get_object">
 <span class="sig-name descname"><span class="pre">get_object</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/articles/views.html#ArticleViewSet.get_object"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#articles.views.ArticleViewSet.get_object" title="Link to this definition"></a></dt>
-<dd><p>Retrieve an article by slug.</p>
+<dd><p>Retrieve an article and enforce object-level permissions.</p>
+<p>Ensures users can only access articles they have permission for.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Article instance.</p>
+<dd class="field-odd"><p>The requested article object.</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference internal" href="#articles.models.Article" title="articles.models.Article">Article</a></p>
@@ -1454,35 +1475,24 @@ ones are submitted for approval. Journalists can only edit their own work.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="articles.views.ArticleViewSet.get_queryset">
 <span class="sig-name descname"><span class="pre">get_queryset</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/articles/views.html#ArticleViewSet.get_queryset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#articles.views.ArticleViewSet.get_queryset" title="Link to this definition"></a></dt>
-<dd><p>Return all published articles.</p>
-<blockquote>
-<div><dl class="field-list simple">
-<dt class="field-odd">return<span class="colon">:</span></dt>
-<dd class="field-odd"><p>QuerySet of published articles.</p>
+<dd><p>Filter articles based on user role.</p>
+<p>All users see published articles, journalists also see
+their own and editors see articles all articles in their
+publications.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Filtered queryset of articles.</p>
 </dd>
-<dt class="field-even">rtype<span class="colon">:</span></dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>QuerySet</p>
 </dd>
 </dl>
-</div></blockquote>
 </dd></dl>
 
-<dl class="py method">
-<dt class="sig sig-object py" id="articles.views.ArticleViewSet.my_submissions">
-<span class="sig-name descname"><span class="pre">my_submissions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/articles/views.html#ArticleViewSet.my_submissions"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#articles.views.ArticleViewSet.my_submissions" title="Link to this definition"></a></dt>
-<dd><p>Return journalist’s articles grouped by status.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>request</strong> (<em>Request</em>) – HTTP request object.</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Categorized articles.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Response</p>
-</dd>
-</dl>
-</dd></dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="articles.views.ArticleViewSet.lookup_field">
+<span class="sig-name descname"><span class="pre">lookup_field</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'slug'</span></em><a class="headerlink" href="#articles.views.ArticleViewSet.lookup_field" title="Link to this definition"></a></dt>
+<dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="articles.views.ArticleViewSet.name">
@@ -1492,22 +1502,27 @@ ones are submitted for approval. Journalists can only edit their own work.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="articles.views.ArticleViewSet.perform_create">
 <span class="sig-name descname"><span class="pre">perform_create</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">serializer</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/articles/views.html#ArticleViewSet.perform_create"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#articles.views.ArticleViewSet.perform_create" title="Link to this definition"></a></dt>
-<dd><p>Set current user as author and publish if no publication is linked.</p>
+<dd><p>Assign author and status upon creation.</p>
+<p>Independent articles are published immediately,
+publication linked articles require editor approval.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>serializer</strong> (<a class="reference internal" href="#articles.serializers.ArticleSerializer" title="articles.serializers.ArticleSerializer"><em>ArticleSerializer</em></a>) – Article serializer instance.</p>
+<dd class="field-odd"><p><strong>serializer</strong> (<a class="reference internal" href="#articles.serializers.ArticleSerializer" title="articles.serializers.ArticleSerializer"><em>ArticleSerializer</em></a>) – Validated article serializer.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="articles.views.ArticleViewSet.permission_classes">
-<span class="sig-name descname"><span class="pre">permission_classes</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[&lt;class</span> <span class="pre">'rest_framework.permissions.IsAuthenticated'&gt;]</span></em><a class="headerlink" href="#articles.views.ArticleViewSet.permission_classes" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">permission_classes</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[&lt;class</span> <span class="pre">'rest_framework.permissions.IsAuthenticated'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'articles.permissions.ArticlePermissions'&gt;]</span></em><a class="headerlink" href="#articles.views.ArticleViewSet.permission_classes" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="articles.views.ArticleViewSet.queryset">
-<span class="sig-name descname"><span class="pre">queryset</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;QuerySet</span> <span class="pre">[&lt;Article:</span> <span class="pre">Newsletter</span> <span class="pre">(Newsletter</span> <span class="pre">-</span> <span class="pre">Published)&gt;,</span> <span class="pre">&lt;Article:</span> <span class="pre">test</span> <span class="pre">newletter</span> <span class="pre">(Newsletter</span> <span class="pre">-</span> <span class="pre">Published)&gt;,</span> <span class="pre">&lt;Article:</span> <span class="pre">image</span> <span class="pre">test</span> <span class="pre">(Article</span> <span class="pre">-</span> <span class="pre">Published)&gt;,</span> <span class="pre">&lt;Article:</span> <span class="pre">editor</span> <span class="pre">appproval</span> <span class="pre">test</span> <span class="pre">(Article</span> <span class="pre">-</span> <span class="pre">Published)&gt;,</span> <span class="pre">&lt;Article:</span> <span class="pre">newsletter</span> <span class="pre">editor</span> <span class="pre">(Newsletter</span> <span class="pre">-</span> <span class="pre">Published)&gt;,</span> <span class="pre">&lt;Article:</span> <span class="pre">email</span> <span class="pre">test</span> <span class="pre">(Article</span> <span class="pre">-</span> <span class="pre">Published)&gt;,</span> <span class="pre">&lt;Article:</span> <span class="pre">twewet</span> <span class="pre">(Article</span> <span class="pre">-</span> <span class="pre">Published)&gt;,</span> <span class="pre">&lt;Article:</span> <span class="pre">bfrbf</span> <span class="pre">(Article</span> <span class="pre">-</span> <span class="pre">Published)&gt;,</span> <span class="pre">&lt;Article:</span> <span class="pre">brbw</span> <span class="pre">(Article</span> <span class="pre">-</span> <span class="pre">Published)&gt;,</span> <span class="pre">&lt;Article:</span> <span class="pre">Pagination</span> <span class="pre">test</span> <span class="pre">(Article</span> <span class="pre">-</span> <span class="pre">Published)&gt;,</span> <span class="pre">&lt;Article:</span> <span class="pre">PS6</span> <span class="pre">(Article</span> <span class="pre">-</span> <span class="pre">Published)&gt;,</span> <span class="pre">&lt;Article:</span> <span class="pre">trigger</span> <span class="pre">test</span> <span class="pre">(Article</span> <span class="pre">-</span> <span class="pre">Published)&gt;,</span> <span class="pre">&lt;Article:</span> <span class="pre">dbeaqb</span> <span class="pre">(Article</span> <span class="pre">-</span> <span class="pre">Published)&gt;,</span> <span class="pre">&lt;Article:</span> <span class="pre">dwbwr</span> <span class="pre">(Article</span> <span class="pre">-</span> <span class="pre">Published)&gt;,</span> <span class="pre">&lt;Article:</span> <span class="pre">signal</span> <span class="pre">test</span> <span class="pre">(Article</span> <span class="pre">-</span> <span class="pre">Published)&gt;,</span> <span class="pre">&lt;Article:</span> <span class="pre">signal</span> <span class="pre">test</span> <span class="pre">2</span> <span class="pre">(Newsletter</span> <span class="pre">-</span> <span class="pre">Published)&gt;,</span> <span class="pre">&lt;Article:</span> <span class="pre">test</span> <span class="pre">sub</span> <span class="pre">(Article</span> <span class="pre">-</span> <span class="pre">Pending</span> <span class="pre">Approval)&gt;]&gt;</span></em><a class="headerlink" href="#articles.views.ArticleViewSet.queryset" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">queryset</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;QuerySet</span> <span class="pre">[&lt;Article:</span> <span class="pre">test</span> <span class="pre">sub</span> <span class="pre">(Article</span> <span class="pre">-</span> <span class="pre">Pending</span> <span class="pre">Approval)&gt;,</span> <span class="pre">&lt;Article:</span> <span class="pre">signal</span> <span class="pre">test</span> <span class="pre">2</span> <span class="pre">(Newsletter</span> <span class="pre">-</span> <span class="pre">Published)&gt;,</span> <span class="pre">&lt;Article:</span> <span class="pre">signal</span> <span class="pre">test</span> <span class="pre">(Article</span> <span class="pre">-</span> <span class="pre">Published)&gt;,</span> <span class="pre">&lt;Article:</span> <span class="pre">dwbwr</span> <span class="pre">(Article</span> <span class="pre">-</span> <span class="pre">Published)&gt;,</span> <span class="pre">&lt;Article:</span> <span class="pre">dbeaqb</span> <span class="pre">(Article</span> <span class="pre">-</span> <span class="pre">Published)&gt;,</span> <span class="pre">&lt;Article:</span> <span class="pre">trigger</span> <span class="pre">test</span> <span class="pre">(Article</span> <span class="pre">-</span> <span class="pre">Published)&gt;,</span> <span class="pre">&lt;Article:</span> <span class="pre">PS6</span> <span class="pre">(Article</span> <span class="pre">-</span> <span class="pre">Published)&gt;,</span> <span class="pre">&lt;Article:</span> <span class="pre">Pagination</span> <span class="pre">test</span> <span class="pre">(Article</span> <span class="pre">-</span> <span class="pre">Published)&gt;,</span> <span class="pre">&lt;Article:</span> <span class="pre">brbw</span> <span class="pre">(Article</span> <span class="pre">-</span> <span class="pre">Published)&gt;,</span> <span class="pre">&lt;Article:</span> <span class="pre">bfrbf</span> <span class="pre">(Article</span> <span class="pre">-</span> <span class="pre">Published)&gt;,</span> <span class="pre">&lt;Article:</span> <span class="pre">twewet</span> <span class="pre">(Article</span> <span class="pre">-</span> <span class="pre">Published)&gt;,</span> <span class="pre">&lt;Article:</span> <span class="pre">email</span> <span class="pre">test</span> <span class="pre">(Article</span> <span class="pre">-</span> <span class="pre">Published)&gt;,</span> <span class="pre">&lt;Article:</span> <span class="pre">newsletter</span> <span class="pre">editor</span> <span class="pre">(Newsletter</span> <span class="pre">-</span> <span class="pre">Published)&gt;,</span> <span class="pre">&lt;Article:</span> <span class="pre">editor</span> <span class="pre">appproval</span> <span class="pre">test</span> <span class="pre">(Article</span> <span class="pre">-</span> <span class="pre">Published)&gt;,</span> <span class="pre">&lt;Article:</span> <span class="pre">image</span> <span class="pre">test</span> <span class="pre">(Article</span> <span class="pre">-</span> <span class="pre">Published)&gt;,</span> <span class="pre">&lt;Article:</span> <span class="pre">test</span> <span class="pre">newletter</span> <span class="pre">(Newsletter</span> <span class="pre">-</span> <span class="pre">Published)&gt;,</span> <span class="pre">&lt;Article:</span> <span class="pre">Newsletter</span> <span class="pre">(Newsletter</span> <span class="pre">-</span> <span class="pre">Published)&gt;]&gt;</span></em><a class="headerlink" href="#articles.views.ArticleViewSet.queryset" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
@@ -1566,7 +1581,7 @@ ones are submitted for approval. Journalists can only edit their own work.</p>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="articles.views.CommentViewSet.queryset">
-<span class="sig-name descname"><span class="pre">queryset</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;QuerySet</span> <span class="pre">[&lt;Comment:</span> <span class="pre">Comment</span> <span class="pre">by</span> <span class="pre">reader&#64;test.com</span> <span class="pre">on</span> <span class="pre">signal</span> <span class="pre">test</span> <span class="pre">(Article</span> <span class="pre">-</span> <span class="pre">Published)&gt;,</span> <span class="pre">&lt;Comment:</span> <span class="pre">Comment</span> <span class="pre">by</span> <span class="pre">reader&#64;test.com</span> <span class="pre">on</span> <span class="pre">signal</span> <span class="pre">test</span> <span class="pre">(Article</span> <span class="pre">-</span> <span class="pre">Published)&gt;]&gt;</span></em><a class="headerlink" href="#articles.views.CommentViewSet.queryset" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">queryset</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;QuerySet</span> <span class="pre">[&lt;Comment:</span> <span class="pre">Comment</span> <span class="pre">by</span> <span class="pre">editor&#64;test.com</span> <span class="pre">on</span> <span class="pre">dwbwr</span> <span class="pre">(Article</span> <span class="pre">-</span> <span class="pre">Published)&gt;,</span> <span class="pre">&lt;Comment:</span> <span class="pre">Comment</span> <span class="pre">by</span> <span class="pre">reader&#64;test.com</span> <span class="pre">on</span> <span class="pre">signal</span> <span class="pre">test</span> <span class="pre">(Article</span> <span class="pre">-</span> <span class="pre">Published)&gt;,</span> <span class="pre">&lt;Comment:</span> <span class="pre">Comment</span> <span class="pre">by</span> <span class="pre">reader&#64;test.com</span> <span class="pre">on</span> <span class="pre">signal</span> <span class="pre">test</span> <span class="pre">(Article</span> <span class="pre">-</span> <span class="pre">Published)&gt;]&gt;</span></em><a class="headerlink" href="#articles.views.CommentViewSet.queryset" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">

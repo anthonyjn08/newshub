@@ -12,7 +12,7 @@ from django.views.generic import (ListView, DetailView, CreateView, DeleteView,
                                   UpdateView, TemplateView)
 from .models import Publication, JoinRequest
 from .serializers import PublicationSerializer, JoinRequestSerializer
-from .permissions import IsEditor, ReadOnly
+from .permissions import IsEditor, PublicationPermissions
 from .forms import PublicationForm, JoinRequestForm
 from articles.models import Article
 from articles.forms import ArticleForm
@@ -82,38 +82,48 @@ class PublicationDetailView(DetailView):
 
 
 class PublicationViewSet(viewsets.ModelViewSet):
-    """Provide CRUD operations for publications.
+    """Manage publication CRUD operations.
 
-    Editors can create and manage publications, while readers
-    can only view them.
+    Editors can create and manage their publications.
+    Journalists and readers can only view existing publications.
     """
-    queryset = Publication.objects.all()
     serializer_class = PublicationSerializer
+    queryset = Publication.objects.prefetch_related(
+        "editors", "journalists").order_by("id")
 
-    def get_permissions(self):
-        """Assign view or edit permissions depending on the action.
+    permission_classes = [IsAuthenticated, PublicationPermissions]
+    lookup_field = "id"
 
-            :return: List of permission instances.
-            :rtype: list
+    def get_queryset(self):
+        """Filter publications based on user role.
+
+        Editors can only see their own publications and
+        journalists and readers see all publications.
+
+        :return: Filtered queryset of publications.
+        :rtype: QuerySet
         """
-        if self.action in ["list", "retrieve"]:
-            return [ReadOnly()]
-        return [IsAuthenticated()]
+        user = self.request.user
+
+        # Editors: see their own publications
+        if user.role == "editor":
+            return user.edited_publications.all()
+
+        # Journalists & readers: can view all publications
+        if user.role in ["journalist", "reader"]:
+            return Publication.objects.all()
+
+        return Publication.objects.none()
 
     def perform_create(self, serializer):
-        """Automatically assign the current user as an editor
-        when creating a publication..
+        """Assign the requesting editor to a new publication.
 
-            :param serializer: Validated publication serializer instance.
-            :type serializer: PublicationSerializer
-            :return: None
+        :param serializer: Validated publication serializer.
+        :type serializer: PublicationSerializer
+        :return: None
         """
-        # Auto-assign current user as editor
         publication = serializer.save()
         publication.editors.add(self.request.user)
-        if self.request.user.role != "editor":
-            self.request.user.role = "editor"
-            self.request.user.save()
 
 # --- Journalist views ---
 
@@ -306,7 +316,8 @@ class EditorPermissionMixin(UserPassesTestMixin):
         return self.request.user.role == "editor"
 
 
-class EditorDashboardView(LoginRequiredMixin, TemplateView, PaginationMixin):
+class EditorDashboardView(LoginRequiredMixin, EditorPermissionMixin,
+                          TemplateView, PaginationMixin):
     """Display the editor dashboard with key editorial data.
 
     Shows the editor's publications, pending join requests, and

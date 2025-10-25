@@ -73,8 +73,10 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#module-publications.permissions">publications.permissions module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#publications.permissions.EditorOnlyPermission"><code class="docutils literal notranslate"><span class="pre">EditorOnlyPermission</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#publications.permissions.IsEditor"><code class="docutils literal notranslate"><span class="pre">IsEditor</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#publications.permissions.IsJournalist"><code class="docutils literal notranslate"><span class="pre">IsJournalist</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#publications.permissions.PublicationPermissions"><code class="docutils literal notranslate"><span class="pre">PublicationPermissions</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#publications.permissions.ReadOnly"><code class="docutils literal notranslate"><span class="pre">ReadOnly</span></code></a></li>
 </ul>
 </li>
@@ -617,6 +619,26 @@ class built by <code class="docutils literal notranslate"><span class="pre">crea
 <section id="module-publications.permissions">
 <span id="publications-permissions-module"></span><h2>publications.permissions module<a class="headerlink" href="#module-publications.permissions" title="Link to this heading"></a></h2>
 <dl class="py class">
+<dt class="sig sig-object py" id="publications.permissions.EditorOnlyPermission">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">publications.permissions.</span></span><span class="sig-name descname"><span class="pre">EditorOnlyPermission</span></span><a class="reference internal" href="_modules/publications/permissions.html#EditorOnlyPermission"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#publications.permissions.EditorOnlyPermission" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BasePermission</span></code></p>
+<p>Grants access only to editors for unsafe methods (POST, PATCH, DELETE),
+but allows everyone to view (GET, HEAD, OPTIONS).</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="publications.permissions.EditorOnlyPermission.has_object_permission">
+<span class="sig-name descname"><span class="pre">has_object_permission</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">view</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">obj</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/publications/permissions.html#EditorOnlyPermission.has_object_permission"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#publications.permissions.EditorOnlyPermission.has_object_permission" title="Link to this definition"></a></dt>
+<dd><p>Return <cite>True</cite> if permission is granted, <cite>False</cite> otherwise.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="publications.permissions.EditorOnlyPermission.has_permission">
+<span class="sig-name descname"><span class="pre">has_permission</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">view</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/publications/permissions.html#EditorOnlyPermission.has_permission"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#publications.permissions.EditorOnlyPermission.has_permission" title="Link to this definition"></a></dt>
+<dd><p>Return <cite>True</cite> if permission is granted, <cite>False</cite> otherwise.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
 <dt class="sig sig-object py" id="publications.permissions.IsEditor">
 <em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">publications.permissions.</span></span><span class="sig-name descname"><span class="pre">IsEditor</span></span><a class="reference internal" href="_modules/publications/permissions.html#IsEditor"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#publications.permissions.IsEditor" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BasePermission</span></code></p>
@@ -637,6 +659,25 @@ class built by <code class="docutils literal notranslate"><span class="pre">crea
 <dl class="py method">
 <dt class="sig sig-object py" id="publications.permissions.IsJournalist.has_permission">
 <span class="sig-name descname"><span class="pre">has_permission</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">view</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/publications/permissions.html#IsJournalist.has_permission"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#publications.permissions.IsJournalist.has_permission" title="Link to this definition"></a></dt>
+<dd><p>Return <cite>True</cite> if permission is granted, <cite>False</cite> otherwise.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="publications.permissions.PublicationPermissions">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">publications.permissions.</span></span><span class="sig-name descname"><span class="pre">PublicationPermissions</span></span><a class="reference internal" href="_modules/publications/permissions.html#PublicationPermissions"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#publications.permissions.PublicationPermissions" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BasePermission</span></code></p>
+<p>Custom permissions for Publication API.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="publications.permissions.PublicationPermissions.has_object_permission">
+<span class="sig-name descname"><span class="pre">has_object_permission</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">view</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">obj</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/publications/permissions.html#PublicationPermissions.has_object_permission"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#publications.permissions.PublicationPermissions.has_object_permission" title="Link to this definition"></a></dt>
+<dd><p>Return <cite>True</cite> if permission is granted, <cite>False</cite> otherwise.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="publications.permissions.PublicationPermissions.has_permission">
+<span class="sig-name descname"><span class="pre">has_permission</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">view</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/publications/permissions.html#PublicationPermissions.has_permission"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#publications.permissions.PublicationPermissions.has_permission" title="Link to this definition"></a></dt>
 <dd><p>Return <cite>True</cite> if permission is granted, <cite>False</cite> otherwise.</p>
 </dd></dl>
 
@@ -923,7 +964,7 @@ articles within their publications.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="publications.views.EditorDashboardView">
 <em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">publications.views.</span></span><span class="sig-name descname"><span class="pre">EditorDashboardView</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/publications/views.html#EditorDashboardView"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#publications.views.EditorDashboardView" title="Link to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">LoginRequiredMixin</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">TemplateView</span></code>, <a class="reference internal" href="core.html#core.mixins.PaginationMixin" title="core.mixins.PaginationMixin"><code class="xref py py-class docutils literal notranslate"><span class="pre">PaginationMixin</span></code></a></p>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">LoginRequiredMixin</span></code>, <a class="reference internal" href="#publications.views.EditorPermissionMixin" title="publications.views.EditorPermissionMixin"><code class="xref py py-class docutils literal notranslate"><span class="pre">EditorPermissionMixin</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">TemplateView</span></code>, <a class="reference internal" href="core.html#core.mixins.PaginationMixin" title="core.mixins.PaginationMixin"><code class="xref py py-class docutils literal notranslate"><span class="pre">PaginationMixin</span></code></a></p>
 <p>Display the editor dashboard with key editorial data.</p>
 <p>Shows the editor’s publications, pending join requests, and
 articles awaiting approval.</p>
@@ -1561,9 +1602,9 @@ has_pending_request added for the current user.</p>
 <dt class="sig sig-object py" id="publications.views.PublicationViewSet">
 <em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">publications.views.</span></span><span class="sig-name descname"><span class="pre">PublicationViewSet</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/publications/views.html#PublicationViewSet"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#publications.views.PublicationViewSet" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ModelViewSet</span></code></p>
-<p>Provide CRUD operations for publications.</p>
-<p>Editors can create and manage publications, while readers
-can only view them.</p>
+<p>Manage publication CRUD operations.</p>
+<p>Editors can create and manage their publications.
+Journalists and readers can only view existing publications.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="publications.views.PublicationViewSet.basename">
 <span class="sig-name descname"><span class="pre">basename</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#publications.views.PublicationViewSet.basename" title="Link to this definition"></a></dt>
@@ -1580,18 +1621,25 @@ can only view them.</p>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="publications.views.PublicationViewSet.get_permissions">
-<span class="sig-name descname"><span class="pre">get_permissions</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/publications/views.html#PublicationViewSet.get_permissions"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#publications.views.PublicationViewSet.get_permissions" title="Link to this definition"></a></dt>
-<dd><p>Assign view or edit permissions depending on the action.</p>
+<dt class="sig sig-object py" id="publications.views.PublicationViewSet.get_queryset">
+<span class="sig-name descname"><span class="pre">get_queryset</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/publications/views.html#PublicationViewSet.get_queryset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#publications.views.PublicationViewSet.get_queryset" title="Link to this definition"></a></dt>
+<dd><p>Filter publications based on user role.</p>
+<p>Editors can only see their own publications and
+journalists and readers see all publications.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>List of permission instances.</p>
+<dd class="field-odd"><p>Filtered queryset of publications.</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>list</p>
+<dd class="field-even"><p>QuerySet</p>
 </dd>
 </dl>
 </dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="publications.views.PublicationViewSet.lookup_field">
+<span class="sig-name descname"><span class="pre">lookup_field</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'id'</span></em><a class="headerlink" href="#publications.views.PublicationViewSet.lookup_field" title="Link to this definition"></a></dt>
+<dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="publications.views.PublicationViewSet.name">
@@ -1601,22 +1649,21 @@ can only view them.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="publications.views.PublicationViewSet.perform_create">
 <span class="sig-name descname"><span class="pre">perform_create</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">serializer</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/publications/views.html#PublicationViewSet.perform_create"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#publications.views.PublicationViewSet.perform_create" title="Link to this definition"></a></dt>
-<dd><p>Automatically assign the current user as an editor
-when creating a publication..</p>
-<blockquote>
-<div><dl class="field-list simple">
-<dt class="field-odd">param serializer<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Validated publication serializer instance.</p>
+<dd><p>Assign the requesting editor to a new publication.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>serializer</strong> (<a class="reference internal" href="#publications.serializers.PublicationSerializer" title="publications.serializers.PublicationSerializer"><em>PublicationSerializer</em></a>) – Validated publication serializer.</p>
 </dd>
-<dt class="field-even">type serializer<span class="colon">:</span></dt>
-<dd class="field-even"><p>PublicationSerializer</p>
-</dd>
-<dt class="field-odd">return<span class="colon">:</span></dt>
-<dd class="field-odd"><p>None</p>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
 </dd>
 </dl>
-</div></blockquote>
 </dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="publications.views.PublicationViewSet.permission_classes">
+<span class="sig-name descname"><span class="pre">permission_classes</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[&lt;class</span> <span class="pre">'rest_framework.permissions.IsAuthenticated'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'publications.permissions.PublicationPermissions'&gt;]</span></em><a class="headerlink" href="#publications.views.PublicationViewSet.permission_classes" title="Link to this definition"></a></dt>
+<dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="publications.views.PublicationViewSet.queryset">

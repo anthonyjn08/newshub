@@ -1,5 +1,7 @@
 # The Newshub
 
+_Consolidation task content for sphinx and docker also included_
+
 A modern digital news platform built with **Django**, enabling **journalists**, **editors**, and **readers** to collaborate seamlessly in producing and consuming high-quality content.  
 The platform includes full editorial workflows, role-based permissions, a RESTful API for integrations, and automated publishing through **Twitter/X** and email notifications.
 
@@ -318,3 +320,159 @@ Features that I could have added or would have added if I had more time.
 - **[Geeksforgeeks](geeksforgeeks.org/)**
 - **[PlantUML](https://editor.plantuml.com/)**
 - **[draw.io](https://www.drawio.com/)**
+
+## Consolidation
+
+## Sphinx Docstrings
+
+As per the consolidationtask, I have added Sphinx docstrings to **articles/views.py** and **publications/views.py**
+
+The index.html file can be found in docs/\_build/index.html.
+
+### Adding Sphinx
+
+- Install Sphinx
+
+```
+pip install sphinx
+```
+
+- Install Sphinx theme _(optional)_
+
+```
+pip install sphinx-rtd-theme
+```
+
+- When prompted
+  - if you want to separate source and build directories, press enter to choose no (default)
+  - enter a project name
+  - provide authour name _<your_name>_
+  - enter 00.00.01 for project release
+  - press enter to choose default English language
+- Open conf.py _docs/conf.py_ near the top add
+
+```
+import os
+import sys
+sys.path.insert(0, os.path.abspath('..'))
+```
+
+- Locate the empty extensions list and add
+
+```
+extensions = [
+    "sphinx.ext.autodoc",
+    "sphinx.ext.viewcode",
+    "sphinx.ext.napoleon"
+]
+```
+
+- Then find html*theme and add *(if installed)\_
+
+```
+html_theme = 'sphinx_rtd_theme'
+```
+
+- Update docstring to sphinx format, _example_
+
+```
+class PublicationListView(ListView, PaginationMixin):
+    """Display a paginated list of all publications.
+
+    Combines standard list rendering with pagination to efficiently
+    display publication entries.
+    """
+    model = Publication
+    template_name = "publications/publication_list.html"
+    context_object_name = "publications"
+
+    def get_queryset(self):
+        """Retrieve all publications and mark whether the logged-in journalist
+        has a pending join request for each.
+
+            :return: QuerySet of publications with a custom attribute
+             has_pending_request added for the current user.
+            :rtype: QuerySet
+        """
+        set = Publication.objects.prefetch_related("editors", "join_requests")
+        user = self.request.user
+        for pub in set:
+            pub.has_pending_request = (
+                pub.join_requests.filter(user=user, status="pending").exists()
+                if user.is_authenticated and user.role == "journalist"
+                else False
+            )
+        return set
+```
+
+- CD to project root _(should contain docs and your project folders)_
+- Run command
+
+```
+sphinx-apidoc -o docs maths/
+```
+
+- If ran correctly, in your docs folder you will find a _projectname_.rst file.
+- Locate the **index.rst** file and add **modules** below :caption: Content:
+- CD into the docs folder and run
+
+```
+make html
+```
+
+- If succsess, in docs/\_build/html you will find **index.html** will docstrings included.
+
+## Docker
+
+A Dockerfile was create to contain my capstone project and successfully tested on Docker Playground.
+
+To verify, ensure you're in the right directory _the_newshub_ then follow the below.
+
+- Visit [Docker Playground](https://labs.play-with-docker.com/) and log in.
+- Press start, then Add New Instance
+- Clone the repository from [The Newshub](https://github.com/anthonyjn08/newshub/tree/main)
+
+```
+git clone https://github.com/...
+```
+
+- Build the coontaint
+
+```
+docker compose up -=build
+```
+
+- Once message confirms server has started click OPEN PORT enter 8000, click open to be taken to the site.
+
+```
+
+If for some reason, the database doesnt start, which is something that painfully happened to me, below are some instructiosn to manually build and start the services.
+
+```
+
+_#Clean and rebuild image_
+
+docker compose down -v
+docker compose build
+
+_# Start the database_
+
+docker compose up -d db
+
+_# run migrations_
+
+docker compose run --rm web python manage.py migrate
+
+_# start the web process_
+
+docker compose up
+
+_# service running when you see_
+
+web-1 | Django version X.X.X, using settings 'the_newshub.settings'
+
+web-1 | Starting development server at http://0.0.0.0:8000/
+
+```
+
+```

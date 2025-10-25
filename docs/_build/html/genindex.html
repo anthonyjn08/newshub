@@ -140,6 +140,8 @@
 </li>
       <li><a href="articles.html#articles.views.ArticleListView">ArticleListView (class in articles.views)</a>
 </li>
+      <li><a href="articles.html#articles.permissions.ArticlePermissions">ArticlePermissions (class in articles.permissions)</a>
+</li>
       <li><a href="publications.html#publications.views.ArticleReviewView">ArticleReviewView (class in publications.views)</a>
 </li>
       <li>
@@ -536,6 +538,8 @@
 </li>
       <li><a href="publications.html#publications.tests.EditorFlowTests">EditorFlowTests (class in publications.tests)</a>
 </li>
+      <li><a href="publications.html#publications.permissions.EditorOnlyPermission">EditorOnlyPermission (class in publications.permissions)</a>
+</li>
       <li><a href="articles.html#articles.views.EditorPermissionMixin">EditorPermissionMixin (class in articles.views)</a>
 
       <ul>
@@ -708,8 +712,6 @@
 </li>
       <li><a href="articles.html#articles.views.ArticleViewSet.get_object">get_object() (articles.views.ArticleViewSet method)</a>
 </li>
-      <li><a href="publications.html#publications.views.PublicationViewSet.get_permissions">get_permissions() (publications.views.PublicationViewSet method)</a>
-</li>
       <li><a href="articles.html#articles.models.Article.get_previous_by_created_at">get_previous_by_created_at() (articles.models.Article method)</a>
 
       <ul>
@@ -755,6 +757,8 @@
 </li>
         <li><a href="publications.html#publications.views.PublicationListView.get_queryset">(publications.views.PublicationListView method)</a>
 </li>
+        <li><a href="publications.html#publications.views.PublicationViewSet.get_queryset">(publications.views.PublicationViewSet method)</a>
+</li>
       </ul></li>
       <li><a href="users.html#users.models.User.get_role_display">get_role_display() (users.models.User method)</a>
 </li>
@@ -786,16 +790,30 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="articles.html#articles.signals.handle_article_publication">handle_article_publication() (in module articles.signals)</a>
 </li>
-      <li><a href="publications.html#publications.models.Publication.has_pending_request">has_pending_request() (publications.models.Publication method)</a>
-</li>
-      <li><a href="articles.html#articles.permissions.IsEditorOrJournalist.has_permission">has_permission() (articles.permissions.IsEditorOrJournalist method)</a>
+      <li><a href="articles.html#articles.permissions.ArticlePermissions.has_object_permission">has_object_permission() (articles.permissions.ArticlePermissions method)</a>
 
       <ul>
+        <li><a href="publications.html#publications.permissions.EditorOnlyPermission.has_object_permission">(publications.permissions.EditorOnlyPermission method)</a>
+</li>
+        <li><a href="publications.html#publications.permissions.PublicationPermissions.has_object_permission">(publications.permissions.PublicationPermissions method)</a>
+</li>
+      </ul></li>
+      <li><a href="publications.html#publications.models.Publication.has_pending_request">has_pending_request() (publications.models.Publication method)</a>
+</li>
+      <li><a href="articles.html#articles.permissions.ArticlePermissions.has_permission">has_permission() (articles.permissions.ArticlePermissions method)</a>
+
+      <ul>
+        <li><a href="articles.html#articles.permissions.IsEditorOrJournalist.has_permission">(articles.permissions.IsEditorOrJournalist method)</a>
+</li>
         <li><a href="articles.html#articles.permissions.ReadOnly.has_permission">(articles.permissions.ReadOnly method)</a>
+</li>
+        <li><a href="publications.html#publications.permissions.EditorOnlyPermission.has_permission">(publications.permissions.EditorOnlyPermission method)</a>
 </li>
         <li><a href="publications.html#publications.permissions.IsEditor.has_permission">(publications.permissions.IsEditor method)</a>
 </li>
         <li><a href="publications.html#publications.permissions.IsJournalist.has_permission">(publications.permissions.IsJournalist method)</a>
+</li>
+        <li><a href="publications.html#publications.permissions.PublicationPermissions.has_permission">(publications.permissions.PublicationPermissions method)</a>
 </li>
         <li><a href="publications.html#publications.permissions.ReadOnly.has_permission">(publications.permissions.ReadOnly method)</a>
 </li>
@@ -930,14 +948,20 @@
 </li>
       <li><a href="users.html#users.models.User.last_login">last_login (users.models.User attribute)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="users.html#users.models.User.last_name">last_name (users.models.User attribute)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="articles.html#articles.admin.ArticleAdmin.list_display">list_display (articles.admin.ArticleAdmin attribute)</a>
 </li>
       <li><a href="users.html#users.models.User.logentry_set">logentry_set (users.models.User attribute)</a>
 </li>
+      <li><a href="articles.html#articles.views.ArticleViewSet.lookup_field">lookup_field (articles.views.ArticleViewSet attribute)</a>
+
+      <ul>
+        <li><a href="publications.html#publications.views.PublicationViewSet.lookup_field">(publications.views.PublicationViewSet attribute)</a>
+</li>
+      </ul></li>
   </ul></td>
 </tr></table>
 
@@ -1211,10 +1235,6 @@
 </li>
       </ul></li>
   </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="articles.html#articles.views.ArticleViewSet.my_submissions">my_submissions() (articles.views.ArticleViewSet method)</a>
-</li>
-  </ul></td>
 </tr></table>
 
 <h2 id="N">N</h2>
@@ -1343,6 +1363,8 @@
 </li>
         <li><a href="publications.html#publications.views.JoinRequestViewSet.permission_classes">(publications.views.JoinRequestViewSet attribute)</a>
 </li>
+        <li><a href="publications.html#publications.views.PublicationViewSet.permission_classes">(publications.views.PublicationViewSet attribute)</a>
+</li>
       </ul></li>
       <li><a href="articles.html#articles.views.ApproveArticleView.post">post() (articles.views.ApproveArticleView method)</a>
 
@@ -1409,6 +1431,8 @@
       <li><a href="publications.html#publications.forms.PublicationForm.Meta">PublicationForm.Meta (class in publications.forms)</a>
 </li>
       <li><a href="publications.html#publications.views.PublicationListView">PublicationListView (class in publications.views)</a>
+</li>
+      <li><a href="publications.html#publications.permissions.PublicationPermissions">PublicationPermissions (class in publications.permissions)</a>
 </li>
       <li>
     publications

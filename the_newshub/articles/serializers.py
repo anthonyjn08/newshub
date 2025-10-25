@@ -19,7 +19,7 @@ class ArticleSerializer(serializers.ModelSerializer):
             "id",
             "title",
             "type",
-            "content",       # CKEditor HTML content field
+            "content",
             "status",
             "feedback",
             "author_name",
@@ -27,7 +27,7 @@ class ArticleSerializer(serializers.ModelSerializer):
             "created_at",
             "updated_at",
         ]
-        read_only_fields = ["author_name", "status", "feedback"]
+        read_only_fields = ["author_name", "status"]
 
     def create(self, validated_data):
         """

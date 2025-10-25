@@ -71,16 +71,15 @@
   <h1>Source code for articles.views</h1><div class="highlight"><pre>
 <span></span><span class="kn">from</span><span class="w"> </span><span class="nn">django.contrib</span><span class="w"> </span><span class="kn">import</span> <span class="n">messages</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">django.contrib.auth.mixins</span><span class="w"> </span><span class="kn">import</span> <span class="n">LoginRequiredMixin</span><span class="p">,</span> <span class="n">UserPassesTestMixin</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">django.db.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">Q</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">django.urls</span><span class="w"> </span><span class="kn">import</span> <span class="n">reverse_lazy</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">django.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">timezone</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">django.shortcuts</span><span class="w"> </span><span class="kn">import</span> <span class="n">redirect</span><span class="p">,</span> <span class="n">get_object_or_404</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">django.views.generic</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span><span class="n">ListView</span><span class="p">,</span> <span class="n">CreateView</span><span class="p">,</span> <span class="n">DetailView</span><span class="p">,</span>
                                   <span class="n">UpdateView</span><span class="p">,</span> <span class="n">DeleteView</span><span class="p">,</span> <span class="n">TemplateView</span><span class="p">)</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">rest_framework</span><span class="w"> </span><span class="kn">import</span> <span class="n">viewsets</span><span class="p">,</span> <span class="n">status</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">rest_framework.decorators</span><span class="w"> </span><span class="kn">import</span> <span class="n">action</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">rest_framework</span><span class="w"> </span><span class="kn">import</span> <span class="n">viewsets</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">rest_framework.permissions</span><span class="w"> </span><span class="kn">import</span> <span class="n">IsAuthenticated</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">rest_framework.response</span><span class="w"> </span><span class="kn">import</span> <span class="n">Response</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">.permissions</span><span class="w"> </span><span class="kn">import</span> <span class="n">ReadOnly</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.permissions</span><span class="w"> </span><span class="kn">import</span> <span class="n">ReadOnly</span><span class="p">,</span> <span class="n">ArticlePermissions</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.forms</span><span class="w"> </span><span class="kn">import</span> <span class="n">ArticleForm</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">Article</span><span class="p">,</span> <span class="n">Comment</span><span class="p">,</span> <span class="n">Rating</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.serializers</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
@@ -125,7 +124,7 @@
 
 <div class="viewcode-block" id="ArticleListView">
 <a class="viewcode-back" href="../../articles.html#articles.views.ArticleListView">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">ArticleListView</span><span class="p">(</span><span class="n">LoginRequiredMixin</span><span class="p">,</span> <span class="n">PaginationMixin</span><span class="p">,</span> <span class="n">ListView</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">ArticleListView</span><span class="p">(</span><span class="n">PaginationMixin</span><span class="p">,</span> <span class="n">ListView</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Displays a list of published articles and newsletters.</span>
 
 <span class="sd">        :param LoginRequiredMixin: ensures user is logged in to view the list.</span>
@@ -416,29 +415,54 @@
 
 <span class="sd">        :param ModelViewSet: Base class for REST framework viewsets.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">queryset</span> <span class="o">=</span> <span class="n">Article</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">all</span><span class="p">()</span><span class="o">.</span><span class="n">select_related</span><span class="p">(</span><span class="s2">&quot;author&quot;</span><span class="p">,</span> <span class="s2">&quot;publication&quot;</span><span class="p">)</span>
     <span class="n">serializer_class</span> <span class="o">=</span> <span class="n">ArticleSerializer</span>
-    <span class="n">permission_classes</span> <span class="o">=</span> <span class="p">[</span><span class="n">IsAuthenticated</span><span class="p">]</span>
+    <span class="n">permission_classes</span> <span class="o">=</span> <span class="p">[</span><span class="n">IsAuthenticated</span><span class="p">,</span> <span class="n">ArticlePermissions</span><span class="p">]</span>
+    <span class="n">lookup_field</span> <span class="o">=</span> <span class="s2">&quot;slug&quot;</span>
+    <span class="n">queryset</span> <span class="o">=</span> <span class="n">Article</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">select_related</span><span class="p">(</span>
+        <span class="s2">&quot;author&quot;</span><span class="p">,</span> <span class="s2">&quot;publication&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">order_by</span><span class="p">(</span><span class="s2">&quot;-created_at&quot;</span><span class="p">)</span>
 
 <div class="viewcode-block" id="ArticleViewSet.get_queryset">
 <a class="viewcode-back" href="../../articles.html#articles.views.ArticleViewSet.get_queryset">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_queryset</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Return all published articles.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Filter articles based on user role.</span>
 
-<span class="sd">            :return: QuerySet of published articles.</span>
-<span class="sd">            :rtype: QuerySet</span>
+<span class="sd">        All users see published articles, journalists also see</span>
+<span class="sd">        their own and editors see articles all articles in their</span>
+<span class="sd">        publications.</span>
+
+<span class="sd">        :return: Filtered queryset of articles.</span>
+<span class="sd">        :rtype: QuerySet</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">Article</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">status</span><span class="o">=</span><span class="s2">&quot;published&quot;</span><span class="p">)</span></div>
+        <span class="n">user</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">user</span>
+
+        <span class="k">if</span> <span class="n">user</span><span class="o">.</span><span class="n">role</span> <span class="o">==</span> <span class="s2">&quot;reader&quot;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">Article</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">status</span><span class="o">=</span><span class="s2">&quot;published&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">user</span><span class="o">.</span><span class="n">role</span> <span class="o">==</span> <span class="s2">&quot;journalist&quot;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">Article</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span>
+                <span class="n">Q</span><span class="p">(</span><span class="n">author</span><span class="o">=</span><span class="n">user</span><span class="p">)</span> <span class="o">|</span> <span class="n">Q</span><span class="p">(</span><span class="n">status</span><span class="o">=</span><span class="s2">&quot;published&quot;</span><span class="p">)</span>
+            <span class="p">)</span><span class="o">.</span><span class="n">distinct</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="n">user</span><span class="o">.</span><span class="n">role</span> <span class="o">==</span> <span class="s2">&quot;editor&quot;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">Article</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span>
+                <span class="n">Q</span><span class="p">(</span><span class="n">publication__in</span><span class="o">=</span><span class="n">user</span><span class="o">.</span><span class="n">edited_publications</span><span class="o">.</span><span class="n">all</span><span class="p">())</span>
+                <span class="o">|</span> <span class="n">Q</span><span class="p">(</span><span class="n">status</span><span class="o">=</span><span class="s2">&quot;published&quot;</span><span class="p">)</span>
+            <span class="p">)</span><span class="o">.</span><span class="n">distinct</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="n">Article</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">none</span><span class="p">()</span></div>
 
 
 <div class="viewcode-block" id="ArticleViewSet.perform_create">
 <a class="viewcode-back" href="../../articles.html#articles.views.ArticleViewSet.perform_create">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">perform_create</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">serializer</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set current user as author and publish if no publication is linked.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Assign author and status upon creation.</span>
 
-<span class="sd">            :param serializer: Article serializer instance.</span>
-<span class="sd">            :type serializer: ArticleSerializer</span>
+<span class="sd">        Independent articles are published immediately,</span>
+<span class="sd">        publication linked articles require editor approval.</span>
+
+<span class="sd">        :param serializer: Validated article serializer.</span>
+<span class="sd">        :type serializer: ArticleSerializer</span>
+<span class="sd">        :return: None</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">article</span> <span class="o">=</span> <span class="n">serializer</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">author</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="p">)</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">article</span><span class="o">.</span><span class="n">publication</span><span class="p">:</span>
@@ -450,51 +474,20 @@
 <div class="viewcode-block" id="ArticleViewSet.get_object">
 <a class="viewcode-back" href="../../articles.html#articles.views.ArticleViewSet.get_object">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_object</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Retrieve an article by slug.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Retrieve an article and enforce object-level permissions.</span>
 
-<span class="sd">            :return: Article instance.</span>
-<span class="sd">            :rtype: Article</span>
+<span class="sd">        Ensures users can only access articles they have permission for.</span>
+
+<span class="sd">        :return: The requested article object.</span>
+<span class="sd">        :rtype: Article</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">slug</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;slug&quot;</span><span class="p">)</span>  <span class="c1"># Get slug from URL</span>
-        <span class="k">return</span> <span class="n">Article</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">slug</span><span class="o">=</span><span class="n">slug</span><span class="p">)</span></div>
-
-
-<div class="viewcode-block" id="ArticleViewSet.my_submissions">
-<a class="viewcode-back" href="../../articles.html#articles.views.ArticleViewSet.my_submissions">[docs]</a>
-    <span class="nd">@action</span><span class="p">(</span><span class="n">detail</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;get&quot;</span><span class="p">],</span>
-            <span class="n">permission_classes</span><span class="o">=</span><span class="p">[</span><span class="n">IsAuthenticated</span><span class="p">]</span>
+        <span class="n">lookup_field_value</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lookup_field</span><span class="p">)</span>
+        <span class="n">article</span> <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span>
+            <span class="n">Article</span><span class="p">,</span> <span class="o">**</span><span class="p">{</span><span class="bp">self</span><span class="o">.</span><span class="n">lookup_field</span><span class="p">:</span> <span class="n">lookup_field_value</span><span class="p">}</span>
             <span class="p">)</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">my_submissions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return journalist&#39;s articles grouped by status.</span>
-
-<span class="sd">            :param request: HTTP request object.</span>
-<span class="sd">            :type request: Request</span>
-<span class="sd">            :return: Categorized articles.</span>
-<span class="sd">            :rtype: Response</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">user</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">user</span>
-        <span class="k">if</span> <span class="n">user</span><span class="o">.</span><span class="n">role</span> <span class="o">!=</span> <span class="s2">&quot;journalist&quot;</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">Response</span><span class="p">(</span>
-                <span class="p">{</span><span class="s2">&quot;detail&quot;</span><span class="p">:</span> <span class="s2">&quot;Only journalists can access submissions.&quot;</span><span class="p">},</span>
-                <span class="n">status</span><span class="o">=</span><span class="n">status</span><span class="o">.</span><span class="n">HTTP_403_FORBIDDEN</span><span class="p">,</span>
-            <span class="p">)</span>
-
-        <span class="n">articles</span> <span class="o">=</span> <span class="n">Article</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">author</span><span class="o">=</span><span class="n">user</span><span class="p">)</span><span class="o">.</span><span class="n">order_by</span><span class="p">(</span><span class="s2">&quot;-updated_at&quot;</span><span class="p">)</span>
-        <span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
-            <span class="s2">&quot;drafts&quot;</span><span class="p">:</span> <span class="n">ArticleSerializer</span><span class="p">(</span>
-                <span class="n">articles</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">status</span><span class="o">=</span><span class="s2">&quot;draft&quot;</span><span class="p">),</span> <span class="n">many</span><span class="o">=</span><span class="kc">True</span>
-            <span class="p">)</span><span class="o">.</span><span class="n">data</span><span class="p">,</span>
-            <span class="s2">&quot;pending_approval&quot;</span><span class="p">:</span> <span class="n">ArticleSerializer</span><span class="p">(</span>
-                <span class="n">articles</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">status</span><span class="o">=</span><span class="s2">&quot;pending_approval&quot;</span><span class="p">),</span> <span class="n">many</span><span class="o">=</span><span class="kc">True</span>
-            <span class="p">)</span><span class="o">.</span><span class="n">data</span><span class="p">,</span>
-            <span class="s2">&quot;published&quot;</span><span class="p">:</span> <span class="n">ArticleSerializer</span><span class="p">(</span>
-                <span class="n">articles</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">status</span><span class="o">=</span><span class="s2">&quot;published&quot;</span><span class="p">),</span> <span class="n">many</span><span class="o">=</span><span class="kc">True</span>
-            <span class="p">)</span><span class="o">.</span><span class="n">data</span><span class="p">,</span>
-            <span class="s2">&quot;rejected&quot;</span><span class="p">:</span> <span class="n">ArticleSerializer</span><span class="p">(</span>
-                <span class="n">articles</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">status</span><span class="o">=</span><span class="s2">&quot;rejected&quot;</span><span class="p">),</span> <span class="n">many</span><span class="o">=</span><span class="kc">True</span>
-            <span class="p">)</span><span class="o">.</span><span class="n">data</span><span class="p">,</span>
-        <span class="p">}</span>
-        <span class="k">return</span> <span class="n">Response</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">status</span><span class="o">=</span><span class="n">status</span><span class="o">.</span><span class="n">HTTP_200_OK</span><span class="p">)</span></div>
+        <span class="c1"># Explicitly check permissions on this object</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">check_object_permissions</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="p">,</span> <span class="n">article</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">article</span></div>
 </div>
 
 
@@ -504,8 +497,7 @@
 <div class="viewcode-block" id="JournalistPermissionMixin">
 <a class="viewcode-back" href="../../articles.html#articles.views.JournalistPermissionMixin">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">JournalistPermissionMixin</span><span class="p">(</span><span class="n">UserPassesTestMixin</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Ensure user is a journalist and has relevant permissions.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Ensure user is a journalist and has relevant permissions.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 <div class="viewcode-block" id="JournalistPermissionMixin.test_func">
 <a class="viewcode-back" href="../../articles.html#articles.views.JournalistPermissionMixin.test_func">[docs]</a>
@@ -525,8 +517,7 @@
 <span class="k">class</span><span class="w"> </span><span class="nc">ArticleCreateView</span><span class="p">(</span><span class="n">LoginRequiredMixin</span><span class="p">,</span> <span class="n">JournalistPermissionMixin</span><span class="p">,</span>
                         <span class="n">CreateView</span>
                         <span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Allow journalists to create new articles or newsletters.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Allow journalists to create new articles or newsletters.</span>
 
 <span class="sd">    Independent articles are published automatically, while those linked</span>
 <span class="sd">    to a publication are submitted for editor approval.</span>
