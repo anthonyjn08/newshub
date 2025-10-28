@@ -619,7 +619,7 @@ class SubmitForApprovalView(LoginRequiredMixin, JournalistPermissionMixin,
 
 
 class JournalistDashboardView(LoginRequiredMixin, JournalistPermissionMixin,
-                              ListView
+                              ListView, PaginationMixin
                               ):
     """Display a dashboard of all articles authored by the journalist.
 
@@ -628,6 +628,7 @@ class JournalistDashboardView(LoginRequiredMixin, JournalistPermissionMixin,
     model = Article
     template_name = "articles/journalist_dashboard.html"
     context_object_name = "articles"
+    paginate_by = 15
 
     def get_queryset(self):
         """Retrieve all articles authored by the current journalist.

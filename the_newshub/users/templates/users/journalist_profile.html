@@ -4,20 +4,14 @@
 {% block content %}
     <div class="journalist-profile mx-auto">
         <div class="card shadow-sm p-4 mb-4">
-            <h1 class="mb-3">{{ journalist.full_name }}</h1>
-            {% if journalist.display_name %}
-                <p class="text-muted mb-2">
-                    Also known as: {{ journalist.display_name }}
-                </p>
-            {% endif %}
+            <h1 class="mb-3 content-header">{{ journalist.full_name }}</h1>
 
             {% if publications %}
                 <p class="mb-0">
                     <strong>Writer for:</strong>
                     {% for pub in publications %}
                         {% if pub.pk %}
-                            <a href="{% url 'publication_detail' pub.pk %}"
-                            class="text-decoration-none">{{ pub.name }}</a>{% if not forloop.last %}, {% endif %}
+                            <a href="{% url 'publication_detail' pub.pk %}" class="fw-bold pub-links">{{ pub.name }}</a>{% if not forloop.last %}, {% endif %}
                         {% endif %}
                     {% endfor %}
                 </p>

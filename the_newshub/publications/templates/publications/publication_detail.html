@@ -4,7 +4,7 @@
 {% block content %}
     <div class="publication-detail">
         <div class="card mb-4 shadow-sm border-0 p-4">
-            <h1 class="mb-3">{{ publication.name }}</h1>
+            <h1 class="mb-3 content-header">{{ publication.name }}</h1>
             <p class="lead">{{ publication.description }}</p>
             <p class="text-muted mb-0">
                 Editor{% if publication.editors.count > 1 %}s{% endif %}:
@@ -33,7 +33,7 @@
             {% endif %}
         {% endif %}
 
-        <h2 class="h4 mb-3">Articles from {{ publication.name }}</h2>
+        <h2 class="h4 mb-3 mt-5">Articles from {{ publication.name }}</h2>
         {% if articles %}
             {% for article in articles %}
                 <div class="article-card mb-4 p-3 shadow-sm bg-white rounded">

@@ -12,10 +12,10 @@
                 <ul class="list-group">
                     {% for sub in publication_subs %}
                         <li class="list-group-item d-flex justify-content-between align-items-center">
-                            <a href="{% url 'publication_detail' sub.publication.slug %}">
+                            <a href="{% url 'publication_detail' sub.publication.pk %}">
                                 {{ sub.publication.name }}
                             </a>
-                            <form method="post" action="{% url 'unsubscribe_publication' sub.publication.id %}">
+                            <form method="post" action="{% url 'unsubscribe_publication' sub.publication.pk %}">
                                 {% csrf_token %}
                                 <button type="submit" class="btn btn-sm btn-outline-danger">Unsubscribe</button>
                             </form>

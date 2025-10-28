@@ -33,7 +33,7 @@
                                 <span class="badge bg-danger">Rejected</span>
                             {% endif %}
                         </td>
-                        <td data-label="Publication">{{ article.publication.name|default:"Independent" }}</td>
+                        <td data-label="Publication">{{ article.publication.name|default:"* Independent" }}</td>
                         <td data-label="Updated">{{ article.updated_at|date:"d M Y, H:i" }}</td>
                         <td data-label="Actions">
                             <a href="{% url 'article_edit' article.pk %}" class="btn btn-sm btn-outline-primary">Edit</a>

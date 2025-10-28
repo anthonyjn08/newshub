@@ -1,6 +1,7 @@
 from django.contrib.auth.models import AbstractUser, BaseUserManager, Group
 from django.db.utils import OperationalError, ProgrammingError
 from django.core.exceptions import ObjectDoesNotExist
+from django.utils.timezone import now
 from django.db import models
 
 
@@ -133,3 +134,27 @@ class User(AbstractUser):
         except (OperationalError, ProgrammingError, ObjectDoesNotExist):
             # Failsafe for errors that may happen during initial migration.
             pass
+
+
+class ResetToken(models.Model):
+    """
+    Stores a password reset token for a user.
+
+    Fields:
+        - user: Foriegn key, the user requesting password reset.
+        - token: CharField, the unique password token to verify the
+          reset link.
+        - expiry_date: DateTimeField, the date and time of the reset
+          token expires.
+        - used: BooleanField, sets whether the token has already been used.
+    """
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    token = models.CharField(max_length=500)
+    expiry_date = models.DateTimeField()
+    used = models.BooleanField(default=False)
+
+    def is_valid(self):
+        return not self.used and self.expiry_date > now()
+
+    def __str__(self):
+        return f"{self.user.email} - {self.token}"

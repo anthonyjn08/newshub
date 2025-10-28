@@ -2,8 +2,9 @@ from django.urls import path
 from django.contrib.auth.views import LogoutView
 from .views import (SignUpReaderView, SignUpJournalistView, SignUpEditorView,
                     CustomLoginView, ProfileView, ReaderDashboardView,
-                    journalist_profile, reader_profile
-                    )
+                    journalist_profile, reader_profile, request_password_reset,
+                    reset_password)
+
 
 urlpatterns = [
     path("login/", CustomLoginView.as_view(), name="login"),
@@ -19,4 +20,6 @@ urlpatterns = [
     path("reader/profile/", reader_profile, name="reader_profile"),
     path("reader/dashboard/", ReaderDashboardView.as_view(),
          name="reader_dashboard"),
+    path("reset/", request_password_reset, name="request_password_reset"),
+    path("reset/<str:token>/", reset_password, name="reset_password"),
 ]

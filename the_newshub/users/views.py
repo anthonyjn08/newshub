@@ -1,13 +1,20 @@
+import secrets
+from django.conf import settings
+from hashlib import sha1
+from datetime import timedelta
+from django.utils.timezone import now
+from django.core.mail import EmailMessage
+from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
 from django.contrib import messages
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView, LogoutView
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from django.views.generic import CreateView, TemplateView
 from django.shortcuts import redirect
-from .models import User
+from .models import User, ResetToken
 from .forms import ReaderSignUpForm, JournalistSignUpForm, EditorSignUpForm
 from publications.models import Publication
 from articles.models import Article
@@ -337,10 +344,19 @@ def journalist_profile(request, journalist_id):
             subscriber=request.user
             ).exists()
 
+    paginator_mixin = PaginationMixin()
+    paginator_mixin.request = request  # manually attach request
+    (paginator, page_obj,
+     articles_page, is_paginated) = paginator_mixin.paginate_queryset(
+         articles, paginator_mixin.paginate_by)
+
     context = {
         "journalist": journalist,
-        "articles": articles,
         "publications": publications,
+        "articles": articles_page,
+        "page_obj": page_obj,
+        "is_paginated": is_paginated,
+        "paginator": paginator,
         "is_subscribed": is_subscribed,
     }
     return render(request, "users/journalist_profile.html", context)
@@ -372,3 +388,86 @@ def reader_profile(request):
         "journalist_subs": journalist_subs,
     }
     return render(request, "users/reader_profile.html", context)
+
+
+def request_password_reset(request):
+    """
+    Handle password reset request.
+
+    - param request: HTTP request object.
+    - return: rendered confirmation template after POST, or password
+      reset request form on GET.
+    """
+    if request.method == "POST":
+        email = request.POST.get("email")
+        try:
+            user = User.objects.get(email=email)
+        except User.DoesNotExist:
+            user = None
+
+        if user:
+            # Generate secure token
+            token_str = secrets.token_urlsafe(16)
+            token_hash = sha1(token_str.encode()).hexdigest()
+            expiry_date = now() + timedelta(minutes=10)
+
+            ResetToken.objects.create(
+                user=user,
+                token=token_hash,
+                expiry_date=expiry_date,
+            )
+
+            reset_url = request.build_absolute_uri(
+                reverse("reset_password", args=[token_str])
+            )
+
+            # Send email
+            subject = "Password Reset Request"
+            body = (f"Hi {user.full_name},\n\nUse the link below to reset "
+                    f"your password:\n{reset_url}\n\nThis link will expire "
+                    f"in 10 minutes.")
+            from_email = getattr(settings, "DEFAULT_FROM_EMAIL")
+            email_msg = EmailMessage(subject, body, from_email,
+                                     [user.email])
+            email_msg.send()
+
+        return render(request, "users/reset_requested.html")
+
+    return render(request, "users/request_password_reset.html")
+
+
+def reset_password(request, token):
+    """
+    Handles users password reset via the reset token.
+
+    - param request: HTTP request object.
+    - param token: unique token used to validate password reset request.
+    - return: redirect to login on success, rendered reset form on GET,
+      or invalid token template if expired or invalid.
+    """
+    token_hash = sha1(token.encode()).hexdigest()
+    try:
+        reset_token = ResetToken.objects.get(token=token_hash, used=False)
+    except ResetToken.DoesNotExist:
+        reset_token = None
+
+    if not reset_token or reset_token.expiry_date < now():
+        if reset_token:
+            reset_token.delete()
+        return render(request, "users/reset_invalid.html")
+
+    if request.method == "POST":
+        password = request.POST.get("password")
+        password_conf = request.POST.get("password_conf")
+        if password == password_conf:
+            reset_token.user.set_password(password)
+            reset_token.user.save()
+            reset_token.used = True
+            reset_token.save()
+            messages.success(request,
+                             "Your password has been reset. Please log in.")
+            return HttpResponseRedirect(reverse("login"))
+        else:
+            messages.error(request, "Passwords do not match.")
+
+    return render(request, "users/reset_password.html", {"token": token})

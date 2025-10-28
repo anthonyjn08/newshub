@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block title %}Invalid Link | The Newshub{% endblock %}
+
+{% block content %}
+<div class="login-container col col-md-8 col-lg-6 offset-md-2 offset-lg-3 mx-auto mt-5">
+    <div class="card shadow-sm py-4 mx-0 mx-lg-5 px-2 px-lg-5 text-center">
+        <h1 class="mb-3">Invalid or Expired Link</h1>
+        <p class="text-muted mb-4">
+            Your password reset link is invalid or has expired. Please request a new one.
+        </p>
+        <a href="{% url 'request_password_reset' %}" class="btn btn-primary user-link">Request New Link</a>
+    </div>
+</div>
+{% endblock %}

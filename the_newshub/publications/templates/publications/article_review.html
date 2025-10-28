@@ -36,7 +36,7 @@
 
     <hr class="my-4">
 
-    <div class="d-flex justify-content-between flex-wrap">
+    <div class="d-flex justify-content-between flex-wrap align-items-start">
         <form method="post" class="d-inline">
             {% csrf_token %}
             <button name="action" value="approve" class="btn btn-success">Approve & Publish</button>
@@ -63,6 +63,7 @@
                 Delete Article
             </button>
         </form>
+        <a href="{% url 'editor_dashboard' %}" class="btn btn-secondary">Dashboard</a>
     </div>
 </div>
 <script src="{% static 'js/editor_review.js' %}"></script>

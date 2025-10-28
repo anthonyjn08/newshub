@@ -3,7 +3,7 @@
 
 {% block content %}
     <div class="profile mx-auto" style="max-width: 640px;">
-        <h1 class="mb-4">My Profile</h1>
+        <h1 class="mb-4 content-header">My Profile</h1>
 
         <div class="card p-4 mb-4">
             <h2 class="h5 mb-2">{{ user.full_name }}</h2>
@@ -30,10 +30,10 @@
         {% if user.role == "editor" %}
             <h3>Your Publications</h3>
             {% if publications %}
-                <ul>
+                <ul class="list-unstyled">
                     {% for pub in publications %}
-                        <li class="mb-1 fw-bold">
-                            <a href="{% url 'publication_detail' pub.pk %}" class="text-decoration-none">
+                        <li class="mb-2 fw-bold ps-3">
+                            <a href="{% url 'publication_detail' pub.pk %}" class="pub-links">
                                 {{ pub.name }}
                             </a>
                         </li>

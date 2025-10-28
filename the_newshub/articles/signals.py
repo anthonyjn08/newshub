@@ -66,9 +66,7 @@ def handle_article_publication(sender, instance, created, **kwargs):
     send_mail(
         subject=subject,
         message=message,
-        from_email=getattr(settings, "DEFAULT_FROM_EMAIL",
-                           "noreply@thenewshub.com"
-                           ),
+        from_email=getattr(settings, "DEFAULT_FROM_EMAIL"),
         recipient_list=emails,
-        fail_silently=True,
+        fail_silently=False,
         )

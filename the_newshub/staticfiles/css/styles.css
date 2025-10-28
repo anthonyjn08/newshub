@@ -1,4 +1,4 @@
-/* Fonts */
+/* --- Fonts --- */
 body {
   font-family: "Newsreader", sans-serif;
   background-color: #f8f9fa;
@@ -26,7 +26,7 @@ h6 {
   text-decoration-color: #4f46e5;
 }
 
-/* Links */
+/* --- Links --- */
 .nav-link {
   text-decoration: none;
   font-family: "Playfair Display", sans-serif;
@@ -34,12 +34,30 @@ h6 {
 
 a {
   text-decoration: none;
+  color: #333;
 }
 
 a:hover {
   text-decoration: underline;
   text-decoration-color: #4f46e5;
   text-decoration-thickness: 3px;
+}
+
+button.nav-link:hover {
+  text-decoration: underline;
+  text-decoration-color: #4f46e5;
+  text-decoration-thickness: 3px;
+}
+
+a.pub-links {
+  text-decoration: underline;
+  text-decoration-thickness: 3px;
+  text-decoration-color: #f97316;
+}
+
+a.pub-links:hover {
+  color: #f97316;
+  text-decoration-color: #4f46e5;
 }
 
 .hover-shadow {
@@ -53,12 +71,24 @@ a:hover {
   transition: all 0.3s ease;
 }
 
+a.user-link {
+  color: #4f46e5;
+  text-decoration: underline;
+  text-decoration-thickness: 3px;
+  text-decoration-color: #f97316;
+}
+
+a.user-link:hover {
+  color: #f97316;
+  text-decoration-color: #4f46e5;
+}
+
 .card {
   border-radius: 0.75rem;
   border: none;
 }
 
-/* Flash Messages */
+/* --- Flash Messages --- */
 .alert {
   border-radius: 0.5rem;
   font-size: 0.95rem;
