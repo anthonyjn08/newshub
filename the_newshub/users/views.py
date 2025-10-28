@@ -184,7 +184,7 @@ class CustomLogoutView(LogoutView):
         return super().dispatch(request, *args, **kwargs)
 
 
-class ProfileView(LoginRequiredMixin, TemplateView):
+class ProfileView(LoginRequiredMixin, TemplateView, PaginationMixin):
     """
     Displays a user's profile page.
 
@@ -197,6 +197,7 @@ class ProfileView(LoginRequiredMixin, TemplateView):
     - return: renders user profile with personalized content.
     """
     template_name = "users/profile.html"
+    paginate_by = 15
 
     def get_context_data(self, **kwargs):
         """

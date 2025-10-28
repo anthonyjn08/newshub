@@ -232,7 +232,7 @@ Implemented via Django signals:
 
 - When an article is **approved and published**, signals trigger:
   - A **Tweet** to the configured X/Twitter account
-  - An **email notification** to all relevant subscribers
+  - An **email notification** to all relevant subscribers using a gmail smtp
 
 #### RESTful API
 
